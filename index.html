@@ -1,0 +1,246 @@
+```jsx
+import React, { useState } from 'react';
+
+const App = () => {
+  const [selectedGrade, setSelectedGrade] = useState(null);
+
+  const booksData = {
+    grade1: {
+      title: "الصف الأول الإعدادي - الفصل الدراسي الأول ٢٠٢٦/٢٠٢٥",
+      books: [
+        {
+          subject: "اللغة العربية",
+          downloadUrl: "https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026/Prepratory/Prepratory1/Term1/StudentBook/Arabic_Prep1_SB_T1.pdf"
+        },
+        {
+          subject: "اللغة الإنجليزية",
+          downloadUrl: "https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026/Prepratory/Prepratory1/Term1/StudentBook/English_Prp1_Tr1.pdf"
+        },
+        {
+          subject: "الرياضيات",
+          downloadUrl: "https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026/Prepratory/Prepratory1/Term1/StudentBook/Math_AR_prp1_TR1.pdf"
+        },
+        {
+          subject: "العلوم",
+          downloadUrl: "https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026/Prepratory/Prepratory1/Term1/StudentBook/Science_AR_Prp1_Tr1.pdf"
+        },
+        {
+          subject: "الدراسات الاجتماعية",
+          downloadUrl: "https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026/Prepratory/Prepratory1/Term1/StudentBook/Social_prp1_Tr1.pdf"
+        },
+        {
+          subject: "الحاسب الآلي",
+          downloadUrl: "https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026/Prepratory/Prepratory1/Term1/StudentBook/ICT_AR_1_Preparatory_Tr1.pdf"
+        },
+        {
+          subject: "التربية الدينية الإسلامية",
+          downloadUrl: "https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026/Prepratory/Prepratory1/Term1/StudentBook/Islamic_Tr1_Pr1.pdf"
+        },
+        {
+          subject: "التربية الدينية المسيحية",
+          downloadUrl: null,
+          unavailable: true
+        },
+        {
+          subject: "التربية الفنية - دليل المعلم",
+          downloadUrl: null,
+          unavailable: true
+        }
+      ]
+    },
+    grade2: {
+      title: "الصف الثاني الإعدادي - الفصل الدراسي الأول ٢٠٢٦/٢٠٢٥",
+      books: [
+        {
+          subject: "اللغة العربية",
+          downloadUrl: "https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026/Prepratory/Prepratory2/Term1/StudentBook/Arabic_Prep2_SB_T1.pdf"
+        },
+        {
+          subject: "اللغة الإنجليزية",
+          downloadUrl: "https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026/Prepratory/Prepratory2/Term1/StudentBook/English_Prp2_Tr1.pdf"
+        },
+        {
+          subject: "الرياضيات",
+          downloadUrl: "https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026/Prepratory/Prepratory2/Term1/StudentBook/Math_AR_Prp2_Tr1.pdf"
+        },
+        {
+          subject: "العلوم",
+          downloadUrl: "https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026/Prepratory/Prepratory2/Term1/StudentBook/Social_Prp2_Tr1.pdf"
+        },
+        {
+          subject: "الدراسات الاجتماعية",
+          downloadUrl: "https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026/Prepratory/Prepratory2/Term1/StudentBook/Science_AR )Prp2_Tr1.pdf"
+        },
+        {
+          subject: "الحاسب الآلي",
+          downloadUrl: "https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026/Prepratory/Prepratory2/Term1/StudentBook/ICT_AR_Prp2_Tr1.pdf"
+        },
+        {
+          subject: "التربية الدينية الإسلامية",
+          downloadUrl: "https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026/Prepratory/Prepratory2/Term1/StudentBook/Islamic_Tr1_Pr2.pdf"
+        },
+        {
+          subject: "التربية الدينية المسيحية",
+          downloadUrl: null,
+          unavailable: true
+        },
+        {
+          subject: "التربية الفنية - دليل المعلم",
+          downloadUrl: "https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026/Prepratory/Prepratory2/Term1/TeacherGuide/Art_education_TG_Prp2_Tr1.pdf"
+        }
+      ]
+    },
+    grade3: {
+      title: "الصف الثالث الإعدادي - الفصل الدراسي الأول ٢٠٢٦/٢٠٢٥",
+      books: [
+        {
+          subject: "اللغة العربية",
+          downloadUrl: "https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026/Prepratory/Prepratory3/Term1/StudentBook/Arabic_Prp3_Tr1_2.pdf"
+        },
+        {
+          subject: "اللغة الإنجليزية",
+          downloadUrl: "https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026/Prepratory/Prepratory3/Term1/StudentBook/English_Prp3_Tr1.pdf"
+        },
+        {
+          subject: "الرياضيات",
+          downloadUrl: "https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026/Prepratory/Prepratory3/Term1/StudentBook/Math_Ar_Prp3_Tr1_2.pdf"
+        },
+        {
+          subject: "العلوم",
+          downloadUrl: "https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026/Prepratory/Prepratory3/Term1/StudentBook/Science_AR_Prp3_Tr1_2.pdf"
+        },
+        {
+          subject: "الدراسات الاجتماعية",
+          downloadUrl: "https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026/Prepratory/Prepratory3/Term1/StudentBook/Social_prp3_T1_2.pdf"
+        },
+        {
+          subject: "الحاسب الآلي",
+          downloadUrl: "https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026/Prepratory/Prepratory3/Term1/StudentBook/ICT_AR_3_Preparatory_Tr1.pdf"
+        },
+        {
+          subject: "التربية الدينية الإسلامية",
+          downloadUrl: "https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026/Prepratory/Prepratory3/Term1/StudentBook/Islamic_Prp3_Tr1_2.pdf"
+        },
+        {
+          subject: "التربية الدينية المسيحية",
+          downloadUrl: "https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026/Prepratory/Prepratory3/Term1/StudentBook/Cristian_Prp3_Tr1_2.pdf"
+        },
+        {
+          subject: "كراسة الخط العربي",
+          downloadUrl: "https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026/Prepratory/Prepratory3/Term1/StudentBook/ArabicNotebook_Prp3_Tr1.pdf"
+        },
+        {
+          subject: "التربية الفنية - دليل المعلم",
+          downloadUrl: null,
+          unavailable: true
+        }
+      ]
+    }
+  };
+
+  const handleDownload = (url) => {
+    if (url) {
+      window.open(url, '_blank');
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+      {/* Header */}
+      <header className="bg-white shadow-lg">
+        <div className="container mx-auto px-4 py-6">
+          <h1 className="text-4xl font-bold text-center text-indigo-800 mb-2">
+            كتب الوزارة للمرحلة الإعدادية
+          </h1>
+          <p className="text-center text-gray-600">كتب الفصل الدراسي الأول ٢٠٢٦/٢٠٢٥</p>
+        </div>
+      </header>
+
+      <main className="container mx-auto px-4 py-8">
+        {!selectedGrade ? (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
+            <button
+              onClick={() => setSelectedGrade('grade1')}
+              className="bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white font-bold py-8 px-6 rounded-xl shadow-lg transform transition-all duration-300 hover:scale-105 hover:shadow-xl"
+            >
+              <h2 className="text-2xl mb-2">الصف الأول الإعدادي</h2>
+              <p className="text-blue-100">الفصل الدراسي الأول ٢٠٢٦/٢٠٢٥</p>
+            </button>
+            
+            <button
+              onClick={() => setSelectedGrade('grade2')}
+              className="bg-gradient-to-r from-green-500 to-teal-600 hover:from-green-600 hover:to-teal-700 text-white font-bold py-8 px-6 rounded-xl shadow-lg transform transition-all duration-300 hover:scale-105 hover:shadow-xl"
+            >
+              <h2 className="text-2xl mb-2">الصف الثاني الإعدادي</h2>
+              <p className="text-green-100">الفصل الدراسي الأول ٢٠٢٦/٢٠٢٥</p>
+            </button>
+            
+            <button
+              onClick={() => setSelectedGrade('grade3')}
+              className="bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700 text-white font-bold py-8 px-6 rounded-xl shadow-lg transform transition-all duration-300 hover:scale-105 hover:shadow-xl"
+            >
+              <h2 className="text-2xl mb-2">الصف الثالث الإعدادي</h2>
+              <p className="text-purple-100">الفصل الدراسي الأول ٢٠٢٦/٢٠٢٥</p>
+            </button>
+          </div>
+        ) : (
+          <div>
+            {/* Back Button */}
+            <button
+              onClick={() => setSelectedGrade(null)}
+              className="mb-6 px-4 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-lg transition-colors duration-300"
+            >
+              ← العودة إلى اختيار الصف
+            </button>
+            
+            {/* Grade Title */}
+            <h2 className="text-3xl font-bold text-center text-indigo-800 mb-8">
+              {booksData[selectedGrade].title}
+            </h2>
+            
+            {/* Books Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {booksData[selectedGrade].books.map((book, index) => (
+                <div 
+                  key={index} 
+                  className={`bg-white rounded-xl shadow-lg p-6 transition-all duration-300 hover:shadow-xl ${
+                    book.unavailable ? 'opacity-60' : 'hover:transform hover:scale-105'
+                  }`}
+                >
+                  <h3 className="text-xl font-bold text-gray-800 mb-4 text-center">
+                    {book.subject}
+                  </h3>
+                  
+                  {book.unavailable ? (
+                    <div className="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded-lg text-center">
+                      غير متوفر حالياً
+                    </div>
+                  ) : (
+                    <button
+                      onClick={() => handleDownload(book.downloadUrl)}
+                      className="w-full bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-bold py-3 px-4 rounded-lg shadow transition-all duration-300 hover:shadow-lg"
+                    >
+                      تنزيل الكتاب
+                    </button>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </main>
+
+      {/* Footer */}
+      <footer className="bg-gray-800 text-white py-8 mt-12">
+        <div className="container mx-auto px-4 text-center">
+          <p className="mb-2">إعداد : Mohamed Hosny</p>
+          <p className="text-gray-400">جميع الحقوق محفوظة</p>
+          <p className="font-bold">وزارة التربية والتعليم والتعليم الفنى المصرية ٢٠٢١ ®</p>
+        </div>
+      </footer>
+    </div>
+  );
+};
+
+export default App;
+```
