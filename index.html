@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>كتب الوزارة للمرحلة الإعدادية</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(to bottom right, #eff6ff, #e0e7ff);
+        }
+        .book-card {
+            transition: all 0.3s ease;
+        }
+        .book-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .grade-btn {
+            transition: all 0.3s ease;
+        }
+        .grade-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <!-- Header -->
+    <header class="bg-white shadow-lg">
+        <div class="container mx-auto px-4 py-6">
+            <h1 class="text-4xl font-bold text-center text-indigo-800 mb-2">
+                كتب الوزارة للمرحلة الإعدادية
+            </h1>
+            <p class="text-center text-gray-600">كتب الفصل الدراسي الأول ٢٠٢٦/٢٠٢٥</p>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8">
+        <div id="grade-selection" class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
+            <button onclick="showGrade('grade1')" class="grade-btn bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white font-bold py-8 px-6 rounded-xl shadow-lg">
+                <h2 class="text-2xl mb-2">الصف الأول الإعدادي</h2>
+                <p class="text-blue-100">الفصل الدراسي الأول ٢٠٢٦/٢٠٢٥</p>
+            </button>
+            
+            <button onclick="showGrade('grade2')" class="grade-btn bg-gradient-to-r from-green-500 to-teal-600 hover:from-green-600 hover:to-teal-700 text-white font-bold py-8 px-6 rounded-xl shadow-lg">
+                <h2 class="text-2xl mb-2">الصف الثاني الإعدادي</h2>
+                <p class="text-green-100">الفصل الدراسي الأول ٢٠٢٦/٢٠٢٥</p>
+            </button>
+            
+            <button onclick="showGrade('grade3')" class="grade-btn bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700 text-white font-bold py-8 px-6 rounded-xl shadow-lg">
+                <h2 class="text-2xl mb-2">الصف الثالث الإعدادي</h2>
+                <p class="text-purple-100">الفصل الدراسي الأول ٢٠٢٦/٢٠٢٥</p>
+            </button>
+        </div>
+
+        <div id="books-container" class="hidden">
+            <button onclick="backToGrades()" class="mb-6 px-4 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-lg transition-colors duration-300">
+                ← العودة إلى اختيار الصف
+            </button>
+            
+            <h2 id="grade-title" class="text-3xl font-bold text-center text-indigo-800 mb-8"></h2>
+            
+            <div id="books-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- سيتم تعبئة الكتب هنا ديناميكياً -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8 mt-12">
+        <div class="container mx-auto px-4 text-center">
+            <p class="mb-2">إعداد : Mohamed Hosny</p>
+            <p class="text-gray-400">جميع الحقوق محفوظة</p>
+            <p class="font-bold">وزارة التربية والتعليم والتعليم الفنى المصرية ٢٠٢١ ®</p>
+        </div>
+    </footer>
+
+    <script>
+        const booksData = {
+            grade1: {
+                title: "الصف الأول الإعدادي - الفصل الدراسي الأول ٢٠٢٦/٢٠٢٥",
+                books: [
+                    { subject: "اللغة العربية", downloadUrl: "https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026/Prepratory/Prepratory1/Term1/StudentBook/Arabic_Prep1_SB_T1.pdf" },
+                    { subject: "اللغة الإنجليزية", downloadUrl: "https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026/Prepratory/Prepratory1/Term1/StudentBook/English_Prp1_Tr1.pdf" },
+                    { subject: "الرياضيات", downloadUrl: "https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026/Prepratory/Prepratory1/Term1/StudentBook/Math_AR_prp1_TR1.pdf" },
+                    { subject: "العلوم", downloadUrl: "https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026/Prepratory/Prepratory1/Term1/StudentBook/Science_AR_Prp1_Tr1.pdf" },
+                    { subject: "الدراسات الاجتماعية", downloadUrl: "https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026/Prepratory/Prepratory1/Term1/StudentBook/Social_prp1_Tr1.pdf" },
+                    { subject: "الحاسب الآلي", downloadUrl: "https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026/Prepratory/Prepratory1/Term1/StudentBook/ICT_AR_1_Preparatory_Tr1.pdf" },
+                    { subject: "التربية الدينية الإسلامية", downloadUrl: "https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026/Prepratory/Prepratory1/Term1/StudentBook/Islamic_Tr1_Pr1.pdf" },
+                    { subject: "التربية الدينية المسيحية", downloadUrl: null, unavailable: true },
+                    { subject: "التربية الفنية - دليل المعلم", downloadUrl: null, unavailable: true }
+                ]
+            },
+            grade2: {
+                title: "الصف الثاني الإعدادي - الفصل الدراسي الأول ٢٠٢٦/٢٠٢٥",
+                books: [
+                    { subject: "اللغة العربية", downloadUrl: "https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026/Prepratory/Prepratory2/Term1/StudentBook/Arabic_Prep2_SB_T1.pdf" },
+                    { subject: "اللغة الإنجليزية", downloadUrl: "https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026/Prepratory/Prepratory2/Term1/StudentBook/English_Prp2_Tr1.pdf" },
+                    { subject: "الرياضيات", downloadUrl: "https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026/Prepratory/Prepratory2/Term1/StudentBook/Math_AR_Prp2_Tr1.pdf" },
+                    { subject: "العلوم", downloadUrl: "https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026/Prepratory/Prepratory2/Term1/StudentBook/Social_Prp2_Tr1.pdf" },
+                    { subject: "الدراسات الاجتماعية", downloadUrl: "https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026/Prepratory/Prepratory2/Term1/StudentBook/Science_AR )Prp2_Tr1.pdf" },
+                    { subject: "الحاسب الآلي", downloadUrl: "https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026/Prepratory/Prepratory2/Term1/StudentBook/ICT_AR_Prp2_Tr1.pdf" },
+                    { subject: "التربية الدينية الإسلامية", downloadUrl: "https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026/Prepratory/Prepratory2/Term1/StudentBook/Islamic_Tr1_Pr2.pdf" },
+                    { subject: "التربية الدينية المسيحية", downloadUrl: null, unavailable: true },
+                    { subject: "التربية الفنية - دليل المعلم", downloadUrl: "https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026/Prepratory/Prepratory2/Term1/TeacherGuide/Art_education_TG_Prp2_Tr1.pdf" }
+                ]
+            },
+            grade3: {
+                title: "الصف الثالث الإعدادي - الفصل الدراسي الأول ٢٠٢٦/٢٠٢٥",
+                books: [
+                    { subject: "اللغة العربية", downloadUrl: "https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026/Prepratory/Prepratory3/Term1/StudentBook/Arabic_Prp3_Tr1_2.pdf" },
+                    { subject: "اللغة الإنجليزية", downloadUrl: "https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026/Prepratory/Prepratory3/Term1/StudentBook/English_Prp3_Tr1.pdf" },
+                    { subject: "الرياضيات", downloadUrl: "https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026/Prepratory/Prepratory3/Term1/StudentBook/Math_Ar_Prp3_Tr1_2.pdf" },
+                    { subject: "العلوم", downloadUrl: "https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026/Prepratory/Prepratory3/Term1/StudentBook/Science_AR_Prp3_Tr1_2.pdf" },
+                    { subject: "الدراسات الاجتماعية", downloadUrl: "https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026/Prepratory/Prepratory3/Term1/StudentBook/Social_prp3_T1_2.pdf" },
+                    { subject: "الحاسب الآلي", downloadUrl: "https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026/Prepratory/Prepratory3/Term1/StudentBook/ICT_AR_3_Preparatory_Tr1.pdf" },
+                    { subject: "التربية الدينية الإسلامية", downloadUrl: "https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026/Prepratory/Prepratory3/Term1/StudentBook/Islamic_Prp3_Tr1_2.pdf" },
+                    { subject: "التربية الدينية المسيحية", downloadUrl: "https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026/Prepratory/Prepratory3/Term1/StudentBook/Cristian_Prp3_Tr1_2.pdf" },
+                    { subject: "كراسة الخط العربي", downloadUrl: "https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026/Prepratory/Prepratory3/Term1/StudentBook/ArabicNotebook_Prp3_Tr1.pdf" },
+                    { subject: "التربية الفنية - دليل المعلم", downloadUrl: null, unavailable: true }
+                ]
+            }
+        };
+
+        function showGrade(gradeId) {
+            document.getElementById('grade-selection').classList.add('hidden');
+            document.getElementById('books-container').classList.remove('hidden');
+            
+            const gradeData = booksData[gradeId];
+            document.getElementById('grade-title').textContent = gradeData.title;
+            
+            const booksGrid = document.getElementById('books-grid');
+            booksGrid.innerHTML = '';
+            
+            gradeData.books.forEach(book => {
+                const bookCard = document.createElement('div');
+                bookCard.className = `bg-white rounded-xl shadow-lg p-6 book-card ${book.unavailable ? 'opacity-60' : ''}`;
+                
+                const bookHTML = `
+                    <h3 class="text-xl font-bold text-gray-800 mb-4 text-center">${book.subject}</h3>
+                    ${book.unavailable ? 
+                        `<div class="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded-lg text-center">
+                            غير متوفر حالياً
+                        </div>` : 
+                        `<button onclick="window.open('${book.downloadUrl}', '_blank')" 
+                                class="w-full bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-bold py-3 px-4 rounded-lg shadow transition-all duration-300 hover:shadow-lg">
+                            تنزيل الكتاب
+                        </button>`
+                    }
+                `;
+                
+                bookCard.innerHTML = bookHTML;
+                booksGrid.appendChild(bookCard);
+            });
+        }
+
+        function backToGrades() {
+            document.getElementById('grade-selection').classList.remove('hidden');
+            document.getElementById('books-container').classList.add('hidden');
+        }
+    </script>
+</body>
+  </html>
