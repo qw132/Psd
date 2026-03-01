@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>قص مقاطع الفيديو على المتصفح</title>
+<style>
+  body { font-family: Arial, sans-serif; background: #f0f0f0; color: #111; text-align: center; padding: 20px; }
+  video { max-width: 100%; margin: 20px 0; }
+  .clip { margin: 10px 0; padding: 10px; background: #fff; border-radius: 8px; }
+  button { padding: 5px 10px; margin-left: 10px; cursor: pointer; }
+</style>
+</head>
+<body>
+
+<h1>قص مقاطع الفيديو على المتصفح</h1>
+<input type="file" accept="video/*" id="videoInput"><br><br>
+<label>مدة كل مقطع (ثواني): <input type="number" id="clipDuration" value="5" min="1"></label>
+
+<video id="sourceVideo" controls></video>
+<div id="clipsContainer"></div>
+
+<script>
+const videoInput = document.getElementById('videoInput');
+const sourceVideo = document.getElementById('sourceVideo');
+const clipsContainer = document.getElementById('clipsContainer');
+const clipDurationInput = document.getElementById('clipDuration');
+
+let mediaRecorder;
+let recordedBlobs = [];
+
+videoInput.addEventListener('change', () => {
+  const file = videoInput.files[0];
+  if (!file) return;
+  const url = URL.createObjectURL(file);
+  sourceVideo.src = url;
+});
+
+function createClipBlob(startTime, duration) {
+  return new Promise((resolve, reject) => {
+    const canvas = document.createElement('canvas');
+    canvas.width = sourceVideo.videoWidth;
+    canvas.height = sourceVideo.videoHeight;
+    const ctx = canvas.getContext('2d');
+
+    const stream = canvas.captureStream();
+    mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/webm;codecs=vp9' });
+    recordedBlobs = [];
+
+    mediaRecorder.ondataavailable = e => {
+      if (e.data && e.data.size > 0) recordedBlobs.push(e.data);
+    };
+
+    mediaRecorder.onstop = () => {
+      const blob = new Blob(recordedBlobs, { type: 'video/webm' });
+      resolve(blob);
+    };
+
+    mediaRecorder.start();
+    let currentTime = startTime;
+    sourceVideo.currentTime = startTime;
+
+    function drawFrame() {
+      if (currentTime < startTime + duration && currentTime < sourceVideo.duration) {
+        ctx.drawImage(sourceVideo, 0, 0, canvas.width, canvas.height);
+        currentTime += 1/30; // assume 30 fps
+        requestAnimationFrame(drawFrame);
+      } else {
+        mediaRecorder.stop();
+      }
+    }
+
+    sourceVideo.play().then(() => drawFrame());
+  });
+}
+
+async function generateClips() {
+  clipsContainer.innerHTML = '';
+  const clipDuration = Number(clipDurationInput.value);
+  const totalClips = Math.ceil(sourceVideo.duration / clipDuration);
+
+  for (let i = 0; i < totalClips; i++) {
+    const startTime = i * clipDuration;
+    const clipBlob = await createClipBlob(startTime, clipDuration);
+    const clipURL = URL.createObjectURL(clipBlob);
+
+    const clipDiv = document.createElement('div');
+    clipDiv.className = 'clip';
+    clipDiv.innerHTML = `
+      <strong>مقطع ${i+1}</strong>
+      <video src="${clipURL}" controls></video>
+      <a href="${clipURL}" download="clip_${i+1}.webm"><button>تحميل MP4</button></a>
+    `;
+    clipsContainer.appendChild(clipDiv);
+  }
+}
+
+// إضافة زر لبدء إنشاء المقاطع
+const generateBtn = document.createElement('button');
+generateBtn.textContent = 'إنشاء المقاطع';
+generateBtn.onclick = generateClips;
+document.body.insertBefore(generateBtn, sourceVideo);
+</script>
+
+</body>
+</html>
