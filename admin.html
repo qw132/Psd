@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>منصة TEST - كل شيء في ملف واحد</title>
+<style>
+:root {
+  --primary:#673ab7; --primary-dark:#512da8; --secondary:#ff9800;
+  --bg:#f5f5f5; --white:#fff; --text:#333; --gray:#757575;
+  --border:#e0e0e0; --success:#4caf50; --error:#f44336;
+}
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',Tahoma, Geneva, Verdana, sans-serif;}
+body{background:var(--bg);color:var(--text);line-height:1.6;}
+.container{max-width:800px;margin:40px auto;padding:20px;}
+.card{background:var(--white);border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,0.1);padding:30px;margin-bottom:20px;border-top:10px solid var(--primary);}
+button{background:var(--primary);color:var(--white);border:none;padding:12px 24px;border-radius:4px;cursor:pointer;font-size:16px;font-weight:bold;transition:0.3s;}
+button:hover{background:var(--primary-dark);}
+.form-group{margin-bottom:20px;}
+input,textarea,select{width:100%;padding:12px;border:1px solid var(--border);border-radius:4px;font-size:16px;}
+input:focus,textarea:focus,select:focus{outline:none;border-color:var(--primary);}
+.alert{padding:15px;border-radius:4px;margin-bottom:20px;display:none;}
+.alert-error{background:#ffebee;color:var(--error);border:1px solid var(--error);}
+.alert-success{background:#e8f5e9;color:var(--success);border:1px solid var(--success);}
+.options-group label{display:flex;align-items:center;padding:10px;border:1px solid var(--border);border-radius:4px;margin-bottom:8px;cursor:pointer;transition:0.2s;}
+.options-group label:hover{background:#f9f9f9;}
+.options-group input{margin-left:10px;}
+.timer-box{position:absolute;top:20px;left:20px;background:rgba(255,255,255,0.9);padding:10px 20px;border-radius:20px;font-weight:bold;color:var(--error);box-shadow:0 2px 5px rgba(0,0,0,0.2);}
+</style>
+</head>
+<body>
+<div class="container" id="app"></div>
+<script>
+const app=document.getElementById('app');
+// بيانات تجريبية للامتحانات
+const examsData=[
+  {id:"exam1",title:"امتحان الرياضيات",code:"MATH101",duration:30,questions:[
+      {_id:"q1",text:"ما ناتج 5+7؟",type:"short",grade:5},
+      {_id:"q2",text:"هل 10 أكبر من 7؟",type:"truefalse",grade:5}
+  ]}
+];
+
+// حماية النسخ وفتح أدوات المتصفح
+document.addEventListener('contextmenu',e=>e.preventDefault());
+document.onkeydown=function(e){if(e.keyCode==123||(e.ctrlKey&&e.keyCode==85)) return false;};
+document.addEventListener('copy',e=>e.preventDefault());
+document.addEventListener('cut',e=>e.preventDefault());
+
+let examData=null,timerInterval=null,timeLeft=0;
+
+// --- Routing داخلي ---
+const route=()=>{const p=window.location.hash; if(p==="#admin") initAdmin(); else if(p==="#exam") initExam(); else initHome();};
+window.addEventListener('hashchange',route);
+route();
+
+// --- الصفحة الرئيسية ---
+function initHome(){
+  app.innerHTML=`
+    <div class="card" style="text-align:center;">
+      <h1>مرحباً بك في منصة الامتحانات</h1>
+      <p style="margin-bottom:30px; color: var(--gray);">أدخل كود الامتحان للبدء</p>
+      <div class="form-group">
+        <input type="text" id="exam-code" placeholder="" style="text-align:center; font-size:20px; letter-spacing:2px;">
+      </div>
+      <button onclick="checkExamCode()">بدء الامتحان</button>
+      <div id="home-alert" class="alert"></div>
+    </div>
+  `;
+}
+
+function checkExamCode(){
+  const code=document.getElementById('exam-code').value.trim();
+  const alertBox=document.getElementById('home-alert');
+  if(!code){ showAlert(alertBox,'الرجاء إدخال كود الامتحان','error'); return; }
+  const exam=examsData.find(e=>e.code===code);
+  if(!exam){ showAlert(alertBox,'كود الامتحان غير صحيح','error'); return; }
+  examData=exam; window.location.hash="#exam";
+}
+
+function showAlert(elem,msg,type){elem.style.display='block';elem.className='alert '+(type==='error'?'alert-error':'alert-success');elem.textContent=msg;setTimeout(()=>elem.style.display='none',3000);}
+
+// --- صفحة الامتحان ---
+function initExam(){
+  if(!examData){ window.location.hash=""; return; }
+  app.innerHTML=`
+    <div class="card">
+      <h2>${examData.title}</h2>
+      <p style="color: var(--gray); margin-bottom:20px;">المدة: ${examData.duration} دقيقة</p>
+      <div id="student-info-form">
+        <div class="form-group"><label>الاسم الرباعي</label><input type="text" id="student-name" required></div>
+        <div class="form-group"><label>رقم الهاتف (واتساب)</label><input type="tel" id="student-phone" required></div>
+        <button onclick="startExam()">دخول الامتحان</button>
+      </div>
+    </div>`;
+}
+
+function startExam(){
+  const name=document.getElementById('student-name').value;
+  const phone=document.getElementById('student-phone').value;
+  if(!name||!phone){alert('الرجاء تعبئة جميع البيانات');return;}
+  sessionStorage.setItem('currentStudent',JSON.stringify({name,phone}));
+  renderQuestions(); startTimer(examData.duration*60);
+}
+
+function renderQuestions(){
+  const questionsHtml=examData.questions.map((q,index)=>{
+    let inputHtml='';
+    if(q.type==='mcq'||q.type==='truefalse'){
+      const options=q.type==='truefalse'?['صح','خطأ']:q.options;
+      inputHtml='<div class="options-group">';
+      options.forEach(opt=>inputHtml+=`<label><input type="radio" name="q_${q._id}" value="${opt}"> ${opt}</label>`);
+      inputHtml+='</div>';
+    } else if(q.type==='short') inputHtml=`<input type="text" name="q_${q._id}" placeholder="اكتب إجابتك هنا...">`;
+    else if(q.type==='paragraph') inputHtml=`<textarea name="q_${q._id}" rows="4" placeholder="اكتب إجابتك هنا..."></textarea>`;
+    return `<div class="question-card"><div class="question-text">${index+1}. ${q.text} (${q.grade} درجة)</div>${inputHtml}</div>`;
+  }).join('');
+  app.innerHTML=`<div class="card">
+    <h2>${examData.title}</h2>
+    <form id="exam-form" onsubmit="submitExam(event)">${questionsHtml}<div style="margin-top:30px;text-align:center;">
+    <button type="submit" style="width:100%;max-width:300px;">تسليم الإجابة</button></div></form></div>`;
+}
+
+function startTimer(duration){
+  timeLeft=duration;
+  const timerDisplay=document.createElement('div'); timerDisplay.style.marginBottom='20px';
+  app.prepend(timerDisplay);
+  timerInterval=setInterval(()=>{
+    const m=parseInt(timeLeft/60,10),s=parseInt(timeLeft%60,10);
+    timerDisplay.textContent=`${m<10?'0':''}${m}:${s<10?'0':''}${s}`;
+    if(--timeLeft<0){ clearInterval(timerInterval); submitExam(null,true);}
+  },1000);
+}
+
+function submitExam(e,isAuto=false){
+  if(e) e.preventDefault();
+  if(!confirm(isAuto?"انتهى الوقت! سيتم تسليم إجابتك الآن.":"هل أنت متأكد من تسليم الامتحان؟")){ if(isAuto) return; return; }
+  clearInterval(timerInterval);
+  const student=JSON.parse(sessionStorage.getItem('currentStudent'));
+  const form=document.getElementById('exam-form');
+  const data=new FormData(form); const answers={};
+  examData.questions.forEach(q=>answers[q._id]=data.get(`q_${q._id}`)||"");
+  const results=JSON.parse(localStorage.getItem('exam_results')||"[]");
+  results.push({examId:examData.id,student,answers,submittedAt:new Date()});
+  localStorage.setItem('exam_results',JSON.stringify(results));
+  app.innerHTML=`<div class="card" style="text-align:center;">
+    <h2 style="color: var(--success)">تم التسليم بنجاح</h2>
+    <p>انتهى الامتحان<br>تم استلام إجاباتك بنجاح</p>
+    <button onclick="window.location.hash=''">عودة للرئيسية</button>
+  </div>`;
+}
+
+// --- لوحة الإدارة ---
+function initAdmin(){
+  app.innerHTML=`<div class="card">
+    <h2>لوحة تحكم المدرس</h2>
+    <button onclick="showAdminSection('create')">إنشاء امتحان جديد</button>
+    <button onclick="showAdminSection('results')">عرض النتائج</button>
+    <div id="admin-content"></div></div>`;
+  showAdminSection('create');
+}
+
+function showAdminSection(section){
+  const content=document.getElementById('admin-content');
+  if(section==='create'){
+    content.innerHTML=`
+      <div class="form-group"><label>اسم الامتحان</label><input id="adm-title"></div>
+      <div class="form-group"><label>كود الامتحان</label><input id="adm-code"></div>
+      <div class="form-group"><label>المدة بالدقائق</label><input type="number" id="adm-duration"></div>
+      <button onclick="createAdminExam()">إنشاء الامتحان</button>`;
+  } else if(section==='results'){
+    const results=JSON.parse(localStorage.getItem('exam_results')||"[]");
+    if(results.length===0){ content.innerHTML='<p>لا توجد نتائج بعد</p>'; return; }
+    let table='<table border="1"><tr><th>الطالب</th><th>الهاتف</th><th>الامتحان</th><th>تاريخ</th></tr>';
+    results.forEach(r=> table+=`<tr><td>${r.student.name}</td><td>${r.student.phone}</td><td>${r.examId}</td><td>${new Date(r.submittedAt).toLocaleString()}</td></tr>`);
+    table+='</table>'; content.innerHTML=table;
+  }
+}
+
+function createAdminExam(){
+  const title=document.getElementById('adm-title').value.trim();
+  const code=document.getElementById('adm-code').value.trim();
+  const duration=document.getElementById('adm-duration').value.trim();
+  if(!title||!code||!duration){alert('املأ جميع البيانات'); return;}
+  examsData.push({id:'exam'+(examsData.length+1),title,code,duration,questions:[]});
+  alert('تم إنشاء الامتحان'); showAdminSection('create');
+}
+</script>
+</body>
+                                  </html>
