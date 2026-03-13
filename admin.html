@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>لوحة الإدارة</title>
+  <style>
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:#f5f5f5; margin:0; padding:20px; }
+    .card { background:#fff; padding:20px; border-radius:8px; box-shadow:0 2px 10px rgba(0,0,0,0.1); margin-bottom:20px; }
+    h2,h3{color:#673ab7;}
+    input, select, textarea { width:100%; padding:8px; margin:5px 0 10px 0; border:1px solid #ccc; border-radius:4px; }
+    button { padding:10px 20px; background:#673ab7; color:#fff; border:none; border-radius:4px; cursor:pointer; margin:5px 0; }
+    button.secondary { background:#757575; }
+    table { width:100%; border-collapse: collapse; margin-top:20px; }
+    th, td { padding:8px; border:1px solid #ccc; text-align:right; }
+    th { background:#f2f2f2; }
+    .form-group { margin-bottom:15px; }
+    .question-card { border:1px solid #ccc; border-radius:4px; padding:10px; margin-bottom:10px; }
+  </style>
+</head>
+<body>
+<div class="card">
+  <h2>لوحة تحكم المدرس</h2>
+  <button onclick="showAdminSection('create')">إنشاء امتحان جديد</button>
+  <button class="secondary" onclick="showAdminSection('results')">عرض النتائج</button>
+  <div id="admin-content"></div>
+</div>
+
+<script>
+const examsData = JSON.parse(localStorage.getItem('examsData')||"[]");
+const resultsData = JSON.parse(localStorage.getItem('exam_results')||"[]");
+
+function showAdminSection(section){
+  const content=document.getElementById('admin-content');
+  if(section==='create'){
+    let examsList = examsData.map((exam,index)=>`<li>${exam.title} 
+      <button onclick="showQuestionEditor(${index})">إضافة أسئلة</button></li>`).join('');
+    if(!examsList) examsList='<li>لا يوجد امتحانات بعد</li>';
+
+    content.innerHTML=`
+      <h3>إنشاء امتحان جديد</h3>
+      <div class="form-group"><label>اسم الامتحان</label><input id="adm-title"></div>
+      <div class="form-group"><label>كود الامتحان</label><input id="adm-code"></div>
+      <div class="form-group"><label>المدة بالدقائق</label><input type="number" id="adm-duration"></div>
+      <button onclick="createAdminExam()">إنشاء الامتحان</button>
+      <h3>الامتحانات الحالية</h3>
+      <ul>${examsList}</ul>
+    `;
+  }
+  else if(section==='results'){
+    if(resultsData.length===0){ content.innerHTML='<p>لا توجد نتائج بعد</p>'; return; }
+    let table='<table><tr><th>الطالب</th><th>الهاتف</th><th>الامتحان</th><th>تاريخ</th></tr>';
+    resultsData.forEach(r=> table+=`<tr>
+      <td>${r.student.name}</td>
+      <td>${r.student.phone}</td>
+      <td>${r.examId}</td>
+      <td>${new Date(r.submittedAt).toLocaleString()}</td>
+    </tr>`);
+    table+='</table>';
+    content.innerHTML=table;
+  }
+}
+
+function createAdminExam(){
+  const title=document.getElementById('adm-title').value.trim();
+  const code=document.getElementById('adm-code').value.trim();
+  const duration=document.getElementById('adm-duration').value.trim();
+  if(!title||!code||!duration){alert('املأ جميع البيانات'); return;}
+  examsData.push({id:'exam'+(examsData.length+1),title,code,duration,questions:[]});
+  localStorage.setItem('examsData',JSON.stringify(examsData));
+  alert('تم إنشاء الامتحان'); showAdminSection('create');
+}
+
+// --- محرر الأسئلة ---
+function showQuestionEditor(examIndex){
+  const exam = examsData[examIndex];
+  const content = document.getElementById('admin-content');
+  const questionsHtml = exam.questions.map((q,i)=>`
+    <div class="question-card">
+      <b>${i+1}. ${q.text}</b> (${q.type}, ${q.grade} درجة)
+    </div>
+  `).join('');
+
+  content.innerHTML=`
+    <h3>إضافة أسئلة لـ: ${exam.title}</h3>
+    <div class="form-group"><label>نص السؤال</label><input id="q-text"></div>
+    <div class="form-group"><label>نوع السؤال</label>
+      <select id="q-type">
+        <option value="mcq">اختيار من متعدد</option>
+        <option value="truefalse">صح / خطأ</option>
+        <option value="short">سؤال قصير</option>
+        <option value="paragraph">فقرة</option>
+      </select>
+    </div>
+    <div class="form-group" id="q-options-div" style="display:none;">
+      <label>الخيارات (مفصولة بفواصل)</label>
+      <input id="q-options">
+    </div>
+    <div class="form-group"><label>الدرجة</label><input type="number" id="q-grade"></div>
+    <button onclick="addQuestion(${examIndex})">إضافة السؤال</button>
+    <button onclick="showAdminSection('create')">العودة للامتحانات</button>
+    <h4>الأسئلة الحالية</h4>
+    ${questionsHtml}
+  `;
+
+  document.getElementById('q-type').addEventListener('change',function(){
+    document.getElementById('q-options-div').style.display=this.value==='mcq'?'block':'none';
+  });
+}
+
+function addQuestion(examIndex){
+  const exam = examsData[examIndex];
+  const text=document.getElementById('q-text').value.trim();
+  const type=document.getElementById('q-type').value;
+  const grade=parseInt(document.getElementById('q-grade').value);
+  let options=[];
+  if(type==='mcq'){
+    options=document.getElementById('q-options').value.split(',').map(s=>s.trim()).filter(s=>s);
+    if(options.length<2){alert('ادخل خيارين على الأقل'); return;}
+  }
+  if(!text||!grade){alert('املأ كل الحقول'); return;}
+  exam.questions.push({text,type,grade,options});
+  localStorage.setItem('examsData',JSON.stringify(examsData));
+  showQuestionEditor(examIndex);
+}
+
+window.onload=()=>showAdminSection('create');
+</script>
+</body>
+</html>
