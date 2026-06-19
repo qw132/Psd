@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ماتشات</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Tahoma,sans-serif;
+}
+
+body{
+background:#0f5f2c;
+color:white;
+min-height:100vh;
+position:relative;
+}
+
+body::before{
+content:"";
+position:fixed;
+inset:0;
+background:url("Screenshot_٢٠٢٦٠٦١٩-٠٣٣٠٤٥.png") center center no-repeat;
+background-size:cover;
+opacity:.18;
+z-index:-2;
+}
+
+body::after{
+content:"";
+position:fixed;
+inset:0;
+background:rgba(0,70,20,.78);
+z-index:-1;
+}
+
+header{
+background:#0f7a39;
+padding:15px;
+text-align:center;
+position:sticky;
+top:0;
+z-index:100;
+}
+
+.site-logo{
+height:90px;
+max-width:90%;
+object-fit:contain;
+display:block;
+margin:auto;
+}
+
+.developer{
+text-align:center;
+padding:12px;
+font-size:18px;
+font-weight:bold;
+background:rgba(255,255,255,.08);
+backdrop-filter:blur(5px);
+}
+
+.container{
+max-width:1200px;
+margin:auto;
+padding:20px;
+}
+
+.match{
+background:white;
+color:#222;
+padding:20px;
+border-radius:18px;
+margin-bottom:15px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:15px;
+}
+
+.team{
+width:35%;
+text-align:center;
+}
+
+.team img{
+width:90px;
+height:90px;
+object-fit:contain;
+}
+
+.team h3{
+margin-top:10px;
+}
+
+.center{
+width:30%;
+text-align:center;
+}
+
+.center h3{
+margin-bottom:8px;
+}
+
+.status{
+margin-top:10px;
+padding:10px;
+border-radius:10px;
+font-weight:bold;
+color:white;
+}
+
+.notstarted{
+background:#007bff;
+}
+
+.live{
+background:#28a745;
+}
+
+.finished{
+background:#dc3545;
+}
+
+footer{
+background:#0f7a39;
+padding:20px;
+text-align:center;
+margin-top:25px;
+}
+
+.support{
+display:inline-block;
+margin-top:15px;
+background:#25D366;
+color:white;
+padding:12px 25px;
+border-radius:30px;
+text-decoration:none;
+font-weight:bold;
+}
+
+@media(max-width:768px){
+
+.match{
+flex-direction:column;
+}
+
+.team,
+.center{
+width:100%;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<img
+src="file_00000000d0f871f4b728f73dff260688.png"
+alt="ماتشات"
+class="site-logo">
+
+</header>
+
+<div class="developer">
+المطور: Mohamed Hosny Hora
+</div>
+
+<div id="matches" class="container"></div>
+
+<footer>
+
+<div>
+جميع الحقوق محفوظة Mohamed Hosny Hora 2026 ®
+</div>
+
+<a
+class="support"
+href="https://wa.me/201040507023"
+target="_blank">
+الدعم
+</a>
+
+</footer>
+
+<script>
+
+function formatDateForUser(dateString){
+
+const matchDate = new Date(dateString);
+
+const today = new Date();
+
+const tomorrow = new Date();
+tomorrow.setDate(today.getDate()+1);
+
+if(
+matchDate.getFullYear()===today.getFullYear() &&
+matchDate.getMonth()===today.getMonth() &&
+matchDate.getDate()===today.getDate()
+){
+return "اليوم";
+}
+
+if(
+matchDate.getFullYear()===tomorrow.getFullYear() &&
+matchDate.getMonth()===tomorrow.getMonth() &&
+matchDate.getDate()===tomorrow.getDate()
+){
+return "غداً";
+}
+
+return dateString;
+
+}
+
+function formatTime12(timeString){
+
+let [hours,minutes] = timeString.split(":");
+
+hours = parseInt(hours);
+
+let period = "ص";
+
+if(hours >= 12){
+period = "م";
+}
+
+hours = hours % 12;
+
+if(hours === 0){
+hours = 12;
+}
+
+return hours + ":" + minutes + " " + period;
+
+}
+
+function getStatus(datetime){
+
+const now =
+new Date(Date.now() - 3600000);
+
+const start =
+new Date(datetime);
+
+const end =
+new Date(start.getTime() + 7200000);
+
+if(now < start){
+
+return{
+text:"لم تبدأ",
+className:"notstarted"
+};
+
+}
+
+if(now >= start && now <= end){
+
+return{
+text:"جارية الآن",
+className:"live"
+};
+
+}
+
+return{
+text:"انتهت",
+className:"finished"
+};
+
+}
+
+function loadMatches(){
+
+const matches =
+JSON.parse(localStorage.getItem("matches")) || [];
+
+let html = "";
+
+matches.forEach(match=>{
+
+const status =
+getStatus(match.datetime);
+
+html += `
+
+<div class="match">
+
+<div class="team">
+
+<img src="${match.logo1}">
+
+<h3>${match.team1}</h3>
+
+</div>
+
+<div class="center">
+
+<h3>
+${formatDateForUser(match.date)}
+</h3>
+
+<p>
+${formatTime12(match.time)}
+</p>
+
+<div class="status ${status.className}">
+${status.text}
+</div>
+
+</div>
+
+<div class="team">
+
+<img src="${match.logo2}">
+
+<h3>${match.team2}</h3>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+document.getElementById("matches").innerHTML =
+html;
+
+}
+
+loadMatches();
+
+setInterval(loadMatches,5000);
+
+</script>
+
+</body>
+</html>
