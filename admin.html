@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>لوحة إدارة MH M3ch</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Tahoma,sans-serif;
+}
+
+body{
+background:#f2f2f2;
+padding:20px;
+}
+
+.box{
+max-width:800px;
+margin:auto;
+background:white;
+padding:25px;
+border-radius:20px;
+box-shadow:0 0 15px rgba(0,0,0,.1);
+}
+
+h2{
+margin-bottom:15px;
+text-align:center;
+color:#0f7a39;
+}
+
+input{
+width:100%;
+padding:12px;
+margin:8px 0;
+border:1px solid #ccc;
+border-radius:8px;
+}
+
+button{
+width:100%;
+padding:12px;
+border:none;
+background:#0f7a39;
+color:white;
+border-radius:8px;
+cursor:pointer;
+font-size:16px;
+}
+
+button:hover{
+opacity:.9;
+}
+
+hr{
+margin:20px 0;
+}
+
+.match{
+border:1px solid #ddd;
+padding:15px;
+border-radius:10px;
+margin-top:10px;
+background:#fafafa;
+}
+
+.delete-btn{
+background:#dc3545;
+margin-top:10px;
+}
+
+.logo-preview{
+width:70px;
+height:70px;
+object-fit:contain;
+margin-top:5px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="box" id="loginBox">
+
+<h2>تسجيل الدخول</h2>
+
+<input
+type="password"
+id="password"
+placeholder="كلمة المرور">
+
+<button onclick="login()">
+دخول
+</button>
+
+</div>
+
+<div
+class="box"
+id="panel"
+style="display:none">
+
+<h2>إدارة المباريات</h2>
+
+<input
+type="text"
+id="team1"
+placeholder="اسم الفريق الأول">
+
+<input
+type="file"
+id="logo1"
+accept="image/*">
+
+<input
+type="text"
+id="team2"
+placeholder="اسم الفريق الثاني">
+
+<input
+type="file"
+id="logo2"
+accept="image/*">
+
+<input
+type="date"
+id="date">
+
+<input
+type="time"
+id="time">
+
+<button onclick="saveMatch()">
+إضافة المباراة
+</button>
+
+<hr>
+
+<h2>المباريات الحالية</h2>
+
+<div id="matchesList"></div>
+
+</div>
+
+<script>
+
+const PASSWORD = "010405070230";
+
+function login(){
+
+const pass =
+document.getElementById("password").value;
+
+if(pass === PASSWORD){
+
+document.getElementById("loginBox")
+.style.display = "none";
+
+document.getElementById("panel")
+.style.display = "block";
+
+loadMatches();
+
+}else{
+
+alert("كلمة المرور غير صحيحة");
+
+}
+
+}
+
+function fileToBase64(file){
+
+return new Promise((resolve,reject)=>{
+
+const reader = new FileReader();
+
+reader.onload = () => resolve(reader.result);
+
+reader.onerror = reject;
+
+reader.readAsDataURL(file);
+
+});
+
+}
+
+async function saveMatch(){
+
+const team1 =
+document.getElementById("team1").value;
+
+const team2 =
+document.getElementById("team2").value;
+
+const logo1File =
+document.getElementById("logo1").files[0];
+
+const logo2File =
+document.getElementById("logo2").files[0];
+
+const date =
+document.getElementById("date").value;
+
+const time =
+document.getElementById("time").value;
+
+if(
+!team1 ||
+!team2 ||
+!logo1File ||
+!logo2File ||
+!date ||
+!time
+){
+alert("يرجى إدخال جميع البيانات");
+return;
+}
+
+const logo1 =
+await fileToBase64(logo1File);
+
+const logo2 =
+await fileToBase64(logo2File);
+
+let matches =
+JSON.parse(
+localStorage.getItem("matches")
+) || [];
+
+matches.push({
+
+team1,
+team2,
+logo1,
+logo2,
+date,
+time,
+datetime:`${date}T${time}:00`
+
+});
+
+localStorage.setItem(
+"matches",
+JSON.stringify(matches)
+);
+
+alert("تم حفظ المباراة");
+
+document.getElementById("team1").value="";
+document.getElementById("team2").value="";
+document.getElementById("logo1").value="";
+document.getElementById("logo2").value="";
+document.getElementById("date").value="";
+document.getElementById("time").value="";
+
+loadMatches();
+
+}
+
+function loadMatches(){
+
+let matches =
+JSON.parse(
+localStorage.getItem("matches")
+) || [];
+
+let html = "";
+
+matches.forEach((match,index)=>{
+
+html += `
+
+<div class="match">
+
+<strong>
+${match.team1}
+</strong>
+
+×
+
+<strong>
+${match.team2}
+</strong>
+
+<br><br>
+
+<img
+src="${match.logo1}"
+class="logo-preview">
+
+<img
+src="${match.logo2}"
+class="logo-preview">
+
+<br><br>
+
+التاريخ:
+${match.date}
+
+<br>
+
+الوقت:
+${match.time}
+
+<button
+class="delete-btn"
+onclick="deleteMatch(${index})">
+
+حذف المباراة
+
+</button>
+
+</div>
+
+`;
+
+});
+
+document.getElementById("matchesList")
+.innerHTML = html;
+
+}
+
+function deleteMatch(index){
+
+let matches =
+JSON.parse(
+localStorage.getItem("matches")
+) || [];
+
+if(confirm("هل تريد حذف المباراة؟")){
+
+matches.splice(index,1);
+
+localStorage.setItem(
+"matches",
+JSON.stringify(matches)
+);
+
+loadMatches();
+
+}
+
+}
+
+</script>
+
+</body>
+  </html>
