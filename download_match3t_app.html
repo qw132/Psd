@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>برنامج ماتشات</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Tahoma, Arial, sans-serif;
+}
+
+body{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    background:url('Screenshot_٢٠٢٦٠٦١٩-٠٣٣٠٤٥.png') center center/cover no-repeat fixed;
+    color:white;
+    position:relative;
+}
+
+body::before{
+    content:'';
+    position:absolute;
+    inset:0;
+    background:rgba(0,0,0,.75);
+}
+
+.container{
+    position:relative;
+    z-index:2;
+    width:90%;
+    max-width:500px;
+    padding:20px;
+}
+
+.logo{
+    width:280px;
+    max-width:90%;
+    margin-bottom:25px;
+    filter:drop-shadow(0 0 15px rgba(255,255,255,.4));
+}
+
+h1{
+    font-size:42px;
+    margin-bottom:15px;
+    text-shadow:0 0 15px red;
+}
+
+.desc{
+    color:#eee;
+    margin-bottom:25px;
+    font-size:18px;
+}
+
+.btn{
+    display:block;
+    width:100%;
+    margin:12px auto;
+    padding:16px;
+    text-decoration:none;
+    border-radius:50px;
+    font-size:20px;
+    font-weight:bold;
+    transition:.3s;
+}
+
+.download{
+    background:#e60000;
+    color:white;
+}
+
+.support{
+    background:#25D366;
+    color:white;
+}
+
+.facebook{
+    background:#1877F2;
+    color:white;
+}
+
+.btn:hover{
+    transform:scale(1.03);
+}
+
+.developer{
+    margin-top:35px;
+    font-size:20px;
+    font-weight:bold;
+}
+
+.footer{
+    position:fixed;
+    bottom:10px;
+    left:0;
+    width:100%;
+    text-align:center;
+    color:#ddd;
+    z-index:2;
+    font-size:14px;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+    <img src="file_00000000d0f871f4b728f73dff260688.png"
+         alt="ماتشات"
+         class="logo">
+
+    <h1>برنامج ماتشات</h1>
+
+    <p class="desc">حمل البرنامج الآن واعرف مواعيد مباريات كاس العالم 2026.
+    </p>
+
+    <!-- رابط تحميل البرنامج -->
+    <a href="Matchat.apk" class="btn download" download>
+        📥 تحميل البرنامج
+    </a>
+
+    <!-- واتساب الدعم -->
+    <a href="https://wa.me/201040507023"
+       target="_blank"
+       class="btn support">
+       💬 الدعم
+    </a>
+
+    <!-- فيسبوك -->
+    <a href="https://www.facebook.com/share/16sQestp5G/"
+       target="_blank"
+       class="btn facebook">
+       🌐 حساب المطور الرسمي - FACEBOOK
+    </a>
+
+    <div class="developer">
+        تطوير : Mohamed Hosny Hora
+    </div>
+
+</div>
+
+<div class="footer">
+    جميع الحقوق محفوظة Mohamed Hosny Hora 2026 ®
+</div>
+
+</body>
+</html>
