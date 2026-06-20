@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>معرفات مباريات كأس العالم</title>
+
+<style>
+body{
+font-family:Tahoma;
+background:#111;
+color:#fff;
+padding:20px;
+}
+
+button{
+padding:12px 20px;
+font-size:18px;
+cursor:pointer;
+}
+
+.match{
+background:#222;
+padding:15px;
+margin:10px 0;
+border-radius:10px;
+}
+
+.id{
+color:#00ff88;
+font-size:22px;
+font-weight:bold;
+}
+</style>
+
+</head>
+<body>
+
+<h2>جلب معرفات مباريات كأس العالم</h2>
+
+<button onclick="loadMatches()">
+تحميل المباريات
+</button>
+
+<div id="results"></div>
+
+<script>
+
+const TOKEN = "4a4ee4db99b54437a21191453e1cc91e";
+
+async function loadMatches(){
+
+const container =
+document.getElementById("results");
+
+container.innerHTML = "جاري التحميل...";
+
+try{
+
+const response = await fetch(
+"https://api.football-data.org/v4/competitions/WC/matches",
+{
+headers:{
+"X-Auth-Token":TOKEN
+}
+}
+);
+
+const data = await response.json();
+
+let html = "";
+
+data.matches.forEach(match=>{
+
+html += `
+<div class="match">
+
+<div class="id">
+ID : ${match.id}
+</div>
+
+<div>
+${match.homeTeam.name}
+vs
+${match.awayTeam.name}
+</div>
+
+<div>
+${match.utcDate}
+</div>
+
+</div>
+`;
+
+});
+
+container.innerHTML = html;
+
+}
+catch(error){
+
+container.innerHTML =
+"فشل تحميل المباريات";
+
+console.error(error);
+
+}
+
+}
+
+</script>
+
+</body>
+  </html>
