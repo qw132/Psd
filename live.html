@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>البث المباشر | ماتشات</title>
+
+<style>
+
+/* ==========================
+   إعدادات عامة
+========================== */
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Tahoma,sans-serif;
+}
+
+body{
+background:#111;
+color:white;
+min-height:100vh;
+}
+
+/* ==========================
+   الهيدر
+========================== */
+
+header{
+background:#0f7a39;
+padding:15px;
+text-align:center;
+font-size:30px;
+font-weight:bold;
+}
+
+/* ==========================
+   شريط البث المباشر
+========================== */
+
+.liveBar{
+background:#dc3545;
+padding:12px;
+text-align:center;
+font-size:18px;
+font-weight:bold;
+animation:blink 1s infinite;
+}
+
+@keyframes blink{
+
+0%{
+opacity:1;
+}
+
+50%{
+opacity:.5;
+}
+
+100%{
+opacity:1;
+}
+
+}
+
+/* ==========================
+   الحاوية الرئيسية
+========================== */
+
+.container{
+max-width:1200px;
+margin:auto;
+padding:15px;
+}
+
+/* ==========================
+   اسم المباراة
+========================== */
+
+.matchTitle{
+text-align:center;
+font-size:28px;
+font-weight:bold;
+margin-bottom:15px;
+}
+
+/* ==========================
+   حالة المباراة
+========================== */
+
+.matchStatus{
+text-align:center;
+margin-bottom:15px;
+font-size:18px;
+color:#00ff88;
+font-weight:bold;
+}
+
+/* ==========================
+   مشغل الفيديو
+========================== */
+
+.playerContainer{
+background:black;
+border-radius:15px;
+overflow:hidden;
+aspect-ratio:16/9;
+box-shadow:0 0 20px rgba(0,0,0,.5);
+}
+
+.playerContainer iframe{
+width:100%;
+height:100%;
+border:none;
+}
+
+/* ==========================
+   الأزرار
+========================== */
+
+.buttons{
+display:flex;
+gap:10px;
+margin-top:15px;
+}
+
+.btn{
+flex:1;
+padding:12px;
+border-radius:10px;
+text-decoration:none;
+text-align:center;
+font-weight:bold;
+color:white;
+}
+
+.homeBtn{
+background:#0f7a39;
+}
+
+.fullBtn{
+background:#007bff;
+cursor:pointer;
+border:none;
+}
+
+/* ==========================
+   رسالة مهمة
+========================== */
+
+.notice{
+margin-top:20px;
+background:#222;
+padding:15px;
+border-radius:12px;
+line-height:1.8;
+text-align:center;
+}
+
+/* ==========================
+   الفوتر
+========================== */
+
+footer{
+margin-top:25px;
+background:#0f7a39;
+padding:20px;
+text-align:center;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- ==========================
+     اسم الموقع
+========================== -->
+
+<header>
+
+ماتشات
+
+</header>
+
+<!-- ==========================
+     شريط مباشر
+========================== -->
+
+<div class="liveBar">
+
+🔴 بث مباشر الآن
+
+</div>
+
+<div class="container">
+
+<!-- ==========================
+     اسم المباراة
+========================== -->
+
+<div class="matchTitle">
+
+مصر × المنافس
+
+</div>
+
+<!-- ==========================
+     حالة المباراة
+========================== -->
+
+<div class="matchStatus">
+
+جارية الآن
+
+</div>
+
+<!-- ==========================
+     مشغل الفيديو
+
+     ضع رابط البث داخل src
+
+     مثال يوتيوب:
+
+     https://www.youtube.com/embed/VIDEO_ID
+
+========================== -->
+
+<div
+class="playerContainer"
+id="playerContainer">
+
+<iframe
+
+id="livePlayer"
+
+src=""
+
+allowfullscreen>
+
+</iframe>
+
+</div>
+
+<!-- ==========================
+     الأزرار
+========================== -->
+
+<div class="buttons">
+
+<a
+href="/"
+class="btn homeBtn">
+
+العودة للرئيسية
+
+</a>
+
+<button
+class="btn fullBtn"
+onclick="openFullscreen()">
+
+ملء الشاشة
+
+</button>
+
+</div>
+
+<!-- ==========================
+     ملاحظات
+========================== -->
+
+<div class="notice">
+
+مرحباً بك في صفحة البث المباشر الخاصة بموقع ماتشات.
+
+يمكنك مشاهدة المباراة مباشرة من خلال المشغل أعلاه.
+
+في حالة توقف البث قم بتحديث الصفحة.
+
+</div>
+
+</div>
+
+<!-- ==========================
+     الفوتر
+========================== -->
+
+<footer>
+
+تطوير : Mohamed Hosny Hora
+
+<br><br>
+
+جميع الحقوق محفوظة © 2026
+
+</footer>
+
+<script>
+
+/* ==================================
+
+   ملء الشاشة
+
+================================== */
+
+function openFullscreen(){
+
+const elem =
+document.getElementById(
+"playerContainer"
+);
+
+if(
+elem.requestFullscreen
+){
+
+elem.requestFullscreen();
+
+}
+else if(
+elem.webkitRequestFullscreen
+){
+
+elem.webkitRequestFullscreen();
+
+}
+else if(
+elem.msRequestFullscreen
+){
+
+elem.msRequestFullscreen();
+
+}
+
+}
+
+/* ==================================
+
+مثال لتغيير اسم المباراة
+
+document.querySelector(".matchTitle")
+.innerHTML =
+"مصر × السعودية";
+
+================================== */
+
+/* ==================================
+
+مثال لتغيير حالة المباراة
+
+document.querySelector(".matchStatus")
+.innerHTML =
+"انتهت المباراة";
+
+================================== */
+
+/* ==================================
+
+مثال لإضافة رابط البث
+
+document.getElementById(
+"livePlayer"
+).src =
+"https://www.youtube.com/embed/VIDEO_ID";
+
+================================== */
+
+</script>
+
+</body>
+  </html>
