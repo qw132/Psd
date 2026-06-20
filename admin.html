@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>لوحة إدارة ماتشات</title>
+<title>لوحة الإدارة</title>
 
 <style>
 
@@ -27,16 +27,16 @@ max-width:700px;
 margin:auto;
 }
 
-h1{
-text-align:center;
-color:white;
-margin-bottom:15px;
-}
-
 .card{
 background:white;
 padding:15px;
 border-radius:20px;
+margin-bottom:15px;
+}
+
+h1{
+text-align:center;
+color:white;
 margin-bottom:15px;
 }
 
@@ -88,12 +88,11 @@ display:flex;
 justify-content:space-between;
 align-items:center;
 margin-top:10px;
-margin-bottom:15px;
 }
 
 .teamPreview img{
-width:70px;
-height:70px;
+width:60px;
+height:60px;
 object-fit:contain;
 }
 
@@ -105,21 +104,15 @@ margin-bottom:10px;
 }
 
 .groupBox{
-margin-top:8px;
+margin-top:10px;
 font-weight:bold;
 color:#0f7a39;
 }
 
 .statusBox{
-margin-top:8px;
+margin-top:10px;
 font-weight:bold;
 color:#007bff;
-}
-
-.stageBox{
-margin-top:8px;
-font-weight:bold;
-color:#dc3545;
 }
 
 </style>
@@ -177,10 +170,6 @@ placeholder="الوقت">
 <input
 id="group"
 placeholder="GROUP">
-
-<input
-id="stage"
-placeholder="STAGE">
 
 <button
 class="saveBtn"
@@ -304,9 +293,6 @@ document.getElementById("time");
 const groupInput =
 document.getElementById("group");
 
-const stageInput =
-document.getElementById("stage");
-
 const logo1 =
 document.getElementById("logo1");
 
@@ -323,11 +309,8 @@ const eventId =
 eventIdInput.value.trim();
 
 if(!eventId){
-
 alert("أدخل معرف المباراة");
-
 return;
-
 }
 
 try{
@@ -351,10 +334,10 @@ teamsArabic[data.awayTeam.name]
 data.awayTeam.name;
 
 logo1.src =
-data.homeTeam.crest || "";
+data.homeTeam.crest;
 
 logo2.src =
-data.awayTeam.crest || "";
+data.awayTeam.crest;
 
 const matchDate =
 new Date(data.utcDate);
@@ -364,18 +347,15 @@ matchDate
 .toISOString()
 .split("T")[0];
 
-const hours =
-String(
-matchDate.getHours()
-).padStart(2,"0");
-
-const minutes =
-String(
-matchDate.getMinutes()
-).padStart(2,"0");
-
 timeInput.value =
-hours + ":" + minutes;
+matchDate
+.toLocaleTimeString(
+"ar-EG",
+{
+hour:"2-digit",
+minute:"2-digit"
+}
+);
 
 groupInput.value =
 data.group
@@ -384,17 +364,14 @@ data.group.replace("_"," ")
 :
 "";
 
-stageInput.value =
-data.stage || "";
-
 }
 catch(error){
-
-console.log(error);
 
 alert(
 "فشل جلب بيانات المباراة"
 );
+
+console.log(error);
 
 }
 
@@ -431,16 +408,10 @@ timeInput.value,
 group:
 groupInput.value,
 
-stage:
-stageInput.value,
-
 datetime:
-new Date(
 dateInput.value +
 "T" +
-timeInput.value +
-":00"
-).toISOString()
+timeInput.value
 
 };
 
@@ -486,7 +457,6 @@ team2Input.value = "";
 dateInput.value = "";
 timeInput.value = "";
 groupInput.value = "";
-stageInput.value = "";
 
 logo1.src = "";
 logo2.src = "";
@@ -542,10 +512,6 @@ ${match.team2}
 ${match.group || ""}
 </div>
 
-<div class="stageBox">
-${match.stage || ""}
-</div>
-
 <div>
 ${match.date}
 </div>
@@ -554,19 +520,19 @@ ${match.date}
 ${match.time}
 </div>
 
-<div class="statusBox">
-ID : ${match.eventId}
-</div>
-
 <button
 class="editBtn"
-onclick="editMatch('${docSnap.id}')">
+onclick="editMatch(
+'${docSnap.id}'
+)">
 تعديل
 </button>
 
 <button
 class="deleteBtn"
-onclick="deleteMatch('${docSnap.id}')">
+onclick="deleteMatch(
+'${docSnap.id}'
+)">
 حذف
 </button>
 
@@ -616,9 +582,6 @@ match.time || "";
 groupInput.value =
 match.group || "";
 
-stageInput.value =
-match.stage || "";
-
 logo1.src =
 match.logo1 || "";
 
@@ -635,7 +598,9 @@ window.deleteMatch =
 async function(id){
 
 if(
-!confirm("حذف المباراة؟")
+!confirm(
+"حذف المباراة؟"
+)
 ){
 return;
 }
