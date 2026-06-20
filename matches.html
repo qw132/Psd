@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>معرفات مباريات كأس العالم</title>
+
+<style>
+
+body{
+background:#111;
+color:#fff;
+font-family:Tahoma;
+padding:20px;
+}
+
+button{
+padding:12px 20px;
+font-size:18px;
+cursor:pointer;
+margin-bottom:20px;
+}
+
+.match{
+background:#222;
+padding:15px;
+margin-bottom:10px;
+border-radius:10px;
+}
+
+.id{
+color:#00ff88;
+font-size:22px;
+font-weight:bold;
+margin-bottom:10px;
+}
+
+</style>
+
+</head>
+<body>
+
+<h2>معرفات مباريات كأس العالم</h2>
+
+<button onclick="loadMatches()">
+تحميل المباريات
+</button>
+
+<div id="results"></div>
+
+<script>
+
+async function loadMatches(){
+
+const results =
+document.getElementById("results");
+
+results.innerHTML =
+"جاري التحميل...";
+
+try{
+
+const response =
+await fetch("/api/matches");
+
+const data =
+await response.json();
+
+let html = "";
+
+(data.matches || []).forEach(match=>{
+
+html += `
+
+<div class="match">
+
+<div class="id">
+ID: ${match.id}
+</div>
+
+<div>
+${match.homeTeam.name}
+vs
+${match.awayTeam.name}
+</div>
+
+<div>
+${new Date(match.utcDate)
+.toLocaleString("ar-EG")}
+</div>
+
+<div>
+الحالة:
+${match.status}
+</div>
+
+</div>
+
+`;
+
+});
+
+results.innerHTML = html;
+
+}
+catch(error){
+
+results.innerHTML =
+"فشل تحميل المباريات";
+
+console.error(error);
+
+}
+
+}
+
+</script>
+
+</body>
+</html>
