@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>لوحة الإدارة</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Tahoma,sans-serif;
+}
+
+body{
+background:#0f5f2c;
+padding:20px;
+color:white;
+}
+
+.login,
+.panel{
+max-width:800px;
+margin:auto;
+background:white;
+color:#222;
+padding:20px;
+border-radius:15px;
+}
+
+.panel{
+display:none;
+}
+
+h2{
+text-align:center;
+margin-bottom:20px;
+}
+
+input{
+width:100%;
+padding:12px;
+margin-bottom:10px;
+border:1px solid #ccc;
+border-radius:8px;
+}
+
+button{
+width:100%;
+padding:12px;
+border:none;
+border-radius:8px;
+background:#0f7a39;
+color:white;
+font-size:16px;
+cursor:pointer;
+margin-bottom:10px;
+}
+
+.match-item{
+background:#f5f5f5;
+padding:15px;
+border-radius:10px;
+margin-top:10px;
+}
+
+.delete-btn{
+background:#dc3545;
+}
+
+.event-id{
+color:#0f7a39;
+font-weight:bold;
+margin-top:5px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="login" id="loginBox">
+
+<h2>تسجيل الدخول</h2>
+
+<input
+type="password"
+id="password"
+placeholder="كلمة المرور">
+
+<button onclick="login()">
+دخول
+</button>
+
+</div>
+
+<div class="panel" id="panel">
+
+<h2>إضافة مباراة</h2>
+
+<input
+type="text"
+id="team1"
+placeholder="اسم الفريق الأول">
+
+<input
+type="text"
+id="logo1"
+placeholder="رابط شعار الفريق الأول">
+
+<input
+type="text"
+id="team2"
+placeholder="اسم الفريق الثاني">
+
+<input
+type="text"
+id="logo2"
+placeholder="رابط شعار الفريق الثاني">
+
+<input
+type="date"
+id="date">
+
+<input
+type="time"
+id="time">
+
+<input
+type="text"
+id="eventId"
+placeholder="معرف المباراة من TheSportsDB">
+
+<button id="saveBtn">
+إضافة المباراة
+</button>
+
+<hr>
+
+<h2>المباريات الحالية</h2>
+
+<div id="matchesList"></div>
+
+</div>
+
+<script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+getFirestore,
+collection,
+addDoc,
+deleteDoc,
+doc,
+onSnapshot
+}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+apiKey: "AIzaSyCDoHtDphHNZoZfCV2pXqJ3LD8JzzXSHFw",
+authDomain: "match3t.firebaseapp.com",
+projectId: "match3t",
+storageBucket: "match3t.firebasestorage.app",
+messagingSenderId: "966340184804",
+appId: "1:966340184804:web:aedda5fac457d0907e3af1"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+window.login = function(){
+
+if(
+document.getElementById("password").value
+===
+"010405070230"
+){
+
+document.getElementById("loginBox")
+.style.display="none";
+
+document.getElementById("panel")
+.style.display="block";
+
+loadMatches();
+
+}
+else{
+
+alert("كلمة المرور غير صحيحة");
+
+}
+
+};
+document
+.getElementById("saveBtn")
+.addEventListener("click", async ()=>{
+
+const team1 =
+document.getElementById("team1").value;
+
+const logo1 =
+document.getElementById("logo1").value;
+
+const team2 =
+document.getElementById("team2").value;
+
+const logo2 =
+document.getElementById("logo2").value;
+
+const date =
+document.getElementById("date").value;
+
+const time =
+document.getElementById("time").value;
+
+const eventId =
+document.getElementById("eventId").value;
+
+const datetime =
+date + "T" + time + ":00";
+
+if(
+!team1 ||
+!team2 ||
+!logo1 ||
+!logo2 ||
+!date ||
+!time
+){
+alert("يرجى ملء جميع الحقول");
+return;
+}
+
+await addDoc(
+collection(db,"matches"),
+{
+team1,
+logo1,
+team2,
+logo2,
+date,
+time,
+datetime,
+eventId
+}
+);
+
+document.getElementById("team1").value="";
+document.getElementById("logo1").value="";
+document.getElementById("team2").value="";
+document.getElementById("logo2").value="";
+document.getElementById("date").value="";
+document.getElementById("time").value="";
+document.getElementById("eventId").value="";
+
+alert("تمت إضافة المباراة");
+
+});
+
+function loadMatches(){
+
+onSnapshot(
+collection(db,"matches"),
+(snapshot)=>{
+
+let html = "";
+
+snapshot.forEach((item)=>{
+
+const match = item.data();
+
+html += `
+
+<div class="match-item">
+
+<b>${match.team1}</b>
+ضد
+<b>${match.team2}</b>
+
+<br><br>
+
+${match.date}
+-
+${match.time}
+
+<br>
+
+<div class="event-id">
+ID :
+${match.eventId || "غير موجود"}
+</div>
+
+<br>
+
+<button
+class="delete-btn"
+onclick="deleteMatch('${item.id}')">
+
+حذف المباراة
+
+</button>
+
+</div>
+
+`;
+
+});
+
+document.getElementById("matchesList")
+.innerHTML = html;
+
+});
+
+}
+window.deleteMatch = async function(id){
+
+if(confirm("هل تريد حذف المباراة؟")){
+
+await deleteDoc(
+doc(db,"matches",id)
+);
+
+}
+
+};
+
+</script>
+
+</body>
+</html>
