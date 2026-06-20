@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>لوحة الإدارة</title>
+<title>لوحة إدارة ماتشات</title>
 
 <style>
 
@@ -27,16 +27,27 @@ max-width:700px;
 margin:auto;
 }
 
-.card{
+#loginBox{
 background:white;
-padding:15px;
+padding:20px;
 border-radius:20px;
-margin-bottom:15px;
+margin-top:100px;
+}
+
+#adminPanel{
+display:none;
 }
 
 h1{
 text-align:center;
 color:white;
+margin-bottom:15px;
+}
+
+.card{
+background:white;
+padding:15px;
+border-radius:20px;
 margin-bottom:15px;
 }
 
@@ -59,6 +70,11 @@ font-size:16px;
 font-weight:bold;
 cursor:pointer;
 margin-top:5px;
+}
+
+.loginBtn{
+background:#0f7a39;
+color:white;
 }
 
 .fetchBtn{
@@ -88,11 +104,12 @@ display:flex;
 justify-content:space-between;
 align-items:center;
 margin-top:10px;
+margin-bottom:15px;
 }
 
 .teamPreview img{
-width:60px;
-height:60px;
+width:70px;
+height:70px;
 object-fit:contain;
 }
 
@@ -104,13 +121,19 @@ margin-bottom:10px;
 }
 
 .groupBox{
-margin-top:10px;
+margin-top:8px;
 font-weight:bold;
 color:#0f7a39;
 }
 
+.stageBox{
+margin-top:8px;
+font-weight:bold;
+color:#dc3545;
+}
+
 .statusBox{
-margin-top:10px;
+margin-top:8px;
 font-weight:bold;
 color:#007bff;
 }
@@ -123,6 +146,23 @@ color:#007bff;
 
 <div class="container">
 
+<div id="loginBox">
+
+<input
+type="password"
+id="adminPassword"
+placeholder="كلمة المرور">
+
+<button
+class="loginBtn"
+id="loginBtn">
+دخول
+</button>
+
+</div>
+
+<div id="adminPanel">
+
 <h1>
 لوحة إدارة ماتشات
 </h1>
@@ -131,7 +171,7 @@ color:#007bff;
 
 <input
 id="eventId"
-placeholder="معرف المباراة من Football Data">
+placeholder="معرف المباراة">
 
 <button
 class="fetchBtn"
@@ -151,25 +191,17 @@ id="fetchMatch">
 
 </div>
 
-<input
-id="team1"
-placeholder="الفريق الأول">
+<input id="team1" placeholder="الفريق الأول">
 
-<input
-id="team2"
-placeholder="الفريق الثاني">
+<input id="team2" placeholder="الفريق الثاني">
 
-<input
-id="date"
-placeholder="التاريخ">
+<input id="date" placeholder="التاريخ">
 
-<input
-id="time"
-placeholder="الوقت">
+<input id="time" placeholder="الوقت">
 
-<input
-id="group"
-placeholder="GROUP">
+<input id="group" placeholder="GROUP">
+
+<input id="stage" placeholder="STAGE">
 
 <button
 class="saveBtn"
@@ -180,6 +212,8 @@ id="saveMatch">
 </div>
 
 <div id="matchesList"></div>
+
+</div>
 
 </div>
 
@@ -207,8 +241,44 @@ messagingSenderId: "966340184804",
 appId: "1:966340184804:web:aedda5fac457d0907e3af1"
 };
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+const app =
+initializeApp(firebaseConfig);
+
+const db =
+getFirestore(app);
+
+const PASSWORD =
+"01040507023";
+
+document
+.getElementById("loginBtn")
+.onclick = ()=>{
+
+const pass =
+document
+.getElementById("adminPassword")
+.value;
+
+if(pass === PASSWORD){
+
+document
+.getElementById("loginBox")
+.style.display = "none";
+
+document
+.getElementById("adminPanel")
+.style.display = "block";
+
+}
+else{
+
+alert(
+"كلمة المرور غير صحيحة"
+);
+
+}
+
+};
 
 let editId = null;
 
@@ -293,6 +363,9 @@ document.getElementById("time");
 const groupInput =
 document.getElementById("group");
 
+const stageInput =
+document.getElementById("stage");
+
 const logo1 =
 document.getElementById("logo1");
 
@@ -309,69 +382,95 @@ const eventId =
 eventIdInput.value.trim();
 
 if(!eventId){
-alert("أدخل معرف المباراة");
+
+alert(
+"أدخل معرف المباراة"
+);
+
 return;
+
 }
 
 try{
 
 const response =
-await fetch(
-`/api/match?id=${eventId}`
-);
+await fetch("/api/matches");
 
 const data =
 await response.json();
 
+const match =
+data.matches.find(
+m => String(m.id) === eventId
+);
+
+if(!match){
+
+alert(
+"المباراة غير موجودة"
+);
+
+return;
+
+}
+
 team1Input.value =
-teamsArabic[data.homeTeam.name]
-||
-data.homeTeam.name;
+teamsArabic[
+match.homeTeam.name
+] ||
+match.homeTeam.name;
 
 team2Input.value =
-teamsArabic[data.awayTeam.name]
-||
-data.awayTeam.name;
+teamsArabic[
+match.awayTeam.name
+] ||
+match.awayTeam.name;
 
 logo1.src =
-data.homeTeam.crest;
+match.homeTeam.crest || "";
 
 logo2.src =
-data.awayTeam.crest;
+match.awayTeam.crest || "";
 
 const matchDate =
-new Date(data.utcDate);
+new Date(match.utcDate);
 
 dateInput.value =
 matchDate
 .toISOString()
 .split("T")[0];
 
+const hours =
+String(
+matchDate.getHours()
+).padStart(2,"0");
+
+const minutes =
+String(
+matchDate.getMinutes()
+).padStart(2,"0");
+
 timeInput.value =
-matchDate
-.toLocaleTimeString(
-"ar-EG",
-{
-hour:"2-digit",
-minute:"2-digit"
-}
-);
+hours + ":" + minutes;
 
 groupInput.value =
-data.group
+match.group
 ?
-data.group.replace("_"," ")
+match.group.replace("_"," ")
 :
 "";
+
+stageInput.value =
+match.stage || "";
 
 }
 catch(error){
 
-alert(
-"فشل جلب بيانات المباراة"
-);
-
 console.log(error);
+
+alert(
+"فشل جلب المباراة"
+);
 
 }
 
@@ -408,10 +507,8 @@ timeInput.value,
 group:
 groupInput.value,
 
-datetime:
-dateInput.value +
-"T" +
-timeInput.value
+stage:
+stageInput.value
 
 };
 
@@ -428,11 +525,11 @@ editId
 data
 );
 
-editId = null;
-
 alert(
 "تم تعديل المباراة"
 );
+
+editId = null;
 
 }
 else{
@@ -457,6 +554,7 @@ team2Input.value = "";
 dateInput.value = "";
 timeInput.value = "";
 groupInput.value = "";
+stageInput.value = "";
 
 logo1.src = "";
 logo2.src = "";
@@ -512,6 +610,10 @@ ${match.team2}
 ${match.group || ""}
 </div>
 
+<div class="stageBox">
+${match.stage || ""}
+</div>
+
 <div>
 ${match.date}
 </div>
@@ -520,19 +622,19 @@ ${match.date}
 ${match.time}
 </div>
 
+<div class="statusBox">
+ID : ${match.eventId}
+</div>
+
 <button
 class="editBtn"
-onclick="editMatch(
-'${docSnap.id}'
-)">
+onclick="editMatch('${docSnap.id}')">
 تعديل
 </button>
 
 <button
 class="deleteBtn"
-onclick="deleteMatch(
-'${docSnap.id}'
-)">
+onclick="deleteMatch('${docSnap.id}')">
 حذف
 </button>
 
@@ -582,6 +684,9 @@ match.time || "";
 groupInput.value =
 match.group || "";
 
+stageInput.value =
+match.stage || "";
+
 logo1.src =
 match.logo1 || "";
 
@@ -599,7 +704,7 @@ async function(id){
 
 if(
 !confirm(
-"حذف المباراة؟"
+"هل تريد حذف المباراة؟"
 )
 ){
 return;
