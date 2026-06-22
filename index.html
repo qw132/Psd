@@ -514,6 +514,35 @@ id:doc.id,
 
 matchesData.sort((a,b)=>{
 
+const statusOrder = {
+"IN_PLAY":1,
+"PAUSED":1,
+"TIMED":2,
+"FINISHED":3
+};
+
+const matchA =
+apiMatches.find(
+m => String(m.id) === String(a.eventId)
+);
+
+const matchB =
+apiMatches.find(
+m => String(m.id) === String(b.eventId)
+);
+
+const orderA =
+statusOrder[matchA?.status] || 4;
+
+const orderB =
+statusOrder[matchB?.status] || 4;
+
+if(orderA !== orderB){
+
+return orderA - orderB;
+
+}
+
 return new Date(a.datetime)
 -
 new Date(b.datetime);
