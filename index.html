@@ -245,13 +245,36 @@ let matchesData = [];
 let apiMatches = [];
 
 function formatDateForUser(dateString){
+function formatDateForUser(dateString){
+
+const egyptNow = new Date(
+new Date().toLocaleString(
+"en-US",
+{
+timeZone:"Africa/Cairo"
+}
+)
+);
 
 const matchDate = new Date(dateString);
 
-const today = new Date();
+const today = new Date(egyptNow);
 
-const tomorrow = new Date();
+const tomorrow = new Date(egyptNow);
 tomorrow.setDate(today.getDate() + 1);
+
+const yesterday = new Date(egyptNow);
+yesterday.setDate(today.getDate() - 1);
+
+/* اعتبار بداية اليوم الجديد الساعة 5 صباحاً */
+
+if(egyptNow.getHours() < 5){
+
+today.setDate(today.getDate() - 1);
+
+tomorrow.setDate(today.getDate() + 1);
+
+}
 
 if(
 matchDate.getFullYear() === today.getFullYear() &&
@@ -260,17 +283,26 @@ matchDate.getDate() === today.getDate()
 ){
 return "اليوم";
 }
+
 if(
 matchDate.getFullYear() === tomorrow.getFullYear() &&
 matchDate.getMonth() === tomorrow.getMonth() &&
 matchDate.getDate() === tomorrow.getDate()
 ){
 return "غداً";
-  }
-  
+}
+
+if(
+matchDate.getFullYear() === yesterday.getFullYear() &&
+matchDate.getMonth() === yesterday.getMonth() &&
+matchDate.getDate() === yesterday.getDate()
+){
+return "أمس";
+}
+
 return dateString;
 
-}
+  }
 
 function formatTime12(timeString){
 
