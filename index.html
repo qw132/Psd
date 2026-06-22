@@ -251,7 +251,7 @@ const matchDate = new Date(dateString);
 const today = new Date();
 
 const tomorrow = new Date();
-tomorrow.setDate(today.getDate() );
+tomorrow.setDate(today.getDate() + 1 );
 
 if(
 matchDate.getFullYear() === today.getFullYear() &&
