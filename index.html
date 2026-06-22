@@ -267,7 +267,14 @@ matchDate.getDate() === tomorrow.getDate()
 ){
 return "غداً";
   }
-
+if(
+matchDate.getFullYear() === yesterday.getFullYear() &&
+matchDate.getMonth() === yesterday.getMonth() &&
+matchDate.getDate() === yesterday.getDate()
+){
+return "أمس";
+  }
+  
 return dateString;
 
 }
