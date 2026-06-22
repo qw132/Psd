@@ -253,21 +253,7 @@ const today = new Date();
 const tomorrow = new Date();
 tomorrow.setDate(today.getDate() + 1);
 
-if(
-matchDate.getFullYear() === today.getFullYear() &&
-matchDate.getMonth() === today.getMonth() &&
-matchDate.getDate() === today.getDate()
-){
-return "اليوم";
-}
 
-if(
-matchDate.getFullYear() === tomorrow.getFullYear() &&
-matchDate.getMonth() === tomorrow.getMonth() &&
-matchDate.getDate() === tomorrow.getDate()
-){
-return "غداً";
-}
 
 return dateString;
 
