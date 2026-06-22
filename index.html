@@ -546,9 +546,6 @@ id:doc.id,
 matchesData.sort((a,b)=>{
 
 const statusOrder = {
-matchesData.sort((a,b)=>{
-
-const statusOrder = {
 "IN_PLAY":1,
 "PAUSED":1,
 "TIMED":2,
@@ -571,23 +568,15 @@ statusOrder[matchA?.status] || 4;
 const orderB =
 statusOrder[matchB?.status] || 4;
 
-/* أولاً حسب الحالة */
-
 if(orderA !== orderB){
 
 return orderA - orderB;
 
 }
 
-/* ثانياً حسب التاريخ والوقت */
-
-const dateA =
-new Date(a.datetime || (a.date + " " + a.time));
-
-const dateB =
-new Date(b.datetime || (b.date + " " + b.time));
-
-return dateA - dateB;
+return new Date(a.datetime)
+-
+new Date(b.datetime);
 
 });
   
