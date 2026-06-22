@@ -299,5 +299,59 @@ e=>e.preventDefault()
 
 </script>
 
+  <script>
+
+/* السماح فقط بالرئيسية */
+
+document.addEventListener("click", function(e){
+
+const link = e.target.closest("a");
+
+if(!link) return;
+
+const href = link.getAttribute("href");
+
+if(
+href !== "/" &&
+href !== "index.html"
+){
+
+e.preventDefault();
+
+return false;
+
+}
+
+});
+
+/* منع فتح نوافذ جديدة */
+
+window.open = function(){
+return null;
+};
+
+/* منع سحب الروابط */
+
+document.addEventListener(
+"dragstart",
+e=>e.preventDefault()
+);
+
+/* منع القائمة اليمنى */
+
+document.addEventListener(
+"contextmenu",
+e=>e.preventDefault()
+);
+
+/* منع تحديد النص */
+
+document.addEventListener(
+"selectstart",
+e=>e.preventDefault()
+);
+
+  </script>
+
 </body>
   </html>
