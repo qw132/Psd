@@ -308,10 +308,10 @@ let [hours,minutes] = timeString.split(":");
 
 hours = parseInt(hours);
 
-let period = "ص";
+let period = "AM";
 
 if(hours >= 12){
-period = "م";
+period = "PM";
 }
 
 hours = hours % 12;
@@ -337,7 +337,7 @@ className:"notstarted"
 
 if(
 status === "IN_PLAY" ||
-status === "PAUSED"
+status === "PAUSED"  
 ){
 
 return{
@@ -357,6 +357,16 @@ className:"finished"
 };
 
 }
+  if(
+status === "LIVE"
+){
+
+return{
+text:"جارية الآن",
+className:"live"
+};
+
+  }
 
 return{
 text:"لم تبدأ",
