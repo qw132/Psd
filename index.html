@@ -280,7 +280,7 @@ yesterday.setDate(today.getDate() - 1);
 
 /* اعتبار بداية اليوم الجديد الساعة 5 صباحاً */
 
-if(egyptNow.getHours() < 6){
+if(egyptNow.getHours() < 5){
 
 today.setDate(today.getDate() - 1);
 
@@ -567,13 +567,6 @@ id:doc.id,
 
 matchesData.sort((a,b)=>{
 
-const statusOrder = {
-"IN_PLAY":1,
-"PAUSED":1,
-"TIMED":2,
-"FINISHED":3
-};
-
 const matchA =
 apiMatches.find(
 m => String(m.id) === String(a.eventId)
@@ -584,11 +577,37 @@ apiMatches.find(
 m => String(m.id) === String(b.eventId)
 );
 
+function getOrder(match){
+
+if(
+match?.status === "IN_PLAY" ||
+match?.status === "PAUSED" ||
+match?.status === "LIVE"
+){
+return 1;
+}
+
+if(
+match?.status === "TIMED"
+){
+return 2;
+}
+
+if(
+match?.status === "FINISHED"
+){
+return 3;
+}
+
+return 4;
+
+}
+
 const orderA =
-statusOrder[matchA?.status] || 4;
+getOrder(matchA);
 
 const orderB =
-statusOrder[matchB?.status] || 4;
+getOrder(matchB);
 
 if(orderA !== orderB){
 
