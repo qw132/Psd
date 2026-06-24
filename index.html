@@ -182,7 +182,7 @@ padding:
 20px;
 
 }
-.matchCard{
+  .matchCard{
 
 background:var(--card);
 
@@ -254,24 +254,19 @@ text-align:center;
 
 }
 
-.{
 .timeBox{
 
-background:#e9e9e9;
+background:var(--gray);
 
-padding:8px 18px;
+padding:12px;
 
-border-radius:22px;
+border-radius:18px;
 
-font-size:15px;
+font-size:22px;
 
-font-weight:800;
+font-weight:900;
 
-color:#111;
-
-display:inline-block;
-
-min-width:140px;
+color:#222;
 
 }
 
@@ -479,7 +474,7 @@ class="container">
 </div>
 
 <script type="module">
-import { initializeApp }
+  import { initializeApp }
 from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
 import {
@@ -716,8 +711,8 @@ team2.includes(searchText)
 
 );
 
-}
-/* ترتيب المباريات */
+  }
+  /* ترتيب المباريات */
 
 function sortMatches(){
 
@@ -914,8 +909,8 @@ now - finishDate
 
 return hoursPassed >= 8;
 
-}
-/* رسم المباريات */
+  }
+  /* رسم المباريات */
 
 function renderMatches(){
 
@@ -1132,8 +1127,8 @@ html = `
 
 container.innerHTML = html;
 
-}
-/* تحميل أولي */
+  }
+  /* تحميل أولي */
 
 renderMatches();
 
