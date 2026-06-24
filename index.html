@@ -65,6 +65,40 @@ font-weight:bold;
 background:rgba(255,255,255,.08);
 }
 
+  .filterBar{
+display:flex;
+justify-content:center;
+gap:10px;
+padding:12px;
+background:rgba(255,255,255,.05);
+}
+
+.filterBtn{
+border:none;
+padding:10px 16px;
+border-radius:12px;
+color:white;
+font-weight:bold;
+cursor:pointer;
+font-size:15px;
+}
+
+.liveBtn{
+background:#28a745;
+}
+
+.notstartedBtn{
+background:#007bff;
+}
+
+.finishedBtn{
+background:#dc3545;
+}
+
+.activeFilter{
+box-shadow:0 0 10px rgba(255,255,255,.7);
+}
+  
 .container{
 padding:10px;
 max-width:700px;
@@ -208,6 +242,28 @@ class="siteLogo">
 المطور: Mohamed Hosny Hora
 </div>
 
+  <div class="filterBar">
+
+<button
+class="filterBtn finishedBtn"
+onclick="setFilter('finished')">
+انتهت
+</button>
+
+<button
+class="filterBtn liveBtn activeFilter"
+onclick="setFilter('live')">
+جارية الآن
+</button>
+
+<button
+class="filterBtn notstartedBtn"
+onclick="setFilter('notstarted')">
+لم تبدأ
+</button>
+
+  </div>
+  
 <div id="matches" class="container">
 
 <div class="loading">
