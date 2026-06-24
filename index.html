@@ -200,9 +200,9 @@ rgba(0,0,0,.25);
 
 .teamsRow{
 
-display:flex;
+display:grid;
 
-justify-content:space-between;
+grid-template-columns:1fr 160px 1fr;
 
 align-items:center;
 
@@ -212,12 +212,12 @@ gap:10px;
 
 .team{
 
-width:32%;
+width:100%;
 
 text-align:center;
 
 }
-
+  
 .teamLogo{
 
 width:80px;
@@ -248,9 +248,11 @@ line-height:1.3;
 
 .centerBox{
 
-width:36%;
+width:160px;
 
 text-align:center;
+
+margin:auto;
 
 }
 
