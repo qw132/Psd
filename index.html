@@ -258,15 +258,19 @@ text-align:center;
 
 background:var(--gray);
 
-padding:12px;
+padding:8px 16px;
 
-border-radius:18px;
+border-radius:22px;
 
-font-size:22px;
+font-size:15px;
 
-font-weight:900;
+font-weight:800;
 
 color:#222;
+
+display:inline-block;
+
+min-width:120px;
 
 }
 
@@ -1051,7 +1055,7 @@ ${centerContent}
 
 <div class="tournament">
 
-🏆 ${tournamentName}
+🏆 ${String(tournamentName).includes("World") || String(tournamentName).includes("FIFA") ? "كأس العالم" : tournamentName}
 
 </div>
 
