@@ -200,70 +200,86 @@ rgba(0,0,0,.25);
 
 .teamsRow{
 
-display:grid;
+display:flex;
 
-grid-template-columns:1fr 160px 1fr;
+justify-content:space-between;
 
-align-items:center;
+align-items:flex-start;
 
-gap:10px;
+gap:6px;
 
 }
 
 .team{
-flex:1;
+
+width:30%;
+
 text-align:center;
-min-width:0;
+
 }
   
 .teamLogo{
-width:72px;
-height:72px;
+
+width:68px;
+
+height:68px;
+
 object-fit:contain;
+
 display:block;
+
 margin:auto;
+
 }
 
 .teamName{
-margin-top:8px;
-font-size:16px;
+
+margin-top:6px;
+
+font-size:15px;
+
 font-weight:800;
+
 color:var(--text);
-line-height:1.3;
 
-display:-webkit-box;
--webkit-line-clamp:2;
--webkit-box-orient:vertical;
+line-height:1.2;
 
-overflow:hidden;
 }
   
 .centerBox{
-width:140px;
-flex-shrink:0;
+
+width:40%;
+
 text-align:center;
+
 }
 
 .timeBox{
-width:140px;
-height:56px;
 
-display:flex;
-align-items:center;
-justify-content:center;
+background:var(--gray);
+
+width:135px;
+
+height:52px;
 
 margin:auto;
 
-background:#ececec;
+display:flex;
 
-border-radius:28px;
+align-items:center;
 
-font-size:18px;
+justify-content:center;
+
+border-radius:16px;
+
+font-size:19px;
+
 font-weight:900;
 
 color:#222;
-}
 
+}
+  
 .scoreBox{
 
 font-size:34px;
