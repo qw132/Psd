@@ -1020,17 +1020,30 @@ const tournamentName =
 
 apiMatch?.competition?.name
 
-||
+let tournamentName =
 
+apiMatch?.competition?.name
+||
 match.tournament
-
 ||
-
 match.group
-
 ||
-
 "";
+
+if(
+tournamentName
+.toLowerCase()
+.includes("world")
+||
+tournamentName
+.toLowerCase()
+.includes("fifa")
+){
+
+tournamentName =
+"كأس العالم 2026";
+
+}
 
 html += `
 
