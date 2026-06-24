@@ -467,6 +467,48 @@ console.log(error);
 
 }
 
+let currentFilter = "live";
+
+function setFilter(filter){
+
+currentFilter = filter;
+
+document
+.querySelectorAll(".filterBtn")
+.forEach(btn=>{
+
+btn.classList.remove("activeFilter");
+
+});
+
+if(filter==="live"){
+
+document
+.querySelector(".liveBtn")
+.classList.add("activeFilter");
+
+}
+
+if(filter==="notstarted"){
+
+document
+.querySelector(".notstartedBtn")
+.classList.add("activeFilter");
+
+}
+
+if(filter==="finished"){
+
+document
+.querySelector(".finishedBtn")
+.classList.add("activeFilter");
+
+}
+
+renderMatches();
+
+  }  
+  
 }
 function renderMatches(){
 
