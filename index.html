@@ -1005,6 +1005,8 @@ ${apiMatch.score.fullTime.away}
 
 const tournamentName =
 
+let tournamentName =
+
 apiMatch?.competition?.name
 
 ||
@@ -1018,6 +1020,21 @@ match.group
 ||
 
 "";
+
+if(
+String(tournamentName)
+.toLowerCase()
+.includes("world")
+||
+String(tournamentName)
+.toLowerCase()
+.includes("fifa")
+){
+
+tournamentName =
+"كأس العالم";
+
+}
 
 html += `
 
