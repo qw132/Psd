@@ -34,9 +34,9 @@ font-family:'Cairo',sans-serif;
 
 :root{
 
---bg:#0d0d0d;
+--bg:#0f5f2c;
 
---header:#141414;
+--header:#0c4d24;
 
 --card:#ffffff;
 
@@ -54,9 +54,43 @@ font-family:'Cairo',sans-serif;
 
 body{
 
-background:var(--bg);
+background:#0f5f2c;
 
 min-height:100vh;
+
+}
+
+body::before{
+
+content:"";
+
+position:fixed;
+
+inset:0;
+
+background:url("Screenshot_٢٠٢٦٠٦١٩-٠٣٣٠٤٥.png")
+center center
+no-repeat;
+
+background-size:cover;
+
+opacity:.18;
+
+z-index:-2;
+
+}
+
+body::after{
+
+content:"";
+
+position:fixed;
+
+inset:0;
+
+background:rgba(0,70,20,.78);
+
+z-index:-1;
 
 }
 
@@ -68,7 +102,7 @@ top:0;
 right:0;
 left:0;
 
-height:72px;
+height:78px;
 
 background:var(--header);
 
@@ -83,18 +117,19 @@ padding:0 15px;
 z-index:999;
 
 box-shadow:
-0 2px 12px
-rgba(0,0,0,.35);
+0 3px 15px rgba(0,0,0,.30);
 
 }
 
 .logo{
 
-width:170px;
+width:210px;
 
 display:block;
 
 margin:auto;
+
+object-fit:contain;
 
 }
 
@@ -105,7 +140,7 @@ height:42px;
 
 border:none;
 
-background:#222;
+background:rgba(255,255,255,.12);
 
 color:white;
 
@@ -127,12 +162,12 @@ width:42px;
 
 position:fixed;
 
-top:72px;
+top:78px;
 
 right:0;
 left:0;
 
-background:#151515;
+background:#0d5227;
 
 padding:12px;
 
@@ -152,21 +187,21 @@ display:block;
 
 width:100%;
 
-height:46px;
+height:48px;
 
 border:none;
 
 outline:none;
 
-border-radius:14px;
+border-radius:16px;
 
 padding:0 15px;
 
-background:#222;
-
-color:white;
+background:white;
 
 font-size:15px;
+
+font-weight:700;
 
 }
 
@@ -177,14 +212,15 @@ max-width:760px;
 margin:auto;
 
 padding:
-95px
+105px
 12px
 20px;
 
 }
-  .matchCard{
 
-background:var(--card);
+.matchCard{
+
+background:white;
 
 border-radius:24px;
 
@@ -193,12 +229,10 @@ padding:18px;
 margin-bottom:15px;
 
 box-shadow:
-0 5px 18px
-rgba(0,0,0,.25);
+0 5px 18px rgba(0,0,0,.20);
 
 }
-
-.teamsRow{
+  .teamsRow{
 
 display:flex;
 
@@ -244,6 +278,14 @@ color:var(--text);
 
 line-height:1.3;
 
+word-break:break-word;
+
+}
+
+.teamName.small{
+
+font-size:8px;
+
 }
 
 .centerBox{
@@ -272,7 +314,7 @@ justify-content:center;
 
 margin:auto;
 
-font-size:15px;
+font-size:18px;
 
 font-weight:800;
 
@@ -295,7 +337,7 @@ color:#0f7a39;
 
 .tournament{
 
-margin-top:10px;
+margin-top:12px;
 
 display:flex;
 
@@ -303,13 +345,13 @@ align-items:center;
 
 justify-content:center;
 
-gap:6px;
+gap:8px;
 
-font-size:14px;
+font-size:15px;
 
 font-weight:700;
 
-color:#555;
+color:#666;
 
 }
 
@@ -327,19 +369,23 @@ gap:10px;
 
 flex:1;
 
-background:#f4f4f4;
+background:#efefef;
 
-padding:10px;
+height:58px;
 
-border-radius:12px;
+display:flex;
 
-font-size:13px;
+align-items:center;
+
+justify-content:center;
+
+border-radius:16px;
+
+font-size:14px;
 
 font-weight:700;
 
-text-align:center;
-
-color:#333;
+color:#666;
 
 }
 
@@ -397,7 +443,8 @@ font-weight:800;
 
 }
 
-.loading{
+.loading,
+.empty{
 
 background:white;
 
@@ -414,22 +461,62 @@ font-weight:800;
 color:#111;
 
 }
+  .footer{
 
-.empty{
+margin-top:20px;
 
-background:white;
-
-padding:25px;
-
-border-radius:20px;
+padding:25px 15px;
 
 text-align:center;
 
-font-size:18px;
+color:white;
+
+}
+
+.developerFooter{
+
+font-size:16px;
+
+font-weight:700;
+
+margin-bottom:8px;
+
+}
+
+.rightsFooter{
+
+font-size:14px;
+
+opacity:.9;
+
+margin-bottom:14px;
+
+}
+
+.supportBtn{
+
+display:inline-block;
+
+padding:9px 32px;
+
+border-radius:15px;
+
+background:
+
+linear-gradient(
+180deg,
+#ffffff,
+#cfcfcf
+);
+
+color:#111;
 
 font-weight:800;
 
-color:#111;
+text-decoration:none;
+
+box-shadow:
+0 2px 8px rgba(255,255,255,.35);
 
 }
 
@@ -450,8 +537,11 @@ class="searchBtn">
 </button>
 
 <img
+
 src="file_00000000d0f871f4b728f73dff260688_1 (1).png"
+
 class="logo"
+
 alt="ماتشات">
 
 <div class="placeholder"></div>
@@ -459,7 +549,9 @@ alt="ماتشات">
 </div>
 
 <div
+
 id="searchBar"
+
 class="searchBar">
 
 <input
@@ -475,7 +567,9 @@ placeholder="ابحث باسم فريق...">
 </div>
 
 <div
+
 id="matches"
+
 class="container">
 
 <div class="loading">
@@ -486,18 +580,51 @@ class="container">
 
 </div>
 
+<footer class="footer">
+
+<div class="developerFooter">
+
+Developer: Mohamed Hosny Hora
+
+</div>
+
+<div class="rightsFooter">
+
+جميع الحقوق محفوظة 2026 ®
+
+</div>
+
+<a
+
+class="supportBtn"
+
+href="https://wa.me/201040507023"
+
+target="_blank">
+
+الدعم
+
+</a>
+
+</footer>
+
 <script type="module">
-  import { initializeApp }
+
+import { initializeApp }
+
 from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
 import {
-getFirestore,
-collection,
-onSnapshot
-}
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-/* Firebase */
+getFirestore,
+
+collection,
+
+onSnapshot
+
+}
+
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const firebaseConfig = {
 
@@ -527,15 +654,12 @@ initializeApp(firebaseConfig);
 const db =
 getFirestore(app);
 
-/* متغيرات */
-
 let matchesData = [];
 
 let apiMatches = [];
 
 let searchText = "";
-
-/* البحث */
+  /* البحث */
 
 const searchBtn =
 document.getElementById(
@@ -714,7 +838,7 @@ const team2 =
 (match.team2 || "")
 .toLowerCase();
 
-return (
+return(
 
 team1.includes(searchText)
 
@@ -745,19 +869,19 @@ String(m.id) ===
 String(b.eventId)
 );
 
-const statusA =
+const orderA =
 getMatchStatus(
 apiA?.status
 ).order;
 
-const statusB =
+const orderB =
 getMatchStatus(
 apiB?.status
 ).order;
 
-if(statusA !== statusB){
+if(orderA !== orderB){
 
-return statusA - statusB;
+return orderA - orderB;
 
 }
 
@@ -779,6 +903,65 @@ return dateA - dateB;
 
 }
 
+/* إخفاء المنتهية بعد 8 ساعات */
+
+function shouldHideFinishedMatch(apiMatch){
+
+if(
+apiMatch?.status !==
+"FINISHED"
+){
+
+return false;
+
+}
+
+const finishedTime =
+
+apiMatch.finishedAt
+
+||
+
+apiMatch.lastUpdated
+
+||
+
+null;
+
+if(!finishedTime){
+
+return false;
+
+}
+
+const finishDate =
+new Date(
+finishedTime
+);
+
+const now =
+new Date();
+
+const hoursPassed =
+
+(now - finishDate)
+
+/
+
+1000
+
+/
+
+60
+
+/
+
+60;
+
+return hoursPassed >= 8;
+
+}
+
 /* جلب المباريات */
 
 async function loadApiMatches(){
@@ -796,11 +979,7 @@ await response.json();
 apiMatches =
 data.matches || [];
 
-/* ترتيب */
-
 sortMatches();
-
-/* عرض */
 
 renderMatches();
 
@@ -848,81 +1027,6 @@ renderMatches();
 }
 
 );
-
-/* أول تحميل */
-
-loadApiMatches();
-
-/* تحديث مستمر */
-
-setInterval(
-
-()=>{
-
-loadApiMatches();
-
-},
-
-30000
-
-);
-
-/* حذف المباريات المنتهية بعد 8 ساعات */
-
-function shouldHideFinishedMatch(apiMatch){
-
-if(
-apiMatch?.status !==
-"FINISHED"
-){
-
-return false;
-
-}
-
-const finishedTime =
-
-apiMatch.finishedAt ||
-
-apiMatch.lastUpdated ||
-
-null;
-
-if(!finishedTime){
-
-return false;
-
-}
-
-const finishDate =
-new Date(
-finishedTime
-);
-
-const now =
-new Date();
-
-const hoursPassed =
-
-(
-now - finishDate
-)
-
-/
-
-1000
-
-/
-
-60
-
-/
-
-60;
-
-return hoursPassed >= 8;
-
-  }
   /* رسم المباريات */
 
 function renderMatches(){
@@ -1016,34 +1120,69 @@ ${apiMatch.score.fullTime.away}
 
 /* البطولة */
 
-const tournamentName =
-
-apiMatch?.competition?.name
-
 let tournamentName =
 
 apiMatch?.competition?.name
+
 ||
+
 match.tournament
+
 ||
+
 match.group
+
 ||
+
 "";
 
+tournamentName =
+String(tournamentName);
+
 if(
-tournamentName
-.toLowerCase()
-.includes("world")
+
+tournamentName.toLowerCase().includes("world")
+
 ||
-tournamentName
-.toLowerCase()
-.includes("fifa")
+
+tournamentName.toLowerCase().includes("fifa")
+
 ){
 
 tournamentName =
 "كأس العالم 2026";
 
 }
+
+/* تصغير أسماء الفرق الطويلة */
+
+const team1Class =
+
+(match.team1 || "")
+.split(" ")
+.length > 2
+
+?
+
+"teamName small"
+
+:
+
+"teamName";
+
+const team2Class =
+
+(match.team2 || "")
+.split(" ")
+.length > 2
+
+?
+
+"teamName small"
+
+:
+
+"teamName";
 
 html += `
 
@@ -1063,7 +1202,7 @@ alt="${match.team1}"
 
 onerror="this.style.display='none'">
 
-<div class="teamName">
+<div class="${team1Class}">
 
 ${match.team1}
 
@@ -1095,7 +1234,7 @@ alt="${match.team2}"
 
 onerror="this.style.display='none'">
 
-<div class="teamName">
+<div class="${team2Class}">
 
 ${match.team2}
 
@@ -1109,7 +1248,7 @@ ${match.team2}
 
 <div class="infoItem">
 
-🎙️
+🎤
 
 ${match.commentator || "غير محدد"}
 
@@ -1153,18 +1292,29 @@ html = `
 
 container.innerHTML = html;
 
-  }
-  /* تحميل أولي */
+}
+
+/* تشغيل أولي */
 
 renderMatches();
 
-/* تحديث مباشر */
-
-setInterval(()=>{
+/* تحميل مباشر */
 
 loadApiMatches();
 
-},30000);
+/* تحديث كل 30 ثانية */
+
+setInterval(
+
+()=>{
+
+loadApiMatches();
+
+},
+
+30000
+
+);
 
 /* معالجة الصور التالفة */
 
