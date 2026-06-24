@@ -473,6 +473,10 @@ match.group.replace("_"," ")
 stageInput.value =
 match.stage || "";
 
+channelInput.value = "";
+
+commentatorInput.value = "";
+  
 }
 catch(error){
 
@@ -636,6 +640,14 @@ ${match.date}
 
 <div>
 ${match.time}
+</div>
+
+<div>
+📺 ${match.channel || "غير محدد"}
+</div>
+
+<div>
+🎙️ ${match.commentator || "غير محدد"}
 </div>
 
 <div class="statusBox">
