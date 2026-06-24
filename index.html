@@ -1,12 +1,14 @@
 <!DOCTYPE html>
+
 <html lang="ar" dir="rtl">
 
 <head>
 
 <meta charset="UTF-8">
 
-<meta name="viewport"
-content="width=device-width,initial-scale=1.0">
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0">
 
 <title>ماتشات</title>
 
@@ -21,34 +23,33 @@ crossorigin>
 rel="stylesheet">
 
 <style>
-
-*{
-
+  *{
 margin:0;
 padding:0;
 box-sizing:border-box;
-
 font-family:'Cairo',sans-serif;
-
 }
 
 :root{
 
---bg:#0d0d0d;
+--bg:#050505;
 
---header:#141414;
+--header:#101010;
 
---card:#ffffff;
+--card:#f8f8f8;
 
---text:#111111;
+--text:#111;
 
---green:#16a34a;
+--green:#19a84a;
 
---blue:#2563eb;
+--blue:#3567e6;
 
---red:#dc2626;
+--red:#d92c2c;
 
---gray:#ececec;
+--gray:#e8e8e8;
+
+--shadow:
+0 5px 18px rgba(0,0,0,.22);
 
 }
 
@@ -58,7 +59,11 @@ background:var(--bg);
 
 min-height:100vh;
 
+overflow-x:hidden;
+
 }
+
+/* HEADER */
 
 .header{
 
@@ -68,7 +73,7 @@ top:0;
 right:0;
 left:0;
 
-height:72px;
+height:92px;
 
 background:var(--header);
 
@@ -78,19 +83,15 @@ align-items:center;
 
 justify-content:space-between;
 
-padding:0 15px;
+padding:0 14px;
 
-z-index:999;
-
-box-shadow:
-0 2px 12px
-rgba(0,0,0,.35);
+z-index:9999;
 
 }
 
 .logo{
 
-width:170px;
+width:190px;
 
 display:block;
 
@@ -100,18 +101,18 @@ margin:auto;
 
 .searchBtn{
 
-width:42px;
-height:42px;
+width:48px;
+height:48px;
 
 border:none;
 
+border-radius:16px;
+
 background:#222;
 
-color:white;
+color:#fff;
 
-font-size:18px;
-
-border-radius:12px;
+font-size:20px;
 
 cursor:pointer;
 
@@ -119,26 +120,28 @@ cursor:pointer;
 
 .placeholder{
 
-width:42px;
+width:48px;
 
 }
+
+/* SEARCH */
 
 .searchBar{
 
 position:fixed;
 
-top:72px;
+top:92px;
 
 right:0;
 left:0;
 
-background:#151515;
-
 padding:12px;
+
+background:#121212;
 
 display:none;
 
-z-index:998;
+z-index:9998;
 
 }
 
@@ -152,7 +155,7 @@ display:block;
 
 width:100%;
 
-height:46px;
+height:48px;
 
 border:none;
 
@@ -170,65 +173,81 @@ font-size:15px;
 
 }
 
+/* CONTAINER */
+
 .container{
 
 max-width:760px;
 
 margin:auto;
 
-padding:
-95px
-12px
-20px;
+padding-top:110px;
+
+padding-right:12px;
+
+padding-left:12px;
+
+padding-bottom:140px;
 
 }
-  .matchCard{
+
+/* CARD */
+
+.matchCard{
 
 background:var(--card);
 
-border-radius:24px;
+border-radius:28px;
 
 padding:18px;
 
-margin-bottom:15px;
+margin-bottom:16px;
 
-box-shadow:
-0 5px 18px
-rgba(0,0,0,.25);
+box-shadow:var(--shadow);
 
 }
 
+/* TEAMS */
+
 .teamsRow{
 
-display:grid;
+display:flex;
 
-grid-template-columns:1fr 160px 1fr;
+align-items:flex-start;
 
-align-items:center;
+justify-content:space-between;
 
 gap:10px;
 
 }
 
 .team{
-flex:1;
+
+width:30%;
+
 text-align:center;
-min-width:0;
+
 }
-  
+
 .teamLogo{
-width:72px;
-height:72px;
+
+width:95px;
+
+height:95px;
+
 object-fit:contain;
+
 display:block;
+
 margin:auto;
+
 }
 
 .teamName{
 
 margin-top:8px;
 
-font-size:15px;
+font-size:17px;
 
 font-weight:800;
 
@@ -236,65 +255,101 @@ color:var(--text);
 
 line-height:1.2;
 
+word-break:break-word;
+
 }
-  
+
+/* اسم طويل */
+
+.teamName.long{
+
+font-size:12px;
+
+}
+
+/* CENTER */
+
 .centerBox{
-width:140px;
-flex-shrink:0;
+
+width:40%;
+
 text-align:center;
+
 }
+
+/* TIME */
 
 .timeBox{
 
-width:140px;
-height:58px;
+width:170px;
+
+height:62px;
 
 margin:auto;
 
+background:#e5e5e5;
+
+border-radius:30px;
+
 display:flex;
+
 align-items:center;
+
 justify-content:center;
 
-background:#ececec;
-
-border-radius:999px;
-
 font-size:20px;
+
 font-weight:900;
 
 color:#222;
 
-white-space:nowrap;
+}
+
+/* SCORE */
+
+.scoreBox{
+
+font-size:58px;
+
+font-weight:900;
+
+line-height:1;
+
+color:#13853a;
 
 }
+
+/* TOURNAMENT */
 
 .tournament{
 
-margin-top:10px;
-
-display:flex;
-
-align-items:center;
-
-justify-content:center;
-
-gap:6px;
+margin-top:12px;
 
 font-size:14px;
 
-font-weight:700;
+font-weight:800;
 
 color:#555;
 
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+gap:5px;
+
 }
 
-.bottomInfo{
+/* INFO ROW */
 
-margin-top:14px;
+.bottomInfo{
 
 display:flex;
 
 gap:10px;
+
+margin-top:16px;
 
 }
 
@@ -302,11 +357,11 @@ gap:10px;
 
 flex:1;
 
-background:#f4f4f4;
+background:#ececec;
 
-padding:10px;
+border-radius:14px;
 
-border-radius:12px;
+padding:12px;
 
 font-size:13px;
 
@@ -318,85 +373,78 @@ color:#333;
 
 }
 
+/* STATUS */
+
 .liveBadge{
 
-margin-top:12px;
+margin-top:14px;
 
 background:var(--green);
 
 color:white;
 
-padding:10px;
+border-radius:16px;
 
-border-radius:12px;
+padding:12px;
 
-text-align:center;
+font-size:17px;
 
 font-weight:800;
+
+text-align:center;
 
 }
 
 .notStartedBadge{
 
-margin-top:12px;
+margin-top:14px;
 
 background:var(--blue);
 
 color:white;
 
-padding:10px;
+border-radius:16px;
 
-border-radius:12px;
+padding:12px;
 
-text-align:center;
+font-size:17px;
 
 font-weight:800;
+
+text-align:center;
 
 }
 
 .finishedBadge{
 
-margin-top:12px;
+margin-top:14px;
 
 background:var(--red);
 
 color:white;
 
-padding:10px;
+border-radius:16px;
 
-border-radius:12px;
+padding:12px;
 
-text-align:center;
-
-font-weight:800;
-
-}
-
-.loading{
-
-background:white;
-
-padding:25px;
-
-border-radius:20px;
-
-text-align:center;
-
-font-size:18px;
+font-size:17px;
 
 font-weight:800;
 
-color:#111;
+text-align:center;
 
 }
 
+/* LOADING */
+
+.loading,
 .empty{
 
 background:white;
 
-padding:25px;
-
 border-radius:20px;
+
+padding:25px;
 
 text-align:center;
 
@@ -404,33 +452,35 @@ font-size:18px;
 
 font-weight:800;
 
-color:#111;
-
 }
 
-  .footer{
+/* FOOTER */
 
-padding:25px;
+.footer{
+
+margin-top:25px;
+
+padding:25px 10px;
 
 text-align:center;
 
 color:white;
 
-}
-
-.developerFooter{
-
-font-size:16px;
-
-font-weight:700;
-
-margin-bottom:8px;
-
-}
-
-.rightsFooter{
-
 font-size:14px;
+
+}
+
+.footer .dev{
+
+font-weight:800;
+
+margin-bottom:5px;
+
+}
+
+.footer .copy{
+
+opacity:.8;
 
 margin-bottom:12px;
 
@@ -438,17 +488,23 @@ margin-bottom:12px;
 
 .supportBtn{
 
-display:inline-block;
+display:inline-flex;
 
-padding:8px 25px;
+align-items:center;
 
-border-radius:14px;
+justify-content:center;
+
+gap:8px;
+
+padding:10px 22px;
+
+border-radius:18px;
 
 background:
 linear-gradient(
 180deg,
-#ffffff,
-#cfcfcf
+#f4f4f4,
+#bdbdbd
 );
 
 color:#111;
@@ -457,13 +513,47 @@ font-weight:800;
 
 text-decoration:none;
 
+box-shadow:
+0 2px 10px rgba(255,255,255,.25);
+
 }
 
-.smallTeam{
-font-size:12px !important;
+/* MOBILE */
+
+@media(max-width:480px){
+
+.teamLogo{
+
+width:80px;
+
+height:80px;
+
 }
-  
-</style>
+
+.teamName{
+
+font-size:15px;
+
+}
+
+.timeBox{
+
+width:150px;
+
+height:56px;
+
+font-size:18px;
+
+}
+
+.scoreBox{
+
+font-size:48px;
+
+}
+
+  }
+  </style>
 
 </head>
 
@@ -480,8 +570,11 @@ class="searchBtn">
 </button>
 
 <img
+
 src="file_00000000d0f871f4b728f73dff260688_1 (1).png"
+
 class="logo"
+
 alt="ماتشات">
 
 <div class="placeholder"></div>
@@ -516,8 +609,37 @@ class="container">
 
 </div>
 
+<footer class="footer">
+
+<div class="dev">
+
+Developer: Mohamed Hosny Hora
+
+</div>
+
+<div class="copy">
+
+جميع الحقوق محفوظة 2026 ®
+
+</div>
+
+<a
+
+class="supportBtn"
+
+href="https://wa.me/201040507023"
+
+target="_blank">
+
+💬 الدعم
+
+</a>
+
+</footer>
+
 <script type="module">
-  import { initializeApp }
+
+import { initializeApp }
 from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
 import {
@@ -557,15 +679,12 @@ initializeApp(firebaseConfig);
 const db =
 getFirestore(app);
 
-/* متغيرات */
-
 let matchesData = [];
 
 let apiMatches = [];
 
 let searchText = "";
-
-/* البحث */
+  /* البحث */
 
 const searchBtn =
 document.getElementById(
@@ -617,9 +736,12 @@ renderMatches();
 }
 );
 
-/* الوقت */
+/* تنسيق الوقت */
 
 function formatTime12(timeString){
+
+if(!timeString)
+return "";
 
 let [hours,minutes] =
 timeString.split(":");
@@ -648,7 +770,7 @@ return `${hours}:${minutes} ${period}`;
 
 }
 
-/* الحالة */
+/* حالة المباراة */
 
 function getMatchStatus(status){
 
@@ -658,11 +780,11 @@ status === "IN_PLAY"
 
 ||
 
-status === "PAUSED"
+status === "LIVE"
 
 ||
 
-status === "LIVE"
+status === "PAUSED"
 
 ){
 
@@ -744,7 +866,7 @@ const team2 =
 (match.team2 || "")
 .toLowerCase();
 
-return (
+return(
 
 team1.includes(searchText)
 
@@ -753,6 +875,16 @@ team1.includes(searchText)
 team2.includes(searchText)
 
 );
+
+}
+
+/* تصغير أسماء الفرق الطويلة */
+
+function isLongTeamName(name){
+
+if(!name) return false;
+
+return name.split(" ").length > 2;
 
   }
   /* ترتيب المباريات */
@@ -775,19 +907,21 @@ String(m.id) ===
 String(b.eventId)
 );
 
-const statusA =
+const orderA =
 getMatchStatus(
 apiA?.status
 ).order;
 
-const statusB =
+const orderB =
 getMatchStatus(
 apiB?.status
 ).order;
 
-if(statusA !== statusB){
+/* الجارية أولاً */
 
-return statusA - statusB;
+if(orderA !== orderB){
+
+return orderA - orderB;
 
 }
 
@@ -795,12 +929,12 @@ return statusA - statusB;
 
 const dateA =
 new Date(
-`${a.date} ${a.time}`
+`${a.date || ""} ${a.time || ""}`
 );
 
 const dateB =
 new Date(
-`${b.date} ${b.time}`
+`${b.date || ""} ${b.time || ""}`
 );
 
 return dateA - dateB;
@@ -809,7 +943,66 @@ return dateA - dateB;
 
 }
 
-/* جلب المباريات */
+/* حذف المباراة بعد 8 ساعات من انتهائها */
+
+function shouldHideFinishedMatch(apiMatch){
+
+if(
+apiMatch?.status !==
+"FINISHED"
+){
+
+return false;
+
+}
+
+const finishedTime =
+
+apiMatch.finishedAt
+
+||
+
+apiMatch.lastUpdated
+
+||
+
+null;
+
+if(!finishedTime){
+
+return false;
+
+}
+
+const finishDate =
+new Date(
+finishedTime
+);
+
+const now =
+new Date();
+
+const hoursPassed =
+
+(now - finishDate)
+
+/
+
+1000
+
+/
+
+60
+
+/
+
+60;
+
+return hoursPassed >= 8;
+
+}
+
+/* جلب API */
 
 async function loadApiMatches(){
 
@@ -826,11 +1019,7 @@ await response.json();
 apiMatches =
 data.matches || [];
 
-/* ترتيب */
-
 sortMatches();
-
-/* عرض */
 
 renderMatches();
 
@@ -838,7 +1027,7 @@ renderMatches();
 catch(error){
 
 console.log(
-"API ERROR",
+"API ERROR:",
 error
 );
 
@@ -846,7 +1035,7 @@ error
 
 }
 
-/* Firebase realtime */
+/* Firebase Realtime */
 
 onSnapshot(
 
@@ -883,7 +1072,7 @@ renderMatches();
 
 loadApiMatches();
 
-/* تحديث مستمر */
+/* تحديث كل 30 ثانية */
 
 setInterval(
 
@@ -896,78 +1085,11 @@ loadApiMatches();
 30000
 
 );
-
-/* حذف المباريات المنتهية بعد 8 ساعات */
-
-function shouldHideFinishedMatch(apiMatch){
-
-if(
-apiMatch?.status !==
-"FINISHED"
-){
-
-return false;
-
-}
-
-const finishedTime =
-
-apiMatch.finishedAt ||
-
-apiMatch.lastUpdated ||
-
-null;
-
-if(!finishedTime){
-
-return false;
-
-}
-
-const finishDate =
-new Date(
-finishedTime
-);
-
-const now =
-new Date();
-
-const hoursPassed =
-
-(
-now - finishDate
-)
-
-/
-
-1000
-
-/
-
-60
-
-/
-
-60;
-
-return hoursPassed >= 8;
-
-  }
   /* رسم المباريات */
 
 function renderMatches(){
 
-  const team1Class =
-match.team1.split(" ").length > 2
-? "teamName smallTeam"
-: "teamName";
-
-const team2Class =
-match.team2.split(" ").length > 2
-? "teamName smallTeam"
-: "teamName";
-
-  const container =
+const container =
 document.getElementById(
 "matches"
 );
@@ -1036,6 +1158,10 @@ apiMatch.score.fullTime
 
 apiMatch.score.fullTime.home !== null
 
+&&
+
+apiMatch.score.fullTime.away !== null
+
 ){
 
 centerContent = `
@@ -1054,9 +1180,9 @@ ${apiMatch.score.fullTime.away}
 
 }
 
-/* البطولة */
+/* اسم البطولة */
 
-const tournamentName =
+let tournamentName =
 
 apiMatch?.competition?.name
 
@@ -1071,6 +1197,57 @@ match.group
 ||
 
 "";
+
+/* استبدال FIFA */
+
+if(
+
+String(tournamentName)
+.toLowerCase()
+.includes("fifa")
+
+||
+
+String(tournamentName)
+.toLowerCase()
+.includes("world")
+
+){
+
+tournamentName =
+"كأس العالم 2026";
+
+}
+
+/* أسماء الفرق الطويلة */
+
+const team1Class =
+
+isLongTeamName(
+match.team1
+)
+
+?
+
+"teamName long"
+
+:
+
+"teamName";
+
+const team2Class =
+
+isLongTeamName(
+match.team2
+)
+
+?
+
+"teamName long"
+
+:
+
+"teamName";
 
 html += `
 
@@ -1091,7 +1268,9 @@ alt="${match.team1}"
 onerror="this.style.display='none'">
 
 <div class="${team1Class}">
+
 ${match.team1}
+
 </div>
 
 </div>
@@ -1102,7 +1281,7 @@ ${centerContent}
 
 <div class="tournament">
 
-🏆 ${String(tournamentName).includes("World") || String(tournamentName).includes("FIFA") ? "كأس العالم" : tournamentName}
+🏆 ${tournamentName}
 
 </div>
 
@@ -1121,7 +1300,9 @@ alt="${match.team2}"
 onerror="this.style.display='none'">
 
 <div class="${team2Class}">
+
 ${match.team2}
+
 </div>
 
 </div>
@@ -1176,18 +1357,11 @@ html = `
 
 container.innerHTML = html;
 
-  }
-  /* تحميل أولي */
+}
+
+/* تشغيل أولي */
 
 renderMatches();
-
-/* تحديث مباشر */
-
-setInterval(()=>{
-
-loadApiMatches();
-
-},30000);
 
 /* معالجة الصور التالفة */
 
@@ -1214,27 +1388,6 @@ true
 
 </script>
 
-  <footer class="footer">
-
-<div class="developerFooter">
-Developer: Mohamed Hosny Hora
-</div>
-
-<div class="rightsFooter">
-جميع الحقوق محفوظة 2026 ®
-</div>
-
-<a
-class="supportBtn"
-href="https://wa.me/201040507023"
-target="_blank">
-
-الدعم
-
-</a>
-
-  </footer>
-  
 </body>
 
 </html>
