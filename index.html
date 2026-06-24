@@ -832,8 +832,6 @@ sortMatches();
 
 renderMatches();
 
-  console.log("render running");
-  
 }
 
 );
@@ -916,8 +914,6 @@ return hoursPassed >= 8;
 
 function renderMatches(){
 
-console.log("render running");
-  
 const container =
 document.getElementById(
 "matches"
@@ -1009,8 +1005,6 @@ ${apiMatch.score.fullTime.away}
 
 const tournamentName =
 
-let tournamentName =
-
 apiMatch?.competition?.name
 
 ||
@@ -1024,21 +1018,6 @@ match.group
 ||
 
 "";
-
-if(
-String(tournamentName)
-.toLowerCase()
-.includes("world")
-||
-String(tournamentName)
-.toLowerCase()
-.includes("fifa")
-){
-
-tournamentName =
-"كأس العالم";
-
-}
 
 html += `
 
