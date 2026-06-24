@@ -544,6 +544,10 @@ if(apiMatch){
 status =
 getStatus(apiMatch.status);
 
+  if(currentFilter !== status.className){
+return;
+  }
+  
 if(
 apiMatch.score &&
 apiMatch.score.fullTime &&
