@@ -399,6 +399,12 @@ await fetch("/api/matches");
 const data =
 await response.json();
 
+channel:
+channelInput.value,
+
+commentator:
+commentatorInput.value,
+
 const match =
 data.matches.find(
 m => String(m.id) === eventId
