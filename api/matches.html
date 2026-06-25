@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<title>إعداد القنوات والمعلقين</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Tahoma,sans-serif;
+}
+
+body{
+
+background:#0f5f2c;
+
+padding:20px;
+
+}
+
+.container{
+
+max-width:950px;
+
+margin:auto;
+
+}
+
+h1{
+
+text-align:center;
+
+color:#fff;
+
+margin-bottom:20px;
+
+font-size:30px;
+
+}
+
+.topBar{
+
+display:flex;
+
+gap:10px;
+
+margin-bottom:20px;
+
+}
+
+#search{
+
+flex:1;
+
+padding:12px;
+
+border:none;
+
+border-radius:12px;
+
+font-size:16px;
+
+outline:none;
+
+}
+
+.reloadBtn{
+
+padding:12px 25px;
+
+border:none;
+
+border-radius:12px;
+
+background:#007bff;
+
+color:white;
+
+font-weight:bold;
+
+cursor:pointer;
+
+}
+
+.loading{
+
+background:white;
+
+padding:30px;
+
+border-radius:20px;
+
+font-size:20px;
+
+font-weight:bold;
+
+text-align:center;
+
+}
+
+.matchCard{
+
+background:white;
+
+padding:18px;
+
+border-radius:18px;
+
+margin-bottom:15px;
+
+box-shadow:0 5px 18px rgba(0,0,0,.18);
+
+}
+
+.teams{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+margin-bottom:15px;
+
+}
+
+.team{
+
+width:35%;
+
+text-align:center;
+
+}
+
+.team img{
+
+width:70px;
+
+height:70px;
+
+object-fit:contain;
+
+}
+
+.teamName{
+
+margin-top:8px;
+
+font-size:16px;
+
+font-weight:bold;
+
+}
+
+.center{
+
+width:30%;
+
+text-align:center;
+
+}
+
+.matchTime{
+
+font-size:18px;
+
+font-weight:bold;
+
+margin-bottom:6px;
+
+}
+
+.matchStatus{
+
+font-size:15px;
+
+font-weight:bold;
+
+color:#0f7a39;
+
+}
+
+.idBox{
+
+margin-top:10px;
+
+background:#efefef;
+
+padding:10px;
+
+border-radius:10px;
+
+font-size:14px;
+
+word-break:break-all;
+
+}
+
+.copyBtn{
+
+width:100%;
+
+padding:10px;
+
+margin-top:8px;
+
+border:none;
+
+border-radius:10px;
+
+background:#333;
+
+color:white;
+
+cursor:pointer;
+
+font-weight:bold;
+
+}
+
+select,
+input{
+
+width:100%;
+
+padding:10px;
+
+margin-top:10px;
+
+border:1px solid #ccc;
+
+border-radius:10px;
+
+font-size:15px;
+
+outline:none;
+
+}
+
+.saveBtn{
+
+width:100%;
+
+padding:12px;
+
+margin-top:12px;
+
+border:none;
+
+border-radius:10px;
+
+background:#16a34a;
+
+color:white;
+
+font-size:16px;
+
+font-weight:bold;
+
+cursor:pointer;
+
+}
+
+.saved{
+
+margin-top:10px;
+
+font-size:14px;
+
+font-weight:bold;
+
+color:#16a34a;
+
+text-align:center;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>
+
+إعداد القنوات والمعلقين
+
+</h1>
+
+<div class="topBar">
+
+<input
+
+id="search"
+
+placeholder="ابحث باسم منتخب...">
+
+<button
+
+class="reloadBtn"
+
+onclick="loadMatches()">
+
+تحديث
+
+</button>
+
+</div>
+
+<div id="matches">
+
+<div class="loading">
+
+جاري تحميل المباريات...
+
+</div>
+
+</div>
+
+</div>
+
+<script type="module">
+
+import { initializeApp }
+
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+
+getFirestore,
+
+doc,
+
+getDoc,
+
+setDoc
+
+}
+
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig={
+
+apiKey:"AIzaSyCDoHtDphHNZoZfCV2pXqJ3LD8JzzXSHFw",
+
+authDomain:"match3t.firebaseapp.com",
+
+projectId:"match3t",
+
+storageBucket:"match3t.firebasestorage.app",
+
+messagingSenderId:"966340184804",
+
+appId:"1:966340184804:web:aedda5fac457d0907e3af1"
+
+};
+
+const app=
+
+initializeApp(firebaseConfig);
+
+const db=
+
+getFirestore(app);
+
+let apiMatches=[];
+
+let searchText="";
+
+document
+
+.getElementById("search")
+
+.addEventListener("input",e=>{
+
+searchText=
+
+e.target.value
+
+.trim()
+
+.toLowerCase();
+
+renderMatches();
+
+});
+  async function loadMatches(){
+
+document.getElementById("matches").innerHTML=`
+<div class="loading">
+جاري تحميل المباريات...
+</div>
+`;
+
+try{
+
+const response=await fetch("/api/matches");
+
+const data=await response.json();
+
+apiMatches=data.matches||[];
+
+renderMatches();
+
+}
+
+catch(error){
+
+document.getElementById("matches").innerHTML=`
+<div class="loading">
+فشل تحميل المباريات
+</div>
+`;
+
+console.log(error);
+
+}
+
+}
+
+function copyId(id){
+
+navigator.clipboard.writeText(id);
+
+alert("تم نسخ المعرف");
+
+}
+
+async function saveBroadcast(eventId){
+
+const channel=
+
+document.getElementById(
+`channel_${eventId}`
+).value;
+
+const commentator=
+
+document.getElementById(
+`commentator_${eventId}`
+).value;
+
+await setDoc(
+
+doc(
+db,
+"broadcasts",
+String(eventId)
+),
+
+{
+
+channel,
+
+commentator
+
+}
+
+);
+
+document.getElementById(
+
+`saved_${eventId}`
+
+).innerHTML=
+
+"✅ تم الحفظ";
+
+setTimeout(()=>{
+
+document.getElementById(
+
+`saved_${eventId}`
+
+).innerHTML="";
+
+},2000);
+
+}
+
+async function renderMatches(){
+
+const container=
+
+document.getElementById("matches");
+
+let html="";
+
+const search=
+
+searchText.toLowerCase();
+
+for(const match of apiMatches){
+
+const team1=
+
+match.homeTeam.name;
+
+const team2=
+
+match.awayTeam.name;
+
+if(
+
+search!="" &&
+
+!team1.toLowerCase().includes(search)
+
+&&
+
+!team2.toLowerCase().includes(search)
+
+){
+
+continue;
+
+}
+
+const ref=
+
+doc(
+
+db,
+
+"broadcasts",
+
+String(match.id)
+
+);
+
+const saved=
+
+await getDoc(ref);
+
+let channel="";
+
+let commentator="";
+
+if(saved.exists()){
+
+channel=
+
+saved.data().channel||"";
+
+commentator=
+
+saved.data().commentator||"";
+
+  }
+  html += `
+
+<div class="matchCard">
+
+<div class="teams">
+
+<div class="team">
+
+<img src="${match.homeTeam.crest}" alt="">
+
+<div class="teamName">
+
+${team1}
+
+</div>
+
+</div>
+
+<div class="center">
+
+<div class="matchTime">
+
+${new Date(match.utcDate).toLocaleString("ar-EG")}
+
+</div>
+
+<div class="matchStatus">
+
+${match.status}
+
+</div>
+
+<div class="idBox">
+
+ID : ${match.id}
+
+</div>
+
+<button
+
+class="copyBtn"
+
+onclick="copyId('${match.id}')">
+
+نسخ المعرف
+
+</button>
+
+</div>
+
+<div class="team">
+
+<img src="${match.awayTeam.crest}" alt="">
+
+<div class="teamName">
+
+${team2}
+
+</div>
+
+</div>
+
+</div>
+
+<select id="channel_${match.id}">
+
+<option value="">اختر القناة</option>
+
+${Array.from({length:9},(_,i)=>{
+
+const ch=`beIN MAX ${i+1}`;
+
+return `<option value="${ch}" ${channel===ch?"selected":""}>${ch}</option>`;
+
+}).join("")}
+
+</select>
+
+<input
+
+id="commentator_${match.id}"
+
+placeholder="اسم المعلق"
+
+value="${commentator}">
+
+<button
+
+class="saveBtn"
+
+onclick="saveBroadcast('${match.id}')">
+
+حفظ القناة والمعلق
+
+</button>
+
+<div
+
+id="saved_${match.id}"
+
+class="saved">
+
+</div>
+
+</div>
+
+`;
+
+}
+
+if(html===""){
+
+html=`
+
+<div class="loading">
+
+لا توجد مباريات
+
+</div>
+
+`;
+
+}
+
+container.innerHTML=html;
+
+}
+
+loadMatches();
+
+window.loadMatches=loadMatches;
+
+window.copyId=copyId;
+
+window.saveBroadcast=saveBroadcast;
+
+</script>
+
+</body>
+
+  </html>
