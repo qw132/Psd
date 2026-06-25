@@ -539,22 +539,23 @@ String(match.id)
 );
 
 const saved=
+let channel = "";
+let commentator = "";
 
-await getDoc(ref);
+try{
 
-let channel="";
-
-let commentator="";
+const saved = await getDoc(ref);
 
 if(saved.exists()){
 
-channel=
+channel = saved.data().channel || "";
+commentator = saved.data().commentator || "";
 
-saved.data().channel||"";
+}
 
-commentator=
+}catch(e){
 
-saved.data().commentator||"";
+console.log(e);
 
   }
   html += `
