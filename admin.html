@@ -1,0 +1,1247 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<title>لوحة إدارة ماتشات</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Tahoma,sans-serif;
+}
+
+body{
+
+background:#0f5f2c;
+
+padding:15px;
+
+}
+
+.container{
+
+max-width:700px;
+
+margin:auto;
+
+}
+
+#loginBox{
+
+background:#fff;
+
+padding:20px;
+
+border-radius:20px;
+
+margin-top:100px;
+
+box-shadow:0 10px 25px rgba(0,0,0,.2);
+
+}
+
+#adminPanel{
+
+display:none;
+
+}
+
+h1{
+
+text-align:center;
+
+color:#fff;
+
+margin-bottom:15px;
+
+font-size:30px;
+
+}
+
+.card{
+
+background:#fff;
+
+padding:18px;
+
+border-radius:20px;
+
+margin-bottom:15px;
+
+box-shadow:0 8px 20px rgba(0,0,0,.18);
+
+}
+
+input,
+select{
+
+width:100%;
+
+padding:12px;
+
+margin-top:8px;
+
+margin-bottom:12px;
+
+border:1px solid #ccc;
+
+border-radius:10px;
+
+font-size:16px;
+
+outline:none;
+
+}
+
+button{
+
+width:100%;
+
+padding:12px;
+
+border:none;
+
+border-radius:10px;
+
+font-size:16px;
+
+font-weight:bold;
+
+cursor:pointer;
+
+margin-top:5px;
+
+transition:.25s;
+
+}
+
+button:hover{
+
+transform:scale(.98);
+
+}
+
+.loginBtn{
+
+background:#0f7a39;
+
+color:#fff;
+
+}
+
+.fetchBtn{
+
+background:#007bff;
+
+color:#fff;
+
+}
+
+.saveBtn{
+
+background:#28a745;
+
+color:#fff;
+
+}
+
+.editBtn{
+
+background:#ffc107;
+
+color:#111;
+
+margin-top:8px;
+
+}
+
+.deleteBtn{
+
+background:#dc3545;
+
+color:#fff;
+
+margin-top:8px;
+
+}
+
+.teamPreview{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+margin:15px 0;
+
+}
+
+.teamPreview img{
+
+width:75px;
+
+height:75px;
+
+object-fit:contain;
+
+background:#fafafa;
+
+border-radius:12px;
+
+padding:4px;
+
+}
+
+.matchItem{
+
+background:#fff;
+
+padding:15px;
+
+border-radius:15px;
+
+margin-bottom:12px;
+
+box-shadow:0 5px 15px rgba(0,0,0,.15);
+
+}
+
+.groupBox{
+
+margin-top:8px;
+
+font-weight:bold;
+
+color:#0f7a39;
+
+}
+
+.stageBox{
+
+margin-top:6px;
+
+font-weight:bold;
+
+color:#dc3545;
+
+}
+
+.statusBox{
+
+margin-top:6px;
+
+font-weight:bold;
+
+color:#007bff;
+
+}
+
+.broadcastBox{
+
+margin-top:8px;
+
+font-weight:bold;
+
+color:#111;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div id="loginBox">
+
+<input
+
+type="password"
+
+id="adminPassword"
+
+placeholder="كلمة المرور">
+
+<button
+
+class="loginBtn"
+
+id="loginBtn">
+
+دخول
+
+</button>
+
+</div>
+
+<div id="adminPanel">
+
+<h1>
+
+لوحة إدارة ماتشات
+
+</h1>
+
+<div class="card">
+
+<input
+
+id="eventId"
+
+placeholder="معرف المباراة">
+
+<button
+
+class="fetchBtn"
+
+id="fetchMatch">
+
+جلب بيانات المباراة
+
+</button>
+
+<div class="teamPreview">
+
+<div>
+
+<img id="logo1">
+
+</div>
+
+<div>
+
+<img id="logo2">
+
+</div>
+
+</div>
+
+<input id="team1" placeholder="الفريق الأول">
+
+<input id="team2" placeholder="الفريق الثاني">
+
+<input id="date" placeholder="التاريخ">
+
+<input id="time" placeholder="الوقت">
+
+<input id="group" placeholder="GROUP">
+
+<select id="channel">
+
+<option value="">اختر القناة</option>
+
+<option>beIN MAX 1</option>
+
+<option>beIN MAX 2</option>
+
+<option>beIN MAX 3</option>
+
+<option>beIN MAX 4</option>
+
+<option>beIN MAX 5</option>
+
+<option>beIN MAX 6</option>
+
+<option>beIN MAX 7</option>
+
+<option>beIN MAX 8</option>
+
+<option>beIN MAX 9</option>
+
+</select>
+
+<input
+
+id="commentator"
+
+placeholder="اسم المعلق">
+
+<input
+
+id="stage"
+
+placeholder="STAGE">
+
+<button
+
+class="saveBtn"
+
+id="saveMatch">
+
+حفظ المباراة
+
+</button>
+
+</div>
+
+<div id="matchesList"></div>
+
+</div>
+
+</div>
+
+<script type="module">
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+
+getFirestore,
+
+collection,
+
+addDoc,
+
+getDocs,
+
+deleteDoc,
+
+doc,
+
+updateDoc,
+
+getDoc,
+
+setDoc
+
+}
+
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+/* =========================
+Firebase
+========================= */
+
+const firebaseConfig={
+
+apiKey:"AIzaSyCDoHtDphHNZoZfCV2pXqJ3LD8JzzXSHFw",
+
+authDomain:"match3t.firebaseapp.com",
+
+projectId:"match3t",
+
+storageBucket:"match3t.firebasestorage.app",
+
+messagingSenderId:"966340184804",
+
+appId:"1:966340184804:web:aedda5fac457d0907e3af1"
+
+};
+
+const app=
+initializeApp(firebaseConfig);
+
+const db=
+getFirestore(app);
+
+/* =========================
+تسجيل الدخول
+========================= */
+
+const PASSWORD="01040507023";
+
+document
+
+.getElementById("loginBtn")
+
+.onclick=()=>{
+
+const pass=
+
+document
+
+.getElementById("adminPassword")
+
+.value;
+
+if(pass===PASSWORD){
+
+document
+
+.getElementById("loginBox")
+
+.style.display="none";
+
+document
+
+.getElementById("adminPanel")
+
+.style.display="block";
+
+loadMatches();
+
+}else{
+
+alert("كلمة المرور غير صحيحة");
+
+}
+
+};
+
+/* =========================
+المتغيرات
+========================= */
+
+let editId=null;
+
+const eventIdInput=
+document.getElementById("eventId");
+
+const team1Input=
+document.getElementById("team1");
+
+const team2Input=
+document.getElementById("team2");
+
+const dateInput=
+document.getElementById("date");
+
+const timeInput=
+document.getElementById("time");
+
+const groupInput=
+document.getElementById("group");
+
+const channelInput=
+document.getElementById("channel");
+
+const commentatorInput=
+document.getElementById("commentator");
+
+const stageInput=
+document.getElementById("stage");
+
+const logo1=
+document.getElementById("logo1");
+
+const logo2=
+document.getElementById("logo2");
+
+/* =========================
+ترجمة أسماء المنتخبات
+========================= */
+
+const teamsArabic={
+
+"Mexico":"المكسيك",
+
+"South Africa":"جنوب أفريقيا",
+
+"South Korea":"كوريا الجنوبية",
+
+"Czechia":"التشيك",
+
+"Canada":"كندا",
+
+"Bosnia and Herzegovina":"البوسنة والهرسك",
+
+"Qatar":"قطر",
+
+"Switzerland":"سويسرا",
+
+"Brazil":"البرازيل",
+
+"Morocco":"المغرب",
+
+"Haiti":"هايتي",
+
+"Scotland":"إسكتلندا",
+
+"United States":"الولايات المتحدة",
+
+"Paraguay":"باراغواي",
+
+"Australia":"أستراليا",
+
+"Turkey":"تركيا",
+
+"Germany":"ألمانيا",
+
+"Curacao":"كوراساو",
+
+"Ivory Coast":"كوت ديفوار",
+
+"Ecuador":"الإكوادور",
+
+"Netherlands":"هولندا",
+
+"Japan":"اليابان",
+
+"Sweden":"السويد",
+
+"Tunisia":"تونس",
+
+"Belgium":"بلجيكا",
+
+"Egypt":"مصر",
+
+"Iran":"إيران",
+
+"New Zealand":"نيوزيلندا",
+
+"Spain":"إسبانيا",
+
+"Cape Verde":"كاب فيردي",
+
+"Saudi Arabia":"السعودية",
+
+"Uruguay":"أوروغواي",
+
+"France":"فرنسا",
+
+"Senegal":"السنغال",
+
+"Iraq":"العراق",
+
+"Norway":"النرويج",
+
+"Argentina":"الأرجنتين",
+
+"Algeria":"الجزائر",
+
+"Austria":"النمسا",
+
+"Jordan":"الأردن",
+
+"Portugal":"البرتغال",
+
+"DR Congo":"الكونغو الديمقراطية",
+
+"Uzbekistan":"أوزبكستان",
+
+"Colombia":"كولومبيا",
+
+"England":"إنجلترا",
+
+"Croatia":"كرواتيا",
+
+"Ghana":"غانا",
+
+"Panama":"بنما"
+
+};
+/* =========================
+جلب بيانات المباراة
+========================= */
+
+document
+
+.getElementById("fetchMatch")
+
+.addEventListener(
+
+"click",
+
+async()=>{
+
+const eventId=
+
+eventIdInput.value.trim();
+
+if(!eventId){
+
+alert("أدخل معرف المباراة");
+
+return;
+
+}
+
+try{
+
+/* جلب بيانات المباراة من API */
+
+const response=
+
+await fetch("/api/matches");
+
+const data=
+
+await response.json();
+
+const match=
+
+data.matches.find(
+
+m=>String(m.id)===eventId
+
+);
+
+if(!match){
+
+alert("المباراة غير موجودة");
+
+return;
+
+}
+
+/* ترجمة أسماء الفرق */
+
+team1Input.value=
+
+teamsArabic[match.homeTeam.name]
+
+||
+
+match.homeTeam.name;
+
+team2Input.value=
+
+teamsArabic[match.awayTeam.name]
+
+||
+
+match.awayTeam.name;
+
+/* الشعارات */
+
+logo1.src=
+
+match.homeTeam.crest || "";
+
+logo2.src=
+
+match.awayTeam.crest || "";
+
+/* التاريخ والوقت */
+
+const matchDate=
+
+new Date(match.utcDate);
+
+dateInput.value=
+
+matchDate
+
+.toISOString()
+
+.split("T")[0];
+
+const hours=
+
+String(
+
+matchDate.getHours()
+
+).padStart(2,"0");
+
+const minutes=
+
+String(
+
+matchDate.getMinutes()
+
+).padStart(2,"0");
+
+timeInput.value=
+
+hours+":"+minutes;
+
+/* المجموعة */
+
+groupInput.value=
+
+match.group
+
+?
+
+match.group.replaceAll("_"," ")
+
+:
+
+"";
+
+/* المرحلة */
+
+stageInput.value=
+
+match.stage || "";
+
+/* =========================
+جلب القناة والمعلق
+========================= */
+
+const broadcastDoc=
+
+await getDoc(
+
+doc(
+
+db,
+
+"broadcasts",
+
+eventId
+
+)
+
+);
+
+if(
+
+broadcastDoc.exists()
+
+){
+
+const broadcast=
+
+broadcastDoc.data();
+
+channelInput.value=
+
+broadcast.channel || "";
+
+commentatorInput.value=
+
+broadcast.commentator || "";
+
+}else{
+
+channelInput.value="";
+
+commentatorInput.value="";
+
+}
+
+}
+
+catch(error){
+
+console.log(error);
+
+alert("فشل جلب المباراة");
+
+}
+
+}
+
+);
+/* =========================
+حفظ المباراة
+========================= */
+
+document
+
+.getElementById("saveMatch")
+
+.addEventListener(
+
+"click",
+
+async()=>{
+
+const eventId=
+
+eventIdInput.value.trim();
+
+if(!eventId){
+
+alert("يجب إدخال معرف المباراة");
+
+return;
+
+}
+
+/* بيانات المباراة */
+
+const matchData={
+
+eventId:eventId,
+
+team1:team1Input.value.trim(),
+
+team2:team2Input.value.trim(),
+
+logo1:logo1.src,
+
+logo2:logo2.src,
+
+date:dateInput.value,
+
+time:timeInput.value,
+
+group:groupInput.value,
+
+stage:stageInput.value
+
+};
+
+/* بيانات البث */
+
+const broadcastData={
+
+eventId:eventId,
+
+channel:channelInput.value,
+
+commentator:commentatorInput.value
+
+};
+
+try{
+
+if(editId){
+
+await updateDoc(
+
+doc(
+
+db,
+
+"matches",
+
+editId
+
+),
+
+matchData
+
+);
+
+}else{
+
+await addDoc(
+
+collection(
+
+db,
+
+"matches"
+
+),
+
+matchData
+
+);
+
+}
+
+/* حفظ القناة والمعلق */
+
+await setDoc(
+
+doc(
+
+db,
+
+"broadcasts",
+
+eventId
+
+),
+
+broadcastData
+
+);
+
+alert("تم حفظ المباراة بنجاح");
+
+editId=null;
+
+/* تفريغ الحقول */
+
+eventIdInput.value="";
+
+team1Input.value="";
+
+team2Input.value="";
+
+dateInput.value="";
+
+timeInput.value="";
+
+groupInput.value="";
+
+stageInput.value="";
+
+channelInput.value="";
+
+commentatorInput.value="";
+
+logo1.src="";
+
+logo2.src="";
+
+loadMatches();
+
+}
+
+catch(error){
+
+console.log(error);
+
+alert("حدث خطأ أثناء الحفظ");
+
+}
+
+}
+
+);
+/* =========================
+تحميل المباريات
+========================= */
+
+async function loadMatches(){
+
+const matchesList=
+document.getElementById("matchesList");
+
+matchesList.innerHTML="";
+
+const snapshot=
+await getDocs(
+collection(db,"matches")
+);
+
+for(const docSnap of snapshot.docs){
+
+const match=
+docSnap.data();
+
+/* جلب بيانات البث */
+
+let channel="";
+let commentator="";
+
+const broadcastDoc=
+
+await getDoc(
+
+doc(
+
+db,
+
+"broadcasts",
+
+match.eventId
+
+)
+
+);
+
+if(broadcastDoc.exists()){
+
+const broadcast=
+broadcastDoc.data();
+
+channel=
+broadcast.channel || "";
+
+commentator=
+broadcast.commentator || "";
+
+}
+
+matchesList.innerHTML+=`
+
+<div class="matchItem">
+
+<b>
+
+${match.team1}
+
+-
+
+${match.team2}
+
+</b>
+
+<div class="groupBox">
+
+${match.group || ""}
+
+</div>
+
+<div class="stageBox">
+
+${match.stage || ""}
+
+</div>
+
+<div>
+
+📅 ${match.date}
+
+</div>
+
+<div>
+
+🕒 ${match.time}
+
+</div>
+
+<div class="broadcastBox">
+
+📺 ${channel || "غير محددة"}
+
+</div>
+
+<div class="broadcastBox">
+
+🎙️ ${commentator || "غير محدد"}
+
+</div>
+
+<div class="statusBox">
+
+ID : ${match.eventId}
+
+</div>
+
+<button
+
+class="editBtn"
+
+onclick="editMatch('${docSnap.id}')">
+
+تعديل
+
+</button>
+
+<button
+
+class="deleteBtn"
+
+onclick="deleteMatch('${docSnap.id}')">
+
+حذف
+
+</button>
+
+</div>
+
+`;
+
+}
+
+}
+/* =========================
+تعديل مباراة
+========================= */
+
+window.editMatch = async function(id){
+
+const snapshot =
+await getDocs(
+collection(db,"matches")
+);
+
+for(const docSnap of snapshot.docs){
+
+if(docSnap.id===id){
+
+const match = docSnap.data();
+
+editId = id;
+
+eventIdInput.value = match.eventId || "";
+team1Input.value = match.team1 || "";
+team2Input.value = match.team2 || "";
+dateInput.value = match.date || "";
+timeInput.value = match.time || "";
+groupInput.value = match.group || "";
+stageInput.value = match.stage || "";
+
+logo1.src = match.logo1 || "";
+logo2.src = match.logo2 || "";
+
+/* جلب القناة والمعلق */
+
+const broadcastDoc =
+await getDoc(
+doc(db,"broadcasts",match.eventId)
+);
+
+if(broadcastDoc.exists()){
+
+const broadcast = broadcastDoc.data();
+
+channelInput.value =
+broadcast.channel || "";
+
+commentatorInput.value =
+broadcast.commentator || "";
+
+}else{
+
+channelInput.value = "";
+commentatorInput.value = "";
+
+}
+
+break;
+
+}
+
+}
+
+};
+
+/* =========================
+حذف مباراة
+========================= */
+
+window.deleteMatch = async function(id){
+
+if(!confirm("هل تريد حذف المباراة؟")){
+return;
+}
+
+/* معرفة معرف المباراة */
+
+const matchRef = doc(db,"matches",id);
+
+const snapshot =
+await getDocs(collection(db,"matches"));
+
+let eventId = "";
+
+snapshot.forEach(docSnap=>{
+
+if(docSnap.id===id){
+
+eventId = docSnap.data().eventId;
+
+}
+
+});
+
+/* حذف المباراة */
+
+await deleteDoc(matchRef);
+
+/* حذف القناة والمعلق */
+
+if(eventId){
+
+await deleteDoc(
+doc(db,"broadcasts",eventId)
+);
+
+}
+
+loadMatches();
+
+};
+
+/* =========================
+تحميل أولي
+========================= */
+
+loadMatches();
+
+</script>
+
+</body>
+
+</html>
