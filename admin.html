@@ -323,6 +323,32 @@ await fetch(
 const data =
 await response.json();
 
+const broadcastDoc =
+await getDoc(
+
+doc(
+db,
+"broadcasts",
+eventId
+)
+
+);
+
+if(
+broadcastDoc.exists()
+){
+
+const broadcast =
+broadcastDoc.data();
+
+channelInput.value =
+broadcast.channel || "";
+
+commentatorInput.value =
+broadcast.commentator || "";
+
+  }
+
 team1Input.value =
 teamsArabic[data.homeTeam.name]
 ||
