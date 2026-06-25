@@ -201,6 +201,14 @@ id="fetchMatch">
 
 <input id="group" placeholder="GROUP">
 
+<input
+id="channel"
+placeholder="القناة">
+
+<input
+id="commentator"
+placeholder="المعلق">
+
 <input id="stage" placeholder="STAGE">
 
 <button
@@ -398,6 +406,32 @@ await fetch("/api/matches");
 
 const data =
 await response.json();
+
+const broadcastDoc =
+await getDoc(
+
+doc(
+db,
+"broadcasts",
+eventId
+)
+
+);
+
+if(
+broadcastDoc.exists()
+){
+
+const broadcast =
+broadcastDoc.data();
+
+channelInput.value =
+broadcast.channel || "";
+
+commentatorInput.value =
+broadcast.commentator || "";
+
+  }
 
 channel:
 channelInput.value,
