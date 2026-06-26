@@ -872,39 +872,20 @@ return;
 
 /* بيانات المباراة */
 
-const matchData={
-
+const matchData = {
 eventId:eventId,
-
 team1:team1Input.value.trim(),
-
 team2:team2Input.value.trim(),
-
 logo1:logo1.src,
-
 logo2:logo2.src,
-
 date:dateInput.value,
-
 time:timeInput.value,
-
 group:groupInput.value,
-
-stage:stageInput.value
-
-};
-
-/* بيانات البث */
-
-const broadcastData={
-
-eventId:eventId,
-
+stage:stageInput.value,
 channel:channelInput.value,
-
 commentator:commentatorInput.value
-
 };
+
 
 try{
 
@@ -946,21 +927,7 @@ matchData
 
 /* حفظ القناة والمعلق */
 
-await setDoc(
 
-doc(
-
-db,
-
-"broadcasts",
-
-eventId
-
-),
-
-broadcastData
-
-);
 
 alert("تم حفظ المباراة بنجاح");
 
@@ -1026,47 +993,7 @@ for(const docSnap of snapshot.docs){
 const match=
 docSnap.data();
 
-/* جلب بيانات البث */
-
-let channel="";
-let commentator="";
-
-const broadcastDoc=
-
-await getDoc(
-
-doc(
-
-db,
-
-"broadcasts",
-
-match.eventId
-
-)
-
-);
-
-if(broadcastDoc.exists()){
-
-const broadcast=
-broadcastDoc.data();
-
-channel=
-broadcast.channel || "";
-
-commentator=
-broadcast.commentator || "";
-
-}
-
-matchesList.innerHTML+=`
-
-<div class="matchItem">
-
-<b>
-
-${match.team1}
+match.team1}
 
 -
 
