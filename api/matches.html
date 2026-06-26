@@ -291,10 +291,8 @@ const data=
 
 await response.json();
 
-apiMatches=
-
-data.matches || [];
-
+apiMatches = data.matches || data || [];
+  
 renderMatches();
 
 }catch(error){
