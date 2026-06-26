@@ -744,6 +744,40 @@ cursor:pointer;
 transform:scale(.98);
 
 }
+
+.backBtn{
+
+width:100%;
+
+height:55px;
+
+background:#ffffff;
+
+color:#111;
+
+border:none;
+
+border-radius:20px;
+
+font-size:18px;
+
+font-weight:800;
+
+margin-bottom:18px;
+
+cursor:pointer;
+
+}
+
+.channelsContainer{
+
+display:flex;
+
+flex-direction:column;
+
+gap:15px;
+
+}
   
 </style>
 
@@ -813,6 +847,18 @@ id="matches">
 <div class="packagesContainer">
 <div id="packagesPage">
 
+<div id="alkassPage" style="display:none;">
+
+<button class="backBtn" onclick="showPackages()">
+⬅ رجوع
+</button>
+
+<div class="channelsContainer" id="alkassChannels">
+
+</div>
+
+</div>
+  
 <div class="packageCard" onclick="openAlkass()">
     Alkass Channels
 </div>
@@ -1573,6 +1619,22 @@ document.getElementById("alkassPage").style.display="block";
 }
 
 function closeAlkass(){
+
+document.getElementById("alkassPage").style.display="none";
+
+document.getElementById("packagesPage").style.display="block";
+
+  }
+
+function openAlkass(){
+
+document.getElementById("packagesPage").style.display="none";
+
+document.getElementById("alkassPage").style.display="block";
+
+}
+
+function showPackages(){
 
 document.getElementById("alkassPage").style.display="none";
 
