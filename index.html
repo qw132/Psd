@@ -741,6 +741,56 @@ font-weight:bold;
 cursor:pointer;
 
 }
+
+.packagesContainer{
+
+display:flex;
+
+flex-direction:column;
+
+align-items:center;
+
+gap:20px;
+
+margin-top:15px;
+
+}
+
+.packageCard{
+
+width:100%;
+
+height:85px;
+
+background:#6f6f6f;
+
+border-radius:18px;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+font-size:24px;
+
+font-weight:800;
+
+color:#fff;
+
+cursor:pointer;
+
+box-shadow:0 6px 18px rgba(0,0,0,.30);
+
+transition:.25s;
+
+}
+
+.packageCard:active{
+
+transform:scale(.98);
+
+}
   
 </style>
 
@@ -807,7 +857,7 @@ id="matches">
 
 <div id="channelsPage" class="container" style="display:none;">
 
-<div class="channelsGrid">
+<div class="packagesContainer">
 <div id="packagesPage">
 
 <div class="packageCard" onclick="openAlkass()">
