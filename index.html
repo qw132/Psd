@@ -1305,8 +1305,68 @@ true
 
 );
 
+/* =========================
+Bottom Navigation
+========================= */
+
+const liveBtn =
+document.getElementById("liveBtn");
+
+const channelsBtn =
+document.getElementById("channelsBtn");
+
+const matchesPage =
+document.getElementById("matches");
+
+const channelsPage =
+document.getElementById("channelsPage");
+
+liveBtn.onclick = ()=>{
+
+liveBtn.classList.add("active");
+
+channelsBtn.classList.remove("active");
+
+matchesPage.style.display = "block";
+
+channelsPage.style.display = "none";
+
+};
+
+channelsBtn.onclick = ()=>{
+
+channelsBtn.classList.add("active");
+
+liveBtn.classList.remove("active");
+
+matchesPage.style.display = "none";
+
+channelsPage.style.display = "block";
+
+};
+  
 </script>
 
+<div class="bottomNav">
+
+<button
+id="liveBtn"
+class="navBtn active">
+
+Live Events
+
+</button>
+
+<button
+id="channelsBtn"
+class="navBtn">
+
+Channels
+
+</button>
+
+</div>
+  
   <footer class="footer">
 
 <div class="developerFooter">
