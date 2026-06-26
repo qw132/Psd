@@ -677,6 +677,68 @@ cursor:pointer;
 z-index:100000;
 
 }
+
+.packageCard{
+
+width:100%;
+
+height:90px;
+
+background:#111;
+
+border:1px solid #2c2c2c;
+
+border-radius:22px;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+margin:20px 0;
+
+font-size:28px;
+
+font-weight:700;
+
+color:#fff;
+
+cursor:pointer;
+
+transition:.25s;
+
+}
+
+.packageCard:active{
+
+transform:scale(.98);
+
+}
+
+.backButton{
+
+width:160px;
+
+margin:20px auto;
+
+padding:12px;
+
+text-align:center;
+
+background:#222;
+
+color:#fff;
+
+border-radius:15px;
+
+font-size:20px;
+
+font-weight:bold;
+
+cursor:pointer;
+
+}
   
 </style>
 
@@ -744,30 +806,23 @@ id="matches">
 <div id="channelsPage" class="container" style="display:none;">
 
 <div class="channelsGrid">
+<div id="packagesPage">
 
-<div class="channelCard" data-channel="kass5">
-<img src="kass.png" class="channelLogo">
-<div class="channelName">الكأس 5</div>
-</div>
-
-<div class="channelCard" data-channel="kass6">
-<img src="kass.png" class="channelLogo">
-<div class="channelName">الكأس 6</div>
-</div>
-
-<div class="channelCard" data-channel="kass7">
-<img src="kass.png" class="channelLogo">
-<div class="channelName">الكأس 7</div>
-</div>
-
-<div class="channelCard" data-channel="kass8">
-<img src="kass.png" class="channelLogo">
-<div class="channelName">الكأس 8</div>
+<div class="packageCard" onclick="openAlkass()">
+    <span>Alkass Channels</span>
 </div>
 
 </div>
 
-  </div>
+<div id="alkassPage" style="display:none;">
+
+<div class="backButton" onclick="closeAlkass()">
+← رجوع
+</div>
+
+<!-- هنا ستضع مربعات الكأس 5 و6 و7 و8 لاحقاً -->
+
+</div>
 
 <script type="module">
   import { initializeApp }
@@ -1500,6 +1555,22 @@ matchesPage.style.display = "none";
 channelsPage.style.display = "block";
 
 };
+
+function openAlkass(){
+
+document.getElementById("packagesPage").style.display="none";
+
+document.getElementById("alkassPage").style.display="block";
+
+}
+
+function closeAlkass(){
+
+document.getElementById("alkassPage").style.display="none";
+
+document.getElementById("packagesPage").style.display="block";
+
+  }
   
 </script>
 
