@@ -4,10 +4,9 @@
 <head>
 
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 
-<title>إعداد القنوات والمعلقين</title>
+<title>معرفات مباريات كأس العالم</title>
 
 <style>
 
@@ -61,7 +60,7 @@ cursor:pointer;
 }
 
 .loading{
-background:#fff;
+background:white;
 padding:30px;
 border-radius:20px;
 font-size:20px;
@@ -70,7 +69,7 @@ text-align:center;
 }
 
 .matchCard{
-background:#fff;
+background:white;
 padding:18px;
 border-radius:18px;
 margin-bottom:15px;
@@ -107,9 +106,9 @@ text-align:center;
 }
 
 .matchTime{
-font-size:18px;
+font-size:17px;
 font-weight:bold;
-margin-bottom:6px;
+margin-bottom:8px;
 }
 
 .matchStatus{
@@ -119,55 +118,24 @@ color:#0f7a39;
 }
 
 .idBox{
-margin-top:10px;
+margin-top:12px;
 background:#efefef;
-padding:10px;
+padding:12px;
 border-radius:10px;
-font-size:14px;
-word-break:break-all;
+font-size:15px;
+font-weight:bold;
 }
 
 .copyBtn{
 width:100%;
 padding:10px;
-margin-top:8px;
+margin-top:10px;
 border:none;
 border-radius:10px;
-background:#333;
+background:#222;
 color:white;
-cursor:pointer;
-font-weight:bold;
-}
-
-select,input{
-width:100%;
-padding:10px;
-margin-top:10px;
-border:1px solid #ccc;
-border-radius:10px;
-font-size:15px;
-outline:none;
-}
-
-.saveBtn{
-width:100%;
-padding:12px;
-margin-top:12px;
-border:none;
-border-radius:10px;
-background:#16a34a;
-color:white;
-font-size:16px;
 font-weight:bold;
 cursor:pointer;
-}
-
-.saved{
-margin-top:10px;
-font-size:14px;
-font-weight:bold;
-color:#16a34a;
-text-align:center;
 }
 
 </style>
@@ -178,24 +146,18 @@ text-align:center;
 
 <div class="container">
 
-<h1>
-
-إعداد القنوات والمعلقين
-
-</h1>
+<h1>معرفات مباريات كأس العالم 2026</h1>
 
 <div class="topBar">
 
 <input
 id="search"
-placeholder="ابحث باسم منتخب...">
+placeholder="ابحث باسم منتخب">
 
 <button
-id="reloadBtn"
-class="reloadBtn">
-
+class="reloadBtn"
+onclick="loadMatches()">
 تحديث
-
 </button>
 
 </div>
@@ -203,77 +165,31 @@ class="reloadBtn">
 <div id="matches">
 
 <div class="loading">
-
 جاري تحميل المباريات...
-
 </div>
 
 </div>
 
 </div>
 
-<script type="module">
-
-import { initializeApp }
-
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-
-import {
-
-getFirestore,
-
-doc,
-
-getDoc,
-
-setDoc
-
-}
-
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-const firebaseConfig={
-
-apiKey:"AIzaSyCDoHtDphHNZoZfCV2pXqJ3LD8JzzXSHFw",
-
-authDomain:"match3t.firebaseapp.com",
-
-projectId:"match3t",
-
-storageBucket:"match3t.firebasestorage.app",
-
-messagingSenderId:"966340184804",
-
-appId:"1:966340184804:web:aedda5fac457d0907e3af1"
-
-};
-
-const app=initializeApp(firebaseConfig);
-
-const db=getFirestore(app);
+<script>
 
 let apiMatches=[];
-
 let searchText="";
 
-const searchInput=document.getElementById("search");
+document
+.getElementById("search")
+.addEventListener("input",e=>{
 
-const reloadBtn=document.getElementById("reloadBtn");
-
-const matchesContainer=document.getElementById("matches");
-
-searchInput.addEventListener("input",()=>{
-
-searchText=searchInput.value.trim().toLowerCase();
+searchText=e.target.value.trim().toLowerCase();
 
 renderMatches();
 
 });
 
-reloadBtn.addEventListener("click",loadMatches);
-  async function loadMatches(){
+async function loadMatches(){
 
-matchesContainer.innerHTML=`
+document.getElementById("matches").innerHTML=`
 <div class="loading">
 جاري تحميل المباريات...
 </div>
@@ -281,29 +197,23 @@ matchesContainer.innerHTML=`
 
 try{
 
-const response=
+const response=await fetch("/api/matches");
 
-await fetch(
-"https://motabaa-tan.vercel.app/api/matches"
-);
+const data=await response.json();
 
-const data=
+apiMatches=data.matches||[];
 
-await response.json();
-
-apiMatches = data.matches || data || [];
-  
 renderMatches();
 
 }catch(error){
 
-console.log(error);
-
-matchesContainer.innerHTML=`
+document.getElementById("matches").innerHTML=`
 <div class="loading">
 فشل تحميل المباريات
 </div>
 `;
+
+console.log(error);
 
 }
 
@@ -311,140 +221,41 @@ matchesContainer.innerHTML=`
 
 function copyId(id){
 
-navigator.clipboard.writeText(String(id));
+navigator.clipboard.writeText(id);
 
-alert("تم نسخ المعرف");
-
-}
-
-async function saveBroadcast(eventId){
-
-const channel=
-
-document.getElementById(
-`channel_${eventId}`
-).value;
-
-const commentator=
-
-document.getElementById(
-`commentator_${eventId}`
-).value;
-
-try{
-
-await setDoc(
-
-doc(
-db,
-"broadcasts",
-String(eventId)
-),
-
-{
-
-channel,
-
-commentator
+alert("تم نسخ معرف المباراة");
 
 }
+  function renderMatches(){
 
-);
-
-document.getElementById(
-`saved_${eventId}`
-).innerHTML=
-
-"✅ تم الحفظ";
-
-setTimeout(()=>{
-
-document.getElementById(
-`saved_${eventId}`
-).innerHTML="";
-
-},2000);
-
-}catch(error){
-
-alert("فشل الحفظ");
-
-console.log(error);
-
-}
-
-}
-
-async function renderMatches(){
+const container=document.getElementById("matches");
 
 let html="";
 
-const keyword=
+const search=searchText.toLowerCase();
 
-searchText.toLowerCase();
+apiMatches.forEach(match=>{
 
-for(const match of apiMatches){
-
-const team1=
-
-match.homeTeam.name;
-
-const team2=
-
-match.awayTeam.name;
+const team1=match.homeTeam.name;
+const team2=match.awayTeam.name;
 
 if(
 
-keyword!=="" &&
+search!=="" &&
 
-!team1.toLowerCase().includes(keyword)
+!team1.toLowerCase().includes(search) &&
 
-&&
-
-!team2.toLowerCase().includes(keyword)
+!team2.toLowerCase().includes(search)
 
 ){
 
-continue;
+return;
 
 }
 
-let channel="";
+const matchDate=new Date(match.utcDate);
 
-let commentator="";
-
-try{
-
-const snap=
-
-await getDoc(
-
-doc(
-db,
-"broadcasts",
-String(match.id)
-)
-
-);
-
-if(snap.exists()){
-
-channel=
-
-snap.data().channel || "";
-
-commentator=
-
-snap.data().commentator || "";
-
-}
-
-}catch(e){
-
-console.log(e);
-
-  }
-  html += `
+html+=`
 
 <div class="matchCard">
 
@@ -453,12 +264,8 @@ console.log(e);
 <div class="team">
 
 <img
-
 src="${match.homeTeam.crest}"
-
-alt="${team1}"
-
-onerror="this.style.display='none'">
+alt="">
 
 <div class="teamName">
 
@@ -472,7 +279,14 @@ ${team1}
 
 <div class="matchTime">
 
-${new Date(match.utcDate).toLocaleString("ar-EG")}
+${matchDate.toLocaleDateString("ar-EG")}
+
+<br>
+
+${matchDate.toLocaleTimeString("ar-EG",{
+hour:"2-digit",
+minute:"2-digit"
+})}
 
 </div>
 
@@ -484,7 +298,7 @@ ${match.status}
 
 <div class="idBox">
 
-ID : ${match.id}
+🆔 ${match.id}
 
 </div>
 
@@ -492,7 +306,7 @@ ID : ${match.id}
 
 class="copyBtn"
 
-data-id="${match.id}">
+onclick="copyId('${match.id}')">
 
 نسخ المعرف
 
@@ -503,12 +317,8 @@ data-id="${match.id}">
 <div class="team">
 
 <img
-
 src="${match.awayTeam.crest}"
-
-alt="${team2}"
-
-onerror="this.style.display='none'">
+alt="">
 
 <div class="teamName">
 
@@ -520,51 +330,11 @@ ${team2}
 
 </div>
 
-<select id="channel_${match.id}">
-
-<option value="">اختر القناة</option>
-
-${Array.from({length:9},(_,i)=>{
-
-const ch=`beIN MAX ${i+1}`;
-
-return `<option value="${ch}" ${channel===ch?"selected":""}>${ch}</option>`;
-
-}).join("")}
-
-</select>
-
-<input
-
-id="commentator_${match.id}"
-
-placeholder="اسم المعلق"
-
-value="${commentator}">
-
-<button
-
-class="saveBtn"
-
-data-id="${match.id}">
-
-حفظ القناة والمعلق
-
-</button>
-
-<div
-
-id="saved_${match.id}"
-
-class="saved">
-
-</div>
-
 </div>
 
 `;
 
-}
+});
 
 if(html===""){
 
@@ -580,33 +350,13 @@ html=`
 
 }
 
-matchesContainer.innerHTML=html;
-
-/* ربط الأزرار بعد إنشاء البطاقات */
-
-document.querySelectorAll(".copyBtn").forEach(btn=>{
-
-btn.addEventListener("click",()=>{
-
-copyId(btn.dataset.id);
-
-});
-
-});
-
-document.querySelectorAll(".saveBtn").forEach(btn=>{
-
-btn.addEventListener("click",()=>{
-
-saveBroadcast(btn.dataset.id);
-
-});
-
-});
+container.innerHTML=html;
 
 }
 
 loadMatches();
+
+setInterval(loadMatches,30000);
 
 </script>
 
