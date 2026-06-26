@@ -665,7 +665,25 @@ const response=
 
 await fetch("/api/matches");
 
-const data=
+const data = {
+
+eventId,
+team1,
+team2,
+logo1,
+logo2,
+date,
+time,
+group,
+stage,
+
+channel:
+document.getElementById("channel").value.trim(),
+
+commentator:
+document.getElementById("commentator").value.trim()
+
+};
 
 await response.json();
 
