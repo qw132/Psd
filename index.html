@@ -1524,19 +1524,35 @@ true
 Bottom Navigation
 ========================= */
 
-const liveBtn =
-document.getElementById("liveBtn");
-console.log(liveBtn);
+const liveBtn = document.getElementById("liveBtn");
+const channelsBtn = document.getElementById("channelsBtn");
+const matchesPage = document.getElementById("eventsPage");
+const channelsPage = document.getElementById("channelsPage");
+
+if(liveBtn && channelsBtn && matchesPage && channelsPage){
+
+liveBtn.onclick = ()=>{
+
+liveBtn.classList.add("active");
+channelsBtn.classList.remove("active");
+
+matchesPage.style.display = "block";
+channelsPage.style.display = "none";
+
+};
+
+channelsBtn.onclick = ()=>{
+
+channelsBtn.classList.add("active");
+liveBtn.classList.remove("active");
+
+matchesPage.style.display = "none";
+channelsPage.style.display = "block";
+
+};
+
+  }
   
-const channelsBtn =
-document.getElementById("channelsBtn");
-
-const matchesPage =
-document.getElementById("eventsPage");
-
-const channelsPage =
-document.getElementById("channelsPage");
-
 liveBtn.onclick = ()=>{
 
 liveBtn.classList.add("active");
