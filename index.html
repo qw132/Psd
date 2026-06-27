@@ -1581,17 +1581,27 @@ channelsPage.style.display = "block";
 
 function openAlkass(){
 
-document.getElementById("packagesPage").style.display="none";
+document.getElementById("packagesPage").style.display = "none";
 
-document.getElementById("alkassPage").style.display="block";
+document.getElementById("alkassPage").style.display = "block";
 
-}
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
+
+  }
 
 function closeAlkass(){
 
-document.getElementById("alkassPage").style.display="none";
+document.getElementById("alkassPage").style.display = "none";
 
-document.getElementById("packagesPage").style.display="block";
+document.getElementById("packagesPage").style.display = "block";
+
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
 
   }
   
