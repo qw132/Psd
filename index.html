@@ -1585,9 +1585,21 @@ channelsPage.style.display = "none";
 
 function renderLiveCards(){
 
-document.getElementById("liveCards").innerHTML = "";
+const liveCards = document.getElementById("liveCards");
+
+if(!liveCards) return;
+
+liveCards.innerHTML = "";
+
+if(liveStreams.length === 0){
+
+return;
 
 }
+
+// سنضيف إنشاء البطاقات هنا في الخطوة القادمة
+
+  }
   
 </script>
 
