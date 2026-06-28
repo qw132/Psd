@@ -553,15 +553,15 @@ text-decoration:none;
 ========================= */
 
 .channelsGrid{
-
-display:grid;
-
-grid-template-columns:repeat(2,1fr);
-
+  
+display:flex;
+  
+flex-direction:column;
+  
 gap:16px;
-
+  
 margin-top:10px;
-
+  
 }
 
 .channelCard{
@@ -582,6 +582,10 @@ border:1px solid #242424;
 
 box-shadow:0 5px 18px rgba(0,0,0,.35);
 
+width:100%;
+  
+min-height:190px;
+  
 }
 
 .channelCard:hover{
