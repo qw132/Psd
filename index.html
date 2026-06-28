@@ -1555,32 +1555,19 @@ channelsPage.style.display = "none";
 
 };
 
+function renderLiveCards(){
 
-function openAlkass(){
+const liveCards = document.getElementById("liveCards");
 
-document.getElementById("packagesPage").style.display = "none";
+liveCards.innerHTML = `
+<div class="loading">
+لا يوجد بث مباشر حالياً
+</div>
+`;
 
-document.getElementById("alkassPage").style.display = "block";
+}
 
-window.scrollTo({
-top:0,
-behavior:"smooth"
-});
-
-  }
-
-function closeAlkass(){
-
-document.getElementById("alkassPage").style.display = "none";
-
-document.getElementById("packagesPage").style.display = "block";
-
-window.scrollTo({
-top:0,
-behavior:"smooth"
-});
-
-  }
+renderLiveCards();
   
 </script>
 
