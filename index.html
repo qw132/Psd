@@ -869,6 +869,8 @@ let apiMatches = [];
 
 let searchText = "";
 
+let liveStreams = [];
+
 /* البحث */
 
 const searchBtn =
@@ -1158,6 +1160,32 @@ collection(
 db,
 "matches"
 ),
+
+onSnapshot(
+
+collection(db,"liveStreams"),
+
+(snapshot)=>{
+
+liveStreams = [];
+
+snapshot.forEach(doc=>{
+
+liveStreams.push({
+
+id:doc.id,
+
+...doc.data()
+
+});
+
+});
+
+renderLiveCards();
+
+}
+
+);  
 
 (snapshot)=>{
 
