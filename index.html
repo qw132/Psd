@@ -1559,19 +1559,11 @@ function renderLiveCards(){
 
 const liveCards = document.getElementById("liveCards");
 
-function renderLiveCards(){
-
-const liveCards = document.getElementById("liveCards");
+if(!liveCards) return;
 
 liveCards.innerHTML = `
-<div class="matchCard">
-
-<div class="empty">
-
+<div class="loading">
 لا يوجد بث مباشر حالياً
-
-</div>
-
 </div>
 `;
 
