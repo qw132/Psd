@@ -1557,19 +1557,9 @@ channelsPage.style.display = "none";
 
 function renderLiveCards(){
 
-const liveCards = document.getElementById("liveCards");
-
-if(!liveCards) return;
-
-liveCards.innerHTML = `
-<div class="empty">
-لا يوجد بث مباشر حالياً
-</div>
-`;
+document.getElementById("liveCards").innerHTML = "";
 
 }
-
-renderLiveCards();
   
 </script>
 
