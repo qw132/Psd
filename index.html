@@ -1597,7 +1597,38 @@ return;
 
 }
 
-// سنضيف إنشاء البطاقات هنا في الخطوة القادمة
+liveStreams.forEach(stream=>{
+
+const match = matchesData.find(
+m => String(m.eventId) === String(stream.eventId)
+);
+
+if(!match) return;
+
+liveCards.innerHTML += `
+
+<div class="channelCard">
+
+<img
+class="teamLogo"
+src="${match.logo1}"
+>
+
+<div class="channelName">
+
+${match.team1}
+
+🆚
+
+${match.team2}
+
+</div>
+
+</div>
+
+`;
+
+});
 
   }
   
