@@ -1609,6 +1609,12 @@ const match = matchesData.find(
 m => String(m.eventId) === String(stream.eventId)
 );
 
+const apiMatch = apiMatches.find(
+    m => String(m.id) === String(stream.eventId)
+);
+
+const status = getMatchStatus(apiMatch?.status);
+
 if(!match) return;
 
 liveCards.innerHTML += `
@@ -1647,15 +1653,8 @@ ${match.team1}
 </div>
 
 <div style="width:45%;text-align:center;">
-<div style="
-background:#0b5ed7;
-padding:8px 12px;
-border-radius:12px;
-font-size:14px;
-font-weight:800;
-display:inline-block;
-">
-🔴 مباشر
+<div class="${status.className}" style="margin:0;">
+${status.text}
 </div>
 </div>
 
