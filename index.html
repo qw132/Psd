@@ -1599,6 +1599,8 @@ return;
 
 liveStreams.forEach(stream=>{
 
+if(stream.enabled !== true) return;
+
 const match = matchesData.find(
 m => String(m.eventId) === String(stream.eventId)
 );
@@ -1607,14 +1609,30 @@ if(!match) return;
 
 liveCards.innerHTML += `
 
-<div class="channelCard">
+<div class="channelCard"
 
-<img
-class="teamLogo"
-src="${match.logo1}"
->
+onclick="window.location.href='${stream.pageUrl}'"
 
-<div class="channelName">
+style="
+background-image:url('${stream.imageUrl}');
+background-size:cover;
+background-position:center;
+background-repeat:no-repeat;
+min-height:180px;
+display:flex;
+align-items:flex-end;
+padding:20px;
+">
+
+<div style="
+width:100%;
+background:rgba(0,0,0,.55);
+border-radius:14px;
+padding:12px;
+color:#fff;
+font-weight:700;
+text-align:center;
+">
 
 ${match.team1}
 
@@ -1629,7 +1647,6 @@ ${match.team2}
 `;
 
 });
-
   }
   
 </script>
