@@ -1161,6 +1161,30 @@ db,
 "matches"
 ),
 
+(snapshot)=>{
+
+matchesData = [];
+
+snapshot.forEach(doc=>{
+
+matchesData.push({
+
+id:doc.id,
+
+...doc.data()
+
+});
+
+});
+
+sortMatches();
+
+renderMatches();
+
+}
+
+);
+
 onSnapshot(
 
 collection(db,"liveStreams"),
@@ -1182,30 +1206,6 @@ id:doc.id,
 });
 
 renderLiveCards();
-
-}
-
-);  
-
-(snapshot)=>{
-
-matchesData = [];
-
-snapshot.forEach(doc=>{
-
-matchesData.push({
-
-id:doc.id,
-
-...doc.data()
-
-});
-
-});
-
-sortMatches();
-
-renderMatches();
 
 }
 
