@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>البث المباشر | ماتشات</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Cairo',sans-serif;
+}
+
+:root{
+
+--bg:#0d0d0d;
+--header:#141414;
+--blue:#2563eb;
+--card:#1b1b1b;
+--text:#ffffff;
+
+}
+
+body{
+
+background:var(--bg);
+color:white;
+overflow-x:hidden;
+
+}
+
+.header{
+
+position:fixed;
+
+top:0;
+right:0;
+left:0;
+
+height:72px;
+
+background:var(--header);
+
+display:flex;
+
+align-items:center;
+
+justify-content:space-between;
+
+padding:0 15px;
+
+z-index:9999;
+
+box-shadow:0 3px 12px rgba(0,0,0,.35);
+
+}
+
+.logo{
+
+width:165px;
+
+display:block;
+
+margin:auto;
+
+}
+
+.backBtn{
+
+width:44px;
+height:44px;
+
+border:none;
+
+background:#222;
+
+color:white;
+
+font-size:22px;
+
+border-radius:12px;
+
+cursor:pointer;
+
+}
+
+.placeholder{
+
+width:44px;
+
+}
+
+.container{
+
+max-width:760px;
+
+margin:auto;
+
+padding:95px 14px 30px;
+
+}
+
+.matchHeader{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+margin-bottom:18px;
+
+}
+
+.team{
+
+width:34%;
+
+text-align:center;
+
+}
+
+.teamLogo{
+
+width:70px;
+height:70px;
+
+object-fit:contain;
+
+display:block;
+
+margin:auto;
+
+}
+
+.teamName{
+
+margin-top:8px;
+
+font-size:15px;
+
+font-weight:800;
+
+line-height:1.3;
+
+}
+
+.centerInfo{
+
+width:32%;
+
+text-align:center;
+
+}
+
+.liveStatus{
+
+font-size:15px;
+
+font-weight:800;
+
+margin-bottom:8px;
+
+color:#00d26a;
+
+}
+
+.stage{
+
+font-size:14px;
+
+color:#cfcfcf;
+
+font-weight:700;
+
+}
+
+.playerBox{
+
+position:relative;
+
+width:100%;
+
+aspect-ratio:16/9;
+
+background:black;
+
+border-radius:22px;
+
+overflow:hidden;
+
+box-shadow:0 6px 20px rgba(0,0,0,.45);
+
+}
+
+#playerFrame{
+
+position:absolute;
+
+left:0;
+
+top:-33%;
+
+width:100%;
+
+height:166%;
+
+border:none;
+
+}
+
+.maskTop{
+
+position:absolute;
+
+top:0;
+left:0;
+right:0;
+
+height:33.3%;
+
+background:black;
+
+z-index:5;
+
+pointer-events:none;
+
+}
+
+.maskBottom{
+
+position:absolute;
+
+bottom:0;
+left:0;
+right:0;
+
+height:33.3%;
+
+background:black;
+
+z-index:5;
+
+pointer-events:none;
+
+}
+
+.fullscreenBtn{
+
+margin-top:18px;
+
+width:100%;
+
+height:52px;
+
+border:none;
+
+border-radius:15px;
+
+background:var(--blue);
+
+color:white;
+
+font-size:17px;
+
+font-weight:800;
+
+cursor:pointer;
+
+}
+
+.footer{
+
+padding:35px 0;
+
+text-align:center;
+
+color:white;
+
+}
+
+.footer a{
+
+display:inline-block;
+
+margin-top:15px;
+
+padding:10px 28px;
+
+border-radius:15px;
+
+background:white;
+
+color:#111;
+
+font-weight:800;
+
+text-decoration:none;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header class="header">
+
+<button class="backBtn" onclick="history.back()">
+
+←
+
+</button>
+
+<img
+src="file_00000000d0f871f4b728f73dff260688_1 (1).png"
+class="logo">
+
+<div class="placeholder"></div>
+
+</header>
+
+<div class="container">
+
+<div class="matchHeader">
+
+<div class="team">
+
+<img id="logo1" class="teamLogo">
+
+<div id="team1" class="teamName">
+
+...
+
+</div>
+
+</div>
+
+<div class="centerInfo">
+
+<div id="status" class="liveStatus">
+
+جاري التحميل...
+
+</div>
+
+<div id="stage" class="stage">
+
+...
+
+</div>
+
+</div>
+
+<div class="team">
+
+<img id="logo2" class="teamLogo">
+
+<div id="team2" class="teamName">
+
+...
+
+</div>
+
+</div>
+
+</div>
+
+<div class="playerBox">
+
+<div class="maskTop"></div>
+
+<iframe id="playerFrame" allowfullscreen></iframe>
+
+<div class="maskBottom"></div>
+
+</div>
+
+<button
+id="fullscreenBtn"
+class="fullscreenBtn">
+
+تكبير الشاشة ⛶
+
+</button>
+  <script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+
+getFirestore,
+
+doc,
+
+getDoc
+
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+/* ===========================
+Firebase
+=========================== */
+
+const firebaseConfig = {
+
+apiKey:"AIzaSyCDoHtDphHNZoZfCV2pXqJ3LD8JzzXSHFw",
+
+authDomain:"match3t.firebaseapp.com",
+
+projectId:"match3t",
+
+storageBucket:"match3t.firebasestorage.app",
+
+messagingSenderId:"966340184804",
+
+appId:"1:966340184804:web:aedda5fac457d0907e3af1"
+
+};
+
+const app = initializeApp(firebaseConfig);
+
+const db = getFirestore(app);
+
+/* ===========================
+قراءة معرف المباراة
+=========================== */
+
+const params = new URLSearchParams(window.location.search);
+
+const eventId = params.get("id");
+
+/* ===========================
+ترجمة المرحلة
+=========================== */
+
+function translateStage(stage){
+
+if(!stage) return "";
+
+const stages={
+
+"GROUP_STAGE":"دور المجموعات",
+
+"LAST_32":"دور الـ32",
+
+"LAST_16":"دور الـ16",
+
+"QUARTER_FINALS":"ربع النهائي",
+
+"SEMI_FINALS":"نصف النهائي",
+
+"FINAL":"النهائي"
+
+};
+
+return stages[stage] || stage;
+
+}
+
+/* ===========================
+ترجمة الحالة
+=========================== */
+
+function translateStatus(status){
+
+switch(status){
+
+case "IN_PLAY":
+case "LIVE":
+case "PAUSED":
+return "🔴 بث مباشر الآن";
+
+case "TIMED":
+return "⏳ لم تبدأ";
+
+case "FINISHED":
+return "✔ انتهت";
+
+default:
+return "";
+
+}
+
+}
+
+/* ===========================
+تحويل رابط يوتيوب إلى Embed
+=========================== */
+
+function convertYoutube(url){
+
+if(!url) return "";
+
+if(url.includes("/embed/")) return url;
+
+let id="";
+
+if(url.includes("watch?v=")){
+
+id=url.split("watch?v=")[1].split("&")[0];
+
+}
+
+else if(url.includes("youtu.be/")){
+
+id=url.split("youtu.be/")[1].split("?")[0];
+
+}
+
+if(id==="") return url;
+
+return `https://www.youtube.com/embed/${id}?autoplay=1&rel=0`;
+
+}
+
+/* ===========================
+جلب بيانات المباراة
+=========================== */
+
+async function loadMatch(){
+
+if(!eventId){
+
+alert("معرف المباراة غير موجود");
+
+return;
+
+}
+
+const matchRef = doc(db,"matches",eventId);
+
+const matchSnap = await getDoc(matchRef);
+
+if(!matchSnap.exists()){
+
+alert("المباراة غير موجودة");
+
+return;
+
+}
+
+const match = matchSnap.data();
+
+/* أسماء الفريقين */
+
+document.getElementById("team1").textContent=match.team1||"";
+
+document.getElementById("team2").textContent=match.team2||"";
+
+/* الشعارات */
+
+document.getElementById("logo1").src=match.logo1||"";
+
+document.getElementById("logo2").src=match.logo2||"";
+
+/* المرحلة */
+
+document.getElementById("stage").textContent=
+
+translateStage(match.group);
+
+/* ===========================
+بيانات البث
+=========================== */
+
+const liveRef=doc(db,"liveStreams",eventId);
+
+const liveSnap=await getDoc(liveRef);
+
+if(!liveSnap.exists()){
+
+document.getElementById("status").textContent="لا يوجد بث مباشر";
+
+return;
+
+}
+
+const live=liveSnap.data();
+
+/* الحالة */
+
+document.getElementById("status").textContent=
+
+translateStatus(live.status);
+
+/* ===========================
+تحديد نوع البث
+=========================== */
+
+let playerUrl="";
+
+if(live.type==="youtube"){
+
+playerUrl=convertYoutube(live.url);
+
+}
+
+else{
+
+playerUrl=live.url;
+
+}
+
+/* تشغيل البث */
+
+document.getElementById("playerFrame").src=playerUrl;
+
+  }
+/* ===========================
+تشغيل الصفحة
+=========================== */
+
+loadMatch();
+
+/* ===========================
+زر ملء الشاشة
+=========================== */
+
+const frame = document.getElementById("playerFrame");
+
+const playerBox = document.querySelector(".playerBox");
+
+document.getElementById("fullscreenBtn").onclick = () => {
+
+if(playerBox.requestFullscreen){
+
+playerBox.requestFullscreen();
+
+}
+
+else if(playerBox.webkitRequestFullscreen){
+
+playerBox.webkitRequestFullscreen();
+
+}
+
+else if(playerBox.msRequestFullscreen){
+
+playerBox.msRequestFullscreen();
+
+}
+
+};
+
+/* ===========================
+إخفاء الشعارات التالفة
+=========================== */
+
+document.addEventListener(
+
+"error",
+
+function(e){
+
+if(e.target.tagName==="IMG"){
+
+e.target.style.display="none";
+
+}
+
+},
+
+true
+
+);
+
+</script>
+
+<footer class="footer">
+
+<div style="font-size:17px;font-weight:700;margin-bottom:10px;">
+
+Developer : Mohamed Hosny Hora
+
+</div>
+
+<div style="font-size:14px;margin-bottom:18px;">
+
+جميع الحقوق محفوظة 2026 ®
+
+</div>
+
+<a
+
+href="https://wa.me/201040507023"
+
+target="_blank">
+
+الدعم
+
+</a>
+
+</footer>
+
+</div>
+
+</body>
+
+</html>
