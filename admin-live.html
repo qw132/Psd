@@ -1,0 +1,1390 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<title>لوحة إدارة البث المباشر | ماتشات</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Cairo',sans-serif;
+
+}
+
+:root{
+
+--bg:#0d0d0d;
+
+--header:#141414;
+
+--card:#1b1b1b;
+
+--blue:#2563eb;
+
+--green:#16a34a;
+
+--red:#dc2626;
+
+--gray:#2c2c2c;
+
+--white:#ffffff;
+
+}
+
+body{
+
+background:var(--bg);
+
+color:white;
+
+min-height:100vh;
+
+}
+
+/*=====================
+Login
+=====================*/
+
+#loginPage{
+
+position:fixed;
+
+top:0;
+left:0;
+right:0;
+bottom:0;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+background:#0d0d0d;
+
+z-index:999999;
+
+}
+
+.loginCard{
+
+width:400px;
+
+max-width:92%;
+
+background:#181818;
+
+padding:35px;
+
+border-radius:25px;
+
+box-shadow:0 10px 30px rgba(0,0,0,.45);
+
+}
+
+.loginLogo{
+
+width:180px;
+
+display:block;
+
+margin:auto;
+
+margin-bottom:25px;
+
+}
+
+.loginTitle{
+
+text-align:center;
+
+font-size:23px;
+
+font-weight:800;
+
+margin-bottom:25px;
+
+}
+
+.loginInput{
+
+width:100%;
+
+height:52px;
+
+border:none;
+
+outline:none;
+
+border-radius:15px;
+
+padding:0 15px;
+
+background:#2b2b2b;
+
+color:white;
+
+font-size:16px;
+
+margin-bottom:18px;
+
+}
+
+.loginBtn{
+
+width:100%;
+
+height:52px;
+
+border:none;
+
+border-radius:15px;
+
+background:#2563eb;
+
+color:white;
+
+font-size:17px;
+
+font-weight:800;
+
+cursor:pointer;
+
+}
+
+#error{
+
+margin-top:18px;
+
+text-align:center;
+
+font-weight:bold;
+
+color:#ff6565;
+
+}
+
+/*=====================
+Dashboard
+=====================*/
+
+#adminPage{
+
+display:none;
+
+}
+
+.header{
+
+position:fixed;
+
+top:0;
+
+right:0;
+
+left:0;
+
+height:72px;
+
+background:#141414;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+box-shadow:0 2px 12px rgba(0,0,0,.35);
+
+z-index:999;
+
+}
+
+.logo{
+
+width:170px;
+
+}
+
+.container{
+
+max-width:900px;
+
+margin:auto;
+
+padding:95px 15px 30px;
+
+}
+
+.card{
+
+background:#1b1b1b;
+
+border-radius:22px;
+
+padding:22px;
+
+margin-bottom:22px;
+
+box-shadow:0 5px 18px rgba(0,0,0,.35);
+
+}
+
+.cardTitle{
+
+font-size:23px;
+
+font-weight:800;
+
+margin-bottom:20px;
+
+text-align:center;
+
+}
+
+.input{
+
+width:100%;
+
+height:52px;
+
+border:none;
+
+outline:none;
+
+border-radius:15px;
+
+padding:0 15px;
+
+background:#2b2b2b;
+
+color:white;
+
+font-size:15px;
+
+margin-bottom:15px;
+
+}
+
+.select{
+
+width:100%;
+
+height:52px;
+
+border:none;
+
+outline:none;
+
+border-radius:15px;
+
+padding:0 15px;
+
+background:#2b2b2b;
+
+color:white;
+
+font-size:15px;
+
+margin-bottom:15px;
+
+}
+
+.saveBtn{
+
+width:100%;
+
+height:52px;
+
+border:none;
+
+border-radius:15px;
+
+background:#16a34a;
+
+color:white;
+
+font-size:17px;
+
+font-weight:800;
+
+cursor:pointer;
+
+transition:.25s;
+
+}
+
+.saveBtn:hover{
+
+opacity:.92;
+
+}
+
+.liveList{
+
+display:flex;
+
+flex-direction:column;
+
+gap:15px;
+
+margin-top:20px;
+
+}
+
+.liveCard{
+
+background:#222;
+
+border-radius:18px;
+
+padding:18px;
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+gap:15px;
+
+}
+
+.liveInfo{
+
+flex:1;
+
+}
+
+.liveTitle{
+
+font-size:17px;
+
+font-weight:800;
+
+margin-bottom:8px;
+
+}
+
+.liveSub{
+
+font-size:14px;
+
+color:#d3d3d3;
+
+}
+
+.actions{
+
+display:flex;
+
+gap:10px;
+
+}
+
+.actionBtn{
+
+width:46px;
+
+height:46px;
+
+border:none;
+
+border-radius:12px;
+
+color:white;
+
+font-size:18px;
+
+cursor:pointer;
+
+}
+
+.preview{
+
+background:#16a34a;
+
+}
+
+.edit{
+
+background:#2563eb;
+
+}
+
+.delete{
+
+background:#dc2626;
+
+}
+
+.toggle{
+
+background:#444;
+
+}
+
+.logoutBtn{
+
+margin-top:20px;
+
+width:100%;
+
+height:50px;
+
+border:none;
+
+border-radius:15px;
+
+background:#444;
+
+color:white;
+
+font-size:16px;
+
+font-weight:800;
+
+cursor:pointer;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div id="loginPage">
+
+<div class="loginCard">
+
+<img
+src="file_00000000d0f871f4b728f73dff260688_1 (1).png"
+class="loginLogo">
+
+<div class="loginTitle">
+
+لوحة إدارة البث المباشر
+
+</div>
+
+<input
+id="password"
+class="loginInput"
+type="password"
+placeholder="أدخل كلمة المرور">
+
+<button
+class="loginBtn"
+onclick="login()">
+
+دخول
+
+</button>
+
+<div id="error"></div>
+
+</div>
+
+</div>
+
+<div id="adminPage">
+
+<div class="header">
+
+<img
+src="file_00000000d0f871f4b728f73dff260688_1 (1).png"
+class="logo">
+
+</div>
+
+<div class="container">
+
+<div class="card">
+
+<div class="cardTitle">
+
+إضافة / تعديل بث مباشر
+
+  </div>
+  <select
+id="matchSelect"
+class="select">
+
+<option value="">
+
+جاري تحميل المباريات...
+
+</option>
+
+</select>
+
+<select
+id="streamType"
+class="select">
+
+<option value="website">
+
+🌐 Website
+
+</option>
+
+<option value="youtube">
+
+▶️ YouTube
+
+</option>
+
+</select>
+
+<input
+id="streamUrl"
+class="input"
+type="text"
+placeholder="رابط البث">
+
+<input
+id="background"
+class="input"
+type="text"
+placeholder="رابط صورة خلفية البطاقة">
+
+<button
+id="saveBtn"
+class="saveBtn">
+
+💾 حفظ البث
+
+</button>
+
+</div>
+
+<div class="card">
+
+<div class="cardTitle">
+
+البثوث الحالية
+
+</div>
+
+<div
+id="liveList"
+class="liveList">
+
+</div>
+
+<button
+class="logoutBtn"
+onclick="logout()">
+
+تسجيل الخروج
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<script type="module">
+
+import { initializeApp }
+
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+
+getFirestore,
+
+collection,
+
+doc,
+
+getDocs,
+
+getDoc,
+
+setDoc,
+
+deleteDoc,
+
+updateDoc,
+
+onSnapshot
+
+}
+
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+/*=========================
+Firebase
+=========================*/
+
+const firebaseConfig={
+
+apiKey:"AIzaSyCDoHtDphHNZoZfCV2pXqJ3LD8JzzXSHFw",
+
+authDomain:"match3t.firebaseapp.com",
+
+projectId:"match3t",
+
+storageBucket:"match3t.firebasestorage.app",
+
+messagingSenderId:"966340184804",
+
+appId:"1:966340184804:web:aedda5fac457d0907e3af1"
+
+};
+
+const app=initializeApp(firebaseConfig);
+
+const db=getFirestore(app);
+
+/*=========================
+Login
+=========================*/
+
+const PASSWORD="01276557203";
+
+window.login=function(){
+
+const pass=document.getElementById("password").value;
+
+if(pass===PASSWORD){
+
+sessionStorage.setItem("liveAdmin","true");
+
+document.getElementById("loginPage").style.display="none";
+
+document.getElementById("adminPage").style.display="block";
+
+loadMatches();
+
+listenLives();
+
+}
+
+else{
+
+document.getElementById("error").innerHTML="كلمة المرور غير صحيحة";
+
+}
+
+}
+
+window.logout=function(){
+
+sessionStorage.removeItem("liveAdmin");
+
+location.reload();
+
+}
+
+if(sessionStorage.getItem("liveAdmin")==="true"){
+
+document.getElementById("loginPage").style.display="none";
+
+document.getElementById("adminPage").style.display="block";
+
+loadMatches();
+
+listenLives();
+
+}
+
+/*=========================
+المباريات
+=========================*/
+
+let matches=[];
+
+let editId=null;
+
+async function loadMatches(){
+
+const snap=await getDocs(collection(db,"matches"));
+
+const select=document.getElementById("matchSelect");
+
+select.innerHTML="";
+
+matches=[];
+
+snap.forEach(d=>{
+
+const m={
+
+id:d.id,
+
+...d.data()
+
+};
+
+matches.push(m);
+
+select.innerHTML+=`
+
+<option value="${d.id}">
+
+${m.team1} × ${m.team2}
+
+</option>
+
+`;
+
+});
+
+}
+  /*=========================
+حفظ / تعديل البث
+=========================*/
+
+document.getElementById("saveBtn").onclick=saveLive;
+
+async function saveLive(){
+
+const eventId=document.getElementById("matchSelect").value;
+
+const type=document.getElementById("streamType").value;
+
+const url=document.getElementById("streamUrl").value.trim();
+
+const background=document.getElementById("background").value.trim();
+
+if(eventId===""){
+
+alert("اختر المباراة");
+
+return;
+
+}
+
+if(url===""){
+
+alert("أدخل رابط البث");
+
+return;
+
+}
+
+if(background===""){
+
+alert("أدخل رابط صورة الخلفية");
+
+return;
+
+}
+
+const matchRef=doc(db,"matches",eventId);
+
+const matchSnap=await getDoc(matchRef);
+
+if(!matchSnap.exists()){
+
+alert("المباراة غير موجودة");
+
+return;
+
+}
+
+const match=matchSnap.data();
+
+/* منع التكرار */
+
+const liveRef=doc(db,"liveStreams",eventId);
+
+const liveSnap=await getDoc(liveRef);
+
+if(liveSnap.exists() && editId!==eventId){
+
+alert("هذه المباراة لها بث بالفعل");
+
+return;
+
+}
+
+/* حفظ */
+
+await setDoc(
+
+liveRef,
+
+{
+
+eventId:eventId,
+
+team1:match.team1,
+
+team2:match.team2,
+
+logo1:match.logo1,
+
+logo2:match.logo2,
+
+stage:match.group,
+
+status:match.status||"TIMED",
+
+type:type,
+
+url:url,
+
+background:background,
+
+enabled:true,
+
+createdAt:Date.now()
+
+},
+
+{
+
+merge:true
+
+}
+
+);
+
+alert("تم حفظ البث");
+
+editId=null;
+
+document.getElementById("saveBtn").innerHTML="💾 حفظ البث";
+
+document.getElementById("streamUrl").value="";
+
+document.getElementById("background").value="";
+
+document.getElementById("matchSelect").selectedIndex=0;
+
+document.getElementById("streamType").selectedIndex=0;
+
+}
+
+/*=========================
+تعديل البث
+=========================*/
+
+window.editLive=async function(id){
+
+const ref=doc(db,"liveStreams",id);
+
+const snap=await getDoc(ref);
+
+if(!snap.exists()) return;
+
+const live=snap.data();
+
+editId=id;
+
+document.getElementById("matchSelect").value=id;
+
+document.getElementById("streamType").value=live.type;
+
+document.getElementById("streamUrl").value=live.url;
+
+document.getElementById("background").value=live.background;
+
+document.getElementById("saveBtn").innerHTML="✏ تحديث البث";
+
+window.scrollTo({
+
+top:0,
+
+behavior:"smooth"
+
+});
+
+  }
+  /*=========================
+عرض جميع البثوث
+=========================*/
+
+function listenLives(){
+
+onSnapshot(
+
+collection(db,"liveStreams"),
+
+(snapshot)=>{
+
+const list=document.getElementById("liveList");
+
+list.innerHTML="";
+
+if(snapshot.empty){
+
+list.innerHTML=`
+
+<div style="text-align:center;padding:25px;color:#bbb;">
+
+لا توجد بثوث حالياً
+
+</div>
+
+`;
+
+return;
+
+}
+
+snapshot.forEach((d)=>{
+
+const live=d.data();
+
+const statusText=live.enabled
+
+? "🟢 مفعل"
+
+: "🔴 غير مفعل";
+
+const typeText=live.type==="youtube"
+
+? "YouTube"
+
+: "Website";
+
+list.innerHTML+=`
+
+<div class="liveCard">
+
+<div class="liveInfo">
+
+<div class="liveTitle">
+
+${live.team1} × ${live.team2}
+
+</div>
+
+<div class="liveSub">
+
+${typeText}
+
+&nbsp;|&nbsp;
+
+${statusText}
+
+</div>
+
+</div>
+
+<div class="actions">
+
+<button
+
+class="actionBtn preview"
+
+onclick="previewLive('${d.id}')"
+
+title="معاينة">
+
+👁
+
+</button>
+
+<button
+
+class="actionBtn edit"
+
+onclick="editLive('${d.id}')"
+
+title="تعديل">
+
+✏
+
+</button>
+
+<button
+
+class="actionBtn toggle"
+
+onclick="toggleLive('${d.id}',${live.enabled})"
+
+title="تفعيل أو إيقاف">
+
+${live.enabled ? "⏸" : "▶"}
+
+</button>
+
+<button
+
+class="actionBtn delete"
+
+onclick="deleteLive('${d.id}')"
+
+title="حذف">
+
+🗑
+
+</button>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+}
+
+);
+
+}
+
+/*=========================
+معاينة البث
+=========================*/
+
+window.previewLive=function(id){
+
+window.open(
+
+`live.html?id=${id}`,
+
+"_blank"
+
+);
+
+}
+
+/*=========================
+تفعيل / إيقاف
+=========================*/
+
+window.toggleLive=async function(id,state){
+
+await updateDoc(
+
+doc(db,"liveStreams",id),
+
+{
+
+enabled:!state
+
+}
+
+);
+
+}
+
+/*=========================
+حذف البث
+=========================*/
+
+window.deleteLive=async function(id){
+
+const ok=confirm(
+
+"هل تريد حذف هذا البث؟"
+
+);
+
+if(!ok) return;
+
+await deleteDoc(
+
+doc(db,"liveStreams",id)
+
+);
+
+  }
+  /*=========================
+معاينة الخلفية
+=========================*/
+
+const bgInput=document.getElementById("background");
+
+const preview=document.createElement("div");
+
+preview.style.width="100%";
+preview.style.height="170px";
+preview.style.marginTop="15px";
+preview.style.marginBottom="15px";
+preview.style.borderRadius="18px";
+preview.style.background="#222";
+preview.style.backgroundSize="cover";
+preview.style.backgroundPosition="center";
+preview.style.backgroundRepeat="no-repeat";
+preview.style.border="2px solid #2d2d2d";
+
+bgInput.parentNode.insertBefore(
+
+preview,
+
+document.getElementById("saveBtn")
+
+);
+
+bgInput.addEventListener(
+
+"input",
+
+()=>{
+
+const url=bgInput.value.trim();
+
+if(url===""){
+
+preview.style.backgroundImage="none";
+
+return;
+
+}
+
+preview.style.backgroundImage=`url('${url}')`;
+
+}
+
+);
+
+/*=========================
+تحويل روابط يوتيوب
+=========================*/
+
+function convertYoutube(url){
+
+if(!url) return "";
+
+if(url.includes("/embed/")) return url;
+
+let id="";
+
+if(url.includes("watch?v=")){
+
+id=url.split("watch?v=")[1];
+
+if(id.includes("&")){
+
+id=id.split("&")[0];
+
+}
+
+}
+
+else if(url.includes("youtu.be/")){
+
+id=url.split("youtu.be/")[1];
+
+if(id.includes("?")){
+
+id=id.split("?")[0];
+
+}
+
+}
+
+if(id==="") return url;
+
+return `https://www.youtube.com/embed/${id}?autoplay=1&rel=0`;
+
+}
+
+/*=========================
+تجهيز الرابط قبل الحفظ
+=========================*/
+
+const oldSave=saveLive;
+
+saveLive=async function(){
+
+if(
+
+document.getElementById("streamType").value==="youtube"
+
+){
+
+const input=
+
+document.getElementById("streamUrl");
+
+input.value=
+
+convertYoutube(input.value);
+
+}
+
+await oldSave();
+
+}
+
+/*=========================
+إعادة تعيين النموذج
+=========================*/
+
+function resetForm(){
+
+editId=null;
+
+document.getElementById("matchSelect").selectedIndex=0;
+
+document.getElementById("streamType").selectedIndex=0;
+
+document.getElementById("streamUrl").value="";
+
+document.getElementById("background").value="";
+
+preview.style.backgroundImage="none";
+
+document.getElementById("saveBtn").innerHTML="💾 حفظ البث";
+
+}
+
+/*=========================
+بعد الحفظ
+=========================*/
+
+document.getElementById("saveBtn").addEventListener(
+
+"click",
+
+()=>{
+
+setTimeout(resetForm,500);
+
+}
+
+);
+  /*=========================
+تحديث حالة البث تلقائياً
+=========================*/
+
+onSnapshot(
+
+collection(db,"matches"),
+
+(snapshot)=>{
+
+snapshot.forEach(async(matchDoc)=>{
+
+const liveRef=doc(db,"liveStreams",matchDoc.id);
+
+const liveSnap=await getDoc(liveRef);
+
+if(!liveSnap.exists()) return;
+
+const match=matchDoc.data();
+
+await updateDoc(
+
+liveRef,
+
+{
+
+status:match.status||"TIMED",
+
+stage:match.group||"GROUP_STAGE"
+
+}
+
+);
+
+});
+
+}
+
+);
+
+/*=========================
+منع الصور التالفة
+=========================*/
+
+document.addEventListener(
+
+"error",
+
+function(e){
+
+if(e.target.tagName==="IMG"){
+
+e.target.style.display="none";
+
+}
+
+},
+
+true
+
+);
+
+/*=========================
+اختصار Enter لتسجيل الدخول
+=========================*/
+
+document.getElementById("password")
+
+.addEventListener(
+
+"keydown",
+
+function(e){
+
+if(e.key==="Enter"){
+
+login();
+
+}
+
+}
+
+);
+
+/*=========================
+تحميل اللوحة
+=========================*/
+
+window.addEventListener(
+
+"load",
+
+()=>{
+
+if(
+
+sessionStorage.getItem("liveAdmin")==="true"
+
+){
+
+loadMatches();
+
+listenLives();
+
+}
+
+}
+
+);
+
+/*=========================
+جاهزية مستقبلية
+=========================*/
+
+window.APP_VERSION="1.0";
+
+console.log(
+
+"Matchat Live Admin Loaded"
+
+);
+
+</script>
+
+</body>
+
+</html>
