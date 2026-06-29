@@ -1456,7 +1456,28 @@ ${centerContent}
 
 <div class="tournament">
 
-🏆 ${String(tournamentName).includes("World") || String(tournamentName).includes("FIFA") ? "كأس العالم" : tournamentName}
+🏆 كأس العالم
+
+</div>
+
+<div style="
+display:flex;
+justify-content:center;
+margin-top:8px;
+">
+
+<div style="
+background:linear-gradient(180deg,#0d6efd,#0a58ca);
+color:#fff;
+padding:6px 16px;
+border-radius:999px;
+font-size:13px;
+font-weight:800;
+">
+
+🏆 ${translateStage(match.group)}
+
+</div>
 
 </div>
 
