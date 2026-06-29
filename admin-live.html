@@ -4,13 +4,11 @@
 <head>
 
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>لوحة إدارة البث المباشر | ماتشات</title>
+<title>لوحة إدارة البث | ماتشات</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
-
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -27,27 +25,29 @@ font-family:'Cairo',sans-serif;
 :root{
 
 --bg:#0d0d0d;
---header:#141414;
 --card:#1b1b1b;
---input:#2a2a2a;
+--header:#151515;
+--input:#242424;
+--border:#323232;
 --blue:#2563eb;
 --green:#16a34a;
 --red:#dc2626;
+--yellow:#f59e0b;
 --text:#ffffff;
---muted:#bfbfbf;
+--gray:#cfcfcf;
 
 }
 
 body{
 
 background:var(--bg);
-color:white;
+color:var(--text);
 
 }
 
-/* ===========================
+/*=========================
 LOGIN
-=========================== */
+=========================*/
 
 #loginPage{
 
@@ -70,19 +70,19 @@ z-index:99999;
 
 }
 
-.loginCard{
+.loginBox{
 
-width:390px;
+width:420px;
 
 max-width:92%;
 
-background:#191919;
+background:#1a1a1a;
 
 padding:35px;
 
-border-radius:25px;
+border-radius:24px;
 
-box-shadow:0 10px 25px rgba(0,0,0,.45);
+box-shadow:0 10px 30px rgba(0,0,0,.45);
 
 }
 
@@ -94,47 +94,53 @@ display:block;
 
 margin:auto;
 
-margin-bottom:30px;
+margin-bottom:25px;
 
 }
 
 .loginTitle{
 
-text-align:center;
-
-font-size:24px;
+font-size:25px;
 
 font-weight:800;
+
+text-align:center;
 
 margin-bottom:25px;
 
 }
 
-.loginInput{
+.input{
 
 width:100%;
 
 height:54px;
 
-border:none;
+background:var(--input);
 
-outline:none;
+border:1px solid var(--border);
 
 border-radius:15px;
 
-padding:0 15px;
+padding:0 16px;
 
-background:var(--input);
+font-size:15px;
 
 color:white;
 
-font-size:16px;
+outline:none;
 
-margin-bottom:18px;
+margin-bottom:16px;
 
 }
 
-.loginBtn{
+.input:focus{
+
+border-color:var(--blue);
+
+}
+
+.mainButton{
 
 width:100%;
 
@@ -148,11 +154,19 @@ background:var(--blue);
 
 color:white;
 
-font-size:18px;
+font-size:17px;
 
 font-weight:800;
 
 cursor:pointer;
+
+transition:.25s;
+
+}
+
+.mainButton:hover{
+
+transform:scale(.99);
 
 }
 
@@ -162,15 +176,15 @@ margin-top:15px;
 
 text-align:center;
 
-font-weight:bold;
+font-weight:700;
 
-color:#ff6666;
+color:#ff6b6b;
 
 }
 
-/* ===========================
+/*=========================
 ADMIN
-=========================== */
+=========================*/
 
 #adminPage{
 
@@ -196,13 +210,13 @@ justify-content:center;
 
 align-items:center;
 
-box-shadow:0 2px 10px rgba(0,0,0,.35);
-
 z-index:999;
+
+box-shadow:0 3px 12px rgba(0,0,0,.35);
 
 }
 
-.logo{
+.headerLogo{
 
 width:170px;
 
@@ -210,11 +224,11 @@ width:170px;
 
 .container{
 
-max-width:900px;
+max-width:950px;
 
 margin:auto;
 
-padding:95px 15px 40px;
+padding:95px 15px 35px;
 
 }
 
@@ -226,13 +240,11 @@ border-radius:22px;
 
 padding:22px;
 
-margin-bottom:22px;
-
-box-shadow:0 6px 18px rgba(0,0,0,.35);
+margin-bottom:20px;
 
 }
 
-.title{
+.cardTitle{
 
 font-size:23px;
 
@@ -244,27 +256,25 @@ margin-bottom:20px;
 
 }
 
-.input{
+#previewBackground{
 
 width:100%;
 
-height:52px;
+height:180px;
 
-border:none;
+background:#252525;
 
-outline:none;
+border-radius:18px;
 
-border-radius:15px;
+background-position:center;
 
-background:var(--input);
+background-size:cover;
 
-color:white;
+background-repeat:no-repeat;
 
-padding:0 15px;
+border:1px solid #333;
 
-font-size:15px;
-
-margin-bottom:15px;
+margin-bottom:18px;
 
 }
 
@@ -272,21 +282,21 @@ margin-bottom:15px;
 
 width:100%;
 
-height:52px;
-
-border:none;
-
-outline:none;
-
-border-radius:15px;
+height:54px;
 
 background:var(--input);
 
-color:white;
+border:1px solid var(--border);
+
+border-radius:15px;
 
 padding:0 15px;
 
+color:white;
+
 font-size:15px;
+
+outline:none;
 
 margin-bottom:15px;
 
@@ -296,17 +306,17 @@ margin-bottom:15px;
 
 width:100%;
 
-height:54px;
+height:55px;
+
+background:var(--green);
 
 border:none;
 
 border-radius:15px;
 
-background:var(--green);
-
 color:white;
 
-font-size:18px;
+font-size:17px;
 
 font-weight:800;
 
@@ -322,13 +332,11 @@ flex-direction:column;
 
 gap:15px;
 
-margin-top:25px;
-
 }
 
 .liveCard{
 
-background:#222;
+background:#232323;
 
 border-radius:18px;
 
@@ -352,7 +360,7 @@ flex:1;
 
 .liveMatch{
 
-font-size:17px;
+font-size:18px;
 
 font-weight:800;
 
@@ -360,11 +368,13 @@ margin-bottom:8px;
 
 }
 
-.liveStatus{
+.liveMeta{
 
 font-size:14px;
 
-color:var(--muted);
+color:#cfcfcf;
+
+line-height:1.7;
 
 }
 
@@ -372,11 +382,11 @@ color:var(--muted);
 
 display:flex;
 
-gap:10px;
+gap:8px;
 
 }
 
-.actions button{
+.actionBtn{
 
 width:46px;
 
@@ -394,69 +404,51 @@ cursor:pointer;
 
 }
 
-.preview{
+.previewBtn{
 
-background:#16a34a;
-
-}
-
-.edit{
-
-background:#2563eb;
+background:var(--green);
 
 }
 
-.toggle{
+.editBtn{
 
-background:#555;
+background:var(--blue);
 
 }
 
-.delete{
+.toggleBtn{
 
-background:#dc2626;
+background:#666;
+
+}
+
+.deleteBtn{
+
+background:var(--red);
 
 }
 
 .logout{
 
-margin-top:18px;
+margin-top:20px;
 
 width:100%;
 
-height:50px;
+height:54px;
+
+background:var(--red);
 
 border:none;
 
 border-radius:15px;
 
-background:#444;
-
-color:white;
-
 font-size:17px;
 
 font-weight:800;
 
+color:white;
+
 cursor:pointer;
-
-}
-
-.previewBackground{
-
-width:100%;
-
-height:170px;
-
-border-radius:18px;
-
-background:#222;
-
-background-size:cover;
-
-background-position:center;
-
-margin-bottom:18px;
 
 }
 
@@ -468,11 +460,9 @@ margin-bottom:18px;
 
 <div id="loginPage">
 
-<div class="loginCard">
+<div class="loginBox">
 
-<img
-src="file_00000000d0f871f4b728f73dff260688_1 (1).png"
-class="loginLogo">
+<img src="YOUR_LOGO.png" class="loginLogo">
 
 <div class="loginTitle">
 
@@ -481,13 +471,13 @@ class="loginLogo">
 </div>
 
 <input
-type="password"
 id="password"
-class="loginInput"
+class="input"
+type="password"
 placeholder="أدخل كلمة المرور">
 
 <button
-class="loginBtn"
+class="mainButton"
 onclick="login()">
 
 دخول
@@ -504,9 +494,7 @@ onclick="login()">
 
 <header class="header">
 
-<img
-src="file_00000000d0f871f4b728f73dff260688_1 (1).png"
-class="logo">
+<img src="YOUR_LOGO.png" class="headerLogo">
 
 </header>
 
@@ -514,12 +502,12 @@ class="logo">
 
 <div class="card">
 
-<div class="title">
+<div class="cardTitle">
 
-إضافة / تعديل بث مباشر
+إضافة أو تعديل بث
 
-</div>
-<div class="previewBackground" id="previewBackground"></div>
+  </div>
+  <div id="previewBackground"></div>
 
 <select
 id="matchSelect"
@@ -545,23 +533,23 @@ class="select">
 
 <option value="youtube">
 
-▶️ YouTube
+▶ YouTube
 
 </option>
 
 </select>
 
 <input
-type="text"
 id="streamUrl"
 class="input"
+type="text"
 placeholder="رابط البث">
 
 <input
-type="text"
 id="background"
 class="input"
-placeholder="رابط صورة خلفية البطاقة">
+type="text"
+placeholder="رابط خلفية بطاقة البث">
 
 <button
 id="saveBtn"
@@ -575,7 +563,7 @@ class="saveBtn">
 
 <div class="card">
 
-<div class="title">
+<div class="cardTitle">
 
 البثوث الحالية
 
@@ -587,6 +575,8 @@ class="liveList">
 
 </div>
 
+</div>
+
 <button
 class="logout"
 onclick="logout()">
@@ -594,8 +584,6 @@ onclick="logout()">
 تسجيل الخروج
 
 </button>
-
-</div>
 
 </div>
 
@@ -631,10 +619,6 @@ onSnapshot
 
 from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-/*==========================
-Firebase
-==========================*/
-
 const firebaseConfig={
 
 apiKey:"AIzaSyCDoHtDphHNZoZfCV2pXqJ3LD8JzzXSHFw",
@@ -655,55 +639,29 @@ const app=initializeApp(firebaseConfig);
 
 const db=getFirestore(app);
 
-/*==========================
-Variables
-==========================*/
-
 const PASSWORD="01276557203";
 
 let editMode=false;
 
-let currentId=null;
+let editId=null;
 
-/*==========================
-Login
-==========================*/
+/*======================
+تسجيل الدخول
+======================*/
 
 window.login=function(){
 
-const pass=document.getElementById("password").value;
+const pass=document.getElementById("password").value.trim();
 
-if(pass===PASSWORD){
-
-sessionStorage.setItem("liveAdmin","true");
-
-document.getElementById("loginPage").style.display="none";
-
-document.getElementById("adminPage").style.display="block";
-
-loadMatches();
-
-listenLives();
-
-}
-
-else{
+if(pass!==PASSWORD){
 
 document.getElementById("error").innerHTML="كلمة المرور غير صحيحة";
 
-}
+return;
 
 }
 
-window.logout=function(){
-
-sessionStorage.removeItem("liveAdmin");
-
-location.reload();
-
-}
-
-if(sessionStorage.getItem("liveAdmin")==="true"){
+sessionStorage.setItem("adminLive","1");
 
 document.getElementById("loginPage").style.display="none";
 
@@ -715,9 +673,25 @@ listenLives();
 
 }
 
-/*==========================
+/*======================
+استعادة الجلسة
+======================*/
+
+if(sessionStorage.getItem("adminLive")){
+
+document.getElementById("loginPage").style.display="none";
+
+document.getElementById("adminPage").style.display="block";
+
+loadMatches();
+
+listenLives();
+
+}
+
+/*======================
 تحميل المباريات
-==========================*/
+======================*/
 
 async function loadMatches(){
 
@@ -727,15 +701,15 @@ select.innerHTML="";
 
 const snap=await getDocs(collection(db,"matches"));
 
-snap.forEach(d=>{
+snap.forEach(match=>{
 
-const m=d.data();
+const data=match.data();
 
 select.innerHTML+=`
 
-<option value="${d.id}">
+<option value="${match.id}">
 
-${m.team1} × ${m.team2}
+${data.team1} × ${data.team2}
 
 </option>
 
@@ -744,37 +718,35 @@ ${m.team1} × ${m.team2}
 });
 
 }
-  /*==========================
+
+/*======================
 معاينة الخلفية
-==========================*/
+======================*/
 
-const bgInput=document.getElementById("background");
+const preview=document.getElementById("previewBackground");
 
-const bgPreview=document.getElementById("previewBackground");
+document.getElementById("background")
 
-bgInput.addEventListener("input",()=>{
+.addEventListener(
 
-const url=bgInput.value.trim();
+"input",
 
-if(url===""){
+e=>{
 
-bgPreview.style.backgroundImage="none";
+const url=e.target.value.trim();
 
-return;
+preview.style.backgroundImage=
+
+url ? `url('${url}')` : "none";
 
 }
 
-bgPreview.style.backgroundImage=`url('${url}')`;
+);
+  /*======================
+تحويل رابط يوتيوب
+======================*/
 
-});
-
-/*==========================
-تحويل روابط يوتيوب
-==========================*/
-
-function youtubeEmbed(url){
-
-if(!url) return "";
+function convertYoutube(url){
 
 if(url.includes("/embed/")) return url;
 
@@ -810,21 +782,37 @@ return `https://www.youtube.com/embed/${id}?autoplay=1&rel=0`;
 
 }
 
-/*==========================
+/*======================
 حفظ البث
-==========================*/
+======================*/
 
-document.getElementById("saveBtn").onclick=saveLive;
+document.getElementById("saveBtn")
+
+.addEventListener(
+
+"click",
+
+saveLive
+
+);
 
 async function saveLive(){
 
-const eventId=document.getElementById("matchSelect").value;
+const eventId=
 
-let url=document.getElementById("streamUrl").value.trim();
+document.getElementById("matchSelect").value;
 
-const type=document.getElementById("streamType").value;
+let url=
 
-const background=document.getElementById("background").value.trim();
+document.getElementById("streamUrl").value.trim();
+
+const type=
+
+document.getElementById("streamType").value;
+
+const background=
+
+document.getElementById("background").value.trim();
 
 if(eventId===""){
 
@@ -852,35 +840,27 @@ return;
 
 if(type==="youtube"){
 
-url=youtubeEmbed(url);
+url=convertYoutube(url);
 
 }
 
-const liveRef=doc(db,"liveStreams",eventId);
+const ref=
 
-const liveSnap=await getDoc(liveRef);
-
-if(liveSnap.exists() && !editMode){
-
-alert("هذه المباراة لها بث بالفعل");
-
-return;
-
-}
+doc(db,"liveStreams",eventId);
 
 await setDoc(
 
-liveRef,
+ref,
 
 {
 
-eventId:eventId,
+eventId,
 
-type:type,
+type,
 
-url:url,
+url,
 
-background:background,
+background,
 
 enabled:true,
 
@@ -896,11 +876,9 @@ merge:true
 
 );
 
-alert(editMode ? "تم تحديث البث" : "تم إضافة البث");
-
 editMode=false;
 
-currentId=null;
+editId=null;
 
 document.getElementById("saveBtn").innerHTML="💾 حفظ البث";
 
@@ -912,12 +890,15 @@ document.getElementById("matchSelect").selectedIndex=0;
 
 document.getElementById("streamType").selectedIndex=0;
 
-bgPreview.style.backgroundImage="none";
+preview.style.backgroundImage="none";
 
-  }
-  /*==========================
-عرض جميع البثوث
-==========================*/
+alert("تم حفظ البث بنجاح");
+
+}
+
+/*======================
+عرض البثوث
+======================*/
 
 function listenLives(){
 
@@ -927,15 +908,31 @@ collection(db,"liveStreams"),
 
 async(snapshot)=>{
 
-const container=document.getElementById("liveList");
+const container=
+
+document.getElementById("liveList");
 
 container.innerHTML="";
+
+if(snapshot.empty){
+
+container.innerHTML=
+
+`<div style="text-align:center;padding:20px;color:#bbb;">
+لا توجد بثوث حالياً
+</div>`;
+
+return;
+
+}
 
 for(const liveDoc of snapshot.docs){
 
 const live=liveDoc.data();
 
-const matchSnap=await getDoc(
+const matchSnap=
+
+await getDoc(
 
 doc(db,"matches",live.eventId)
 
@@ -957,17 +954,13 @@ ${match.team1} × ${match.team2}
 
 </div>
 
-<div class="liveStatus">
+<div class="liveMeta">
 
-${match.group || ""}
+${match.group || ""}<br>
 
-<br>
+${live.type==="youtube"?"YouTube":"Website"}<br>
 
-${live.type==="youtube" ? "YouTube" : "Website"}
-
-<br>
-
-${live.enabled ? "🟢 مفعل" : "🔴 متوقف"}
+${live.enabled?"🟢 مفعل":"🔴 متوقف"}
 
 </div>
 
@@ -976,48 +969,32 @@ ${live.enabled ? "🟢 مفعل" : "🔴 متوقف"}
 <div class="actions">
 
 <button
-
-class="preview"
-
-onclick="previewLive('${live.eventId}')"
-
-title="معاينة">
+class="actionBtn previewBtn"
+onclick="previewLive('${live.eventId}')">
 
 👁
 
 </button>
 
 <button
-
-class="edit"
-
-onclick="editLive('${live.eventId}')"
-
-title="تعديل">
+class="actionBtn editBtn"
+onclick="editLive('${live.eventId}')">
 
 ✏
 
 </button>
 
 <button
+class="actionBtn toggleBtn"
+onclick="toggleLive('${live.eventId}',${live.enabled})">
 
-class="toggle"
-
-onclick="toggleLive('${live.eventId}',${live.enabled})"
-
-title="تشغيل / إيقاف">
-
-${live.enabled ? "⏸" : "▶"}
+${live.enabled?"⏸":"▶"}
 
 </button>
 
 <button
-
-class="delete"
-
-onclick="deleteLive('${live.eventId}')"
-
-title="حذف">
+class="actionBtn deleteBtn"
+onclick="deleteLive('${live.eventId}')">
 
 🗑
 
@@ -1035,33 +1012,32 @@ title="حذف">
 
 );
 
-}
+  }
+  /*======================
+معاينة البث
+======================*/
 
-/*==========================
-معاينة
-==========================*/
-
-window.previewLive=function(id){
+window.previewLive=function(eventId){
 
 window.open(
 
-"live.html?id="+id,
+"live.html?id="+eventId,
 
 "_blank"
 
 );
 
-}
+};
 
-/*==========================
-تعديل
-==========================*/
+/*======================
+تعديل البث
+======================*/
 
-window.editLive=async function(id){
+window.editLive=async function(eventId){
 
 const snap=await getDoc(
 
-doc(db,"liveStreams",id)
+doc(db,"liveStreams",eventId)
 
 );
 
@@ -1071,9 +1047,9 @@ const live=snap.data();
 
 editMode=true;
 
-currentId=id;
+editId=eventId;
 
-document.getElementById("matchSelect").value=id;
+document.getElementById("matchSelect").value=eventId;
 
 document.getElementById("streamType").value=live.type;
 
@@ -1081,7 +1057,7 @@ document.getElementById("streamUrl").value=live.url;
 
 document.getElementById("background").value=live.background;
 
-bgPreview.style.backgroundImage=
+preview.style.backgroundImage=
 
 `url('${live.background}')`;
 
@@ -1097,16 +1073,17 @@ behavior:"smooth"
 
 });
 
-  }
-  /*==========================
-تفعيل / إيقاف البث
-==========================*/
+};
 
-window.toggleLive=async function(id,state){
+/*======================
+تشغيل / إيقاف البث
+======================*/
+
+window.toggleLive=async function(eventId,state){
 
 await updateDoc(
 
-doc(db,"liveStreams",id),
+doc(db,"liveStreams",eventId),
 
 {
 
@@ -1118,13 +1095,13 @@ updatedAt:Date.now()
 
 );
 
-}
+};
 
-/*==========================
+/*======================
 حذف البث
-==========================*/
+======================*/
 
-window.deleteLive=async function(id){
+window.deleteLive=async function(eventId){
 
 const ok=confirm(
 
@@ -1136,146 +1113,37 @@ if(!ok) return;
 
 await deleteDoc(
 
-doc(db,"liveStreams",id)
+doc(db,"liveStreams",eventId)
 
 );
 
-}
+};
 
-/*==========================
-تحديث حالة المباراة تلقائياً
-==========================*/
+/*======================
+تسجيل الخروج
+======================*/
 
-onSnapshot(
+window.logout=function(){
 
-collection(db,"matches"),
+sessionStorage.removeItem("adminLive");
 
-(snapshot)=>{
+location.reload();
 
-snapshot.forEach(async(matchDoc)=>{
+};
 
-const liveRef=
-
-doc(db,"liveStreams",matchDoc.id);
-
-const liveSnap=
-
-await getDoc(liveRef);
-
-if(!liveSnap.exists()) return;
-
-const match=
-
-matchDoc.data();
-
-await updateDoc(
-
-liveRef,
-
-{
-
-status:match.status||"TIMED",
-
-group:match.group||"GROUP_STAGE",
-
-updatedAt:Date.now()
-
-}
-
-);
-
-});
-
-}
-
-);
-
-/*==========================
-تنظيف النموذج
-==========================*/
-
-function clearForm(){
-
-editMode=false;
-
-currentId=null;
-
-document.getElementById("matchSelect").selectedIndex=0;
-
-document.getElementById("streamType").selectedIndex=0;
-
-document.getElementById("streamUrl").value="";
-
-document.getElementById("background").value="";
-
-bgPreview.style.backgroundImage="none";
-
-document.getElementById("saveBtn").innerHTML=
-
-"💾 حفظ البث";
-
-}
-
-/*==========================
-زر ESC لإلغاء التعديل
-==========================*/
-
-document.addEventListener(
-
-"keydown",
-
-(e)=>{
-
-if(e.key==="Escape"){
-
-clearForm();
-
-}
-
-}
-
-);
-  /*==========================
-استعادة الجلسة
-==========================*/
-
-window.addEventListener(
-
-"load",
-
-()=>{
-
-if(
-
-sessionStorage.getItem("liveAdmin")==="true"
-
-){
-
-document.getElementById("loginPage").style.display="none";
-
-document.getElementById("adminPage").style.display="block";
-
-loadMatches();
-
-listenLives();
-
-}
-
-}
-
-/*==========================
+/*======================
 زر Enter لتسجيل الدخول
-==========================*/
+======================*/
 
-);
+document
 
-document.getElementById("password")
+.getElementById("password")
 
 .addEventListener(
 
 "keydown",
 
-(e)=>{
+e=>{
 
 if(e.key==="Enter"){
 
@@ -1287,41 +1155,49 @@ login();
 
 );
 
-/*==========================
-منع ظهور صورة تالفة
-==========================*/
+/*======================
+زر ESC لإلغاء التعديل
+======================*/
 
 document.addEventListener(
 
-"error",
+"keydown",
 
-(e)=>{
+e=>{
 
-if(
+if(e.key==="Escape"){
 
-e.target.tagName==="IMG"
+editMode=false;
 
-){
+editId=null;
 
-e.target.style.display="none";
+document.getElementById("matchSelect").selectedIndex=0;
+
+document.getElementById("streamType").selectedIndex=0;
+
+document.getElementById("streamUrl").value="";
+
+document.getElementById("background").value="";
+
+preview.style.backgroundImage="none";
+
+document.getElementById("saveBtn").innerHTML=
+
+"💾 حفظ البث";
 
 }
 
-},
-
-true
+}
 
 );
 
-/*==========================
+/*======================
 نسخة النظام
-==========================*/
-
-window.ADMIN_VERSION="2.0";
+======================*/
 
 console.log(
 
-"Matchat Live Admin v2.0 Loaded"
+"Matchat Live Admin V3 Loaded"
 
 );
 
