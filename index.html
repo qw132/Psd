@@ -838,6 +838,10 @@ getDocs
 }
 from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
+window.onerror = function(msg, url, line, col, error){
+    alert(msg + "\nLine: " + line);
+};
+ 
   /* Firebase */
 
 const firebaseConfig = {
