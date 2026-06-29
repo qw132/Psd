@@ -1643,7 +1643,8 @@ return;
 
 }
 
-liveStreams.forEach(stream=>{
+for (const stream of liveStreams) {
+
 
 if(stream.enabled !== true) return;
 
@@ -1672,7 +1673,7 @@ liveCards.innerHTML += `
 
 onclick="window.location.href='live.html?id=${stream.eventId}'"
 style="
-background-image:url('${stream.background || LOGO');
+background-image:url('${stream.background || LOGO'});
 background-size:cover;
 background-position:center;
 background-repeat:no-repeat;
@@ -1731,7 +1732,7 @@ ${translateStage(match.group)}
 
 `;
 
-});
+  }
   }
   
 </script>
