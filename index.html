@@ -962,30 +962,7 @@ return `${hours}:${minutes} ${period}`;
 
 function getMatchStatus(status){
 
-function translateStage(stage){
 
-if(!stage) return "";
-
-const stages = {
-
-"GROU_STAGE":"دور المجموعات",
-
-"LAST_32":"دور الـ32",
-
-"LAST_16":"دور الـ16",
-
-"QUARTER_FINALS":"ربع النهائي",
-
-"SEMI_FINALS":"نصف النهائي",
-
-"FINAL":"النهائي"
-
-};
-
-return stages[stage] || stage;
-
-   }
-  
 if(
 
 status === "IN_PLAY"
@@ -1060,6 +1037,30 @@ order:2
 
 }
 
+function translateStage(stage){
+
+if(!stage) return "";
+
+const stages = {
+
+"GROU_STAGE":"دور المجموعات",
+
+"LAST_32":"دور الـ32",
+
+"LAST_16":"دور الـ16",
+
+"QUARTER_FINALS":"ربع النهائي",
+
+"SEMI_FINALS":"نصف النهائي",
+
+"FINAL":"النهائي"
+
+};
+  
+return stages[stage] || stage;
+
+   }
+  
 
   
 /* فلترة البحث */
@@ -1710,7 +1711,7 @@ ${status.text}
 ${match.team2}
 </div>
 </div>
-<<div style="
+<div style="
 display:flex;
 justify-content:center;
 margin-top:12px;
