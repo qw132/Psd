@@ -374,7 +374,6 @@ import { initializeApp }
 from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
 import {
-import {
 
 getFirestore,
 
@@ -593,11 +592,19 @@ for(const live of lives.docs){
 
 const data=live.data();
 
-const match=await getDoc(doc(db,"matches",data.eventId));
+const q=query(
 
-if(!match.exists()) continue;
+collection(db,"matches"),
 
-const m=match.data();
+where("eventId","==",data.eventId)
+
+);
+
+const result=await getDocs(q);
+
+if(result.empty) continue;
+
+const m=result.docs[0].data();
 
 $("liveList").innerHTML+=`
 
