@@ -1616,18 +1616,6 @@ channelsPage.style.display = "block";
 };
 
   }
-  
-liveBtn.onclick = ()=>{
-
-liveBtn.classList.add("active");
-
-channelsBtn.classList.remove("active");
-
-matchesPage.style.display = "block";
-
-channelsPage.style.display = "none";
-
-};
 
 async function renderLiveCards(){
 
@@ -1646,7 +1634,7 @@ return;
 for (const stream of liveStreams) {
 
 
-if(stream.enabled !== true) return;
+if(stream.enabled !== true) continue;
 
 const matchQuery=query(
 collection(db,"matches"),
@@ -1655,7 +1643,7 @@ where("eventId","==",String(stream.eventId))
 
 const result=await getDocs(matchQuery);
 
-if(result.empty) return;
+if(result.empty) continue;
 
 const match=result.docs[0].data();
 
@@ -1665,7 +1653,7 @@ const apiMatch = apiMatches.find(
 
 const status = getMatchStatus(apiMatch?.status);
   
-if(!match) return;
+if(!match) continue;
 
 liveCards.innerHTML += `
 
@@ -1673,7 +1661,7 @@ liveCards.innerHTML += `
 
 onclick="window.location.href='live.html?id=${stream.eventId}'"
 style="
-background-image:url('${stream.background || LOGO'});
+background-image:url('${stream.background || "file_00000000d0f871f4b728f73dff260688_1 (1).png"}');
 background-size:cover;
 background-position:center;
 background-repeat:no-repeat;
