@@ -811,9 +811,7 @@ id="matches">
 
 <div id="liveContainer">
 
-<div id="liveCards" class="channelsGrid">
-
-<!-- سيتم إنشاء بطاقات البث المباشر هنا تلقائياً -->
+<div id="channelsGrid" class="channelsGrid">
 
 </div>
 
@@ -829,9 +827,7 @@ from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import {
 getFirestore,
 collection,
-onSnapshot,
-doc,
-getDoc
+onSnapshot
 }
 from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
@@ -873,7 +869,6 @@ let apiMatches = [];
 
 let searchText = "";
 
-let liveStreams = [];
 
 /* البحث */
 
@@ -1216,32 +1211,7 @@ renderMatches();
 
 );
 
-onSnapshot(
-
-collection(db,"liveStreams"),
-
-(snapshot)=>{
-
-liveStreams = [];
-
-snapshot.forEach(doc=>{
-
-liveStreams.push({
-
-id:doc.id,
-
-...doc.data()
-
-});
-
-});
-
-renderLiveCards();
-
-}
-
-);
-
+  
 /* أول تحميل */
 
 loadApiMatches();
@@ -1634,114 +1604,6 @@ matchesPage.style.display = "block";
 channelsPage.style.display = "none";
 
 };
-
-function renderLiveCards(){
-
-const liveCards = document.getElementById("liveCards");
-
-if(!liveCards) return;
-
-liveCards.innerHTML = "";
-
-if(liveStreams.length === 0){
-
-return;
-
-}
-
-liveStreams.forEach(stream=>{
-
-if(stream.enabled !== true) return;
-
-const match = matchesData.find(
-m => String(m.eventId) === String(stream.eventId)
-);
-
-const apiMatch = apiMatches.find(
-    m => String(m.id) === String(stream.eventId)
-);
-
-const status = getMatchStatus(apiMatch?.status);
-  
-if(!match) return;
-
-liveCards.innerHTML += `
-
-<div class="channelCard"
-
-onclick="window.location.href='${stream.pageUrl}'"
-
-style="
-background-image:url('${stream.imageUrl}');
-background-size:cover;
-background-position:center;
-background-repeat:no-repeat;
-min-height:180px;
-display:flex;
-align-items:flex-end;
-padding:20px;
-">
-
-<div style="
-width:100%;
-background:rgba(0,0,0,.55);
-border-radius:14px;
-padding:12px;
-color:#fff;
-font-weight:700;
-text-align:center;
-">
-
-<div style="display:flex;justify-content:space-between;align-items:center;gap:12px;">
-</div>
-
-<div style="width:35%;text-align:center;">
-<div style="font-size:16px;font-weight:800;">
-${match.team1}
-</div>
-</div>
-
-<div style="width:45%;text-align:center;">
-<div class="${status.className}" style="margin:0;">
-${status.text}
-</div>
-</div>
-
-<div style="width:35%;text-align:center;">
-<div style="font-size:16px;font-weight:800;">
-${match.team2}
-</div>
-</div>
-<div style="
-display:flex;
-justify-content:center;
-margin-top:12px;
-">
-
-<div style="
-background:linear-gradient(180deg,#0d6efd,#0a58ca);
-color:#fff;
-padding:6px 16px;
-border-radius:999px;
-font-size:13px;
-font-weight:800;
-">
-
-🏆 ${translateStage(match.group)}
-
-</div>
-
-</div>
-</div>
-
-</div>
-
-</div>
-
-`;
-
-});
-  }
   
 </script>
 
