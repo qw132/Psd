@@ -956,103 +956,59 @@ return `${hours}:${minutes} ${period}`;
 /* الحالة */
 
 function getMatchStatus(status){
-  }
+
+if(
+status==="IN_PLAY"||
+status==="PAUSED"||
+status==="LIVE"
+){
+return{
+text:"جارية الآن",
+className:"liveBadge",
+order:1
+};
+}
+
+if(status==="TIMED"){
+return{
+text:"لم تبدأ",
+className:"notStartedBadge",
+order:2
+};
+}
+
+if(status==="FINISHED"){
+return{
+text:"انتهت",
+className:"finishedBadge",
+order:3
+};
+}
+
+return{
+text:"لم تبدأ",
+className:"notStartedBadge",
+order:2
+};
+
+}
 
 function translateStage(stage){
 
 if(!stage) return "";
 
-const stages = {
+const stages={
 
-"GROU_STAGE":"دور المجموعات",
-
+"GROUP_STAGE":"دور المجموعات",
 "LAST_32":"دور الـ32",
-
 "LAST_16":"دور الـ16",
-
 "QUARTER_FINALS":"ربع النهائي",
-
 "SEMI_FINALS":"نصف النهائي",
-
 "FINAL":"النهائي"
 
 };
 
 return stages[stage] || stage;
-
-   }
-  
-if(
-
-status === "IN_PLAY"
-
-||
-
-status === "PAUSED"
-
-||
-
-status === "LIVE"
-
-){
-
-return{
-
-text:"جارية الآن",
-
-className:
-"liveBadge",
-
-order:1
-
-};
-
-}
-
-if(
-status === "TIMED"
-){
-
-return{
-
-text:"لم تبدأ",
-
-className:
-"notStartedBadge",
-
-order:2
-
-};
-
-}
-
-if(
-status === "FINISHED"
-){
-
-return{
-
-text:"انتهت",
-
-className:
-"finishedBadge",
-
-order:3
-
-};
-
-}
-
-return{
-
-text:"لم تبدأ",
-
-className:
-"notStartedBadge",
-
-order:2
-
-};
 
 }
 
@@ -1087,6 +1043,7 @@ team2.includes(searchText)
 );
 
   }
+  
   /* ترتيب المباريات */
 
 function sortMatches(){
