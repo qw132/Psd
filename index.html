@@ -1652,6 +1652,8 @@ const match = matchesData.find(
 m => String(m.eventId) === String(stream.eventId)
 );
 
+if(!match) return;
+  
 const apiMatch = apiMatches.find(
     m => String(m.id) === String(stream.eventId)
 );
