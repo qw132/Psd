@@ -1224,16 +1224,18 @@ collection(db,"liveStreams"),
 (snapshot)=>{
 
 liveStreams = [];
+  
+liveStreams.length = 0;
 
 snapshot.forEach(doc=>{
 
-liveStreams.push({
+const data = doc.data();
 
-id:doc.id,
+if(data.enabled === true){
 
-...doc.data()
+liveStreams.push(data);
 
-});
+}
 
 });
 
