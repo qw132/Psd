@@ -540,39 +540,7 @@ alert("معرف المباراة غير موجود");
 return;
 
 }
-
-const matchRef = doc(db,"matches",eventId);
-
-const matchSnap = await getDoc(matchRef);
-
-if(!matchSnap.exists()){
-
-alert("المباراة غير موجودة");
-
-return;
-
-}
-
-const match = matchSnap.data();
-
-/* أسماء الفريقين */
-
-document.getElementById("team1").textContent=match.team1||"";
-
-document.getElementById("team2").textContent=match.team2||"";
-
-/* الشعارات */
-
-document.getElementById("logo1").src=match.logo1||"";
-
-document.getElementById("logo2").src=match.logo2||"";
-
-/* المرحلة */
-
-document.getElementById("stage").textContent=
-
-translateStage(match.group);
-
+  
 /* ===========================
 بيانات البث
 =========================== */
@@ -590,6 +558,27 @@ return;
 }
 
 const live=liveSnap.data();
+
+document.getElementById("team1").textContent = live.team1 || "";
+
+document.getElementById("team2").textContent = live.team2 || "";
+
+document.getElementById("logo1").src = live.logo1 || "";
+
+document.getElementById("logo2").src = live.logo2 || "";
+
+document.getElementById("stage").textContent =
+translateStage(live.group);
+
+if(live.background){
+
+document.body.style.backgroundImage=`url(${live.background})`;
+
+document.body.style.backgroundSize="cover";
+
+document.body.style.backgroundPosition="center";
+
+    }
 
 /* الحالة */
 
