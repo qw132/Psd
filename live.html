@@ -503,29 +503,31 @@ return "";
 
 function convertYoutube(url){
 
+function convertYoutube(url){
+
 if(!url) return "";
 
 if(url.includes("/embed/")) return url;
 
 let id="";
 
-if(url.includes("watch?v=")){
+const watch=url.match(/[?&]v=([^&]+)/);
+if(watch) id=watch[1];
 
-id=url.split("watch?v=")[1].split("&")[0];
+const short=url.match(/youtu\.be\/([^?&]+)/);
+if(short) id=short[1];
 
-}
+const live=url.match(/youtube\.com\/live\/([^?&]+)/);
+if(live) id=live[1];
 
-else if(url.includes("youtu.be/")){
+const shorts=url.match(/shorts\/([^?&]+)/);
+if(shorts) id=shorts[1];
 
-id=url.split("youtu.be/")[1].split("?")[0];
+if(id==="") return "";
 
-}
+return `https://www.youtube.com/embed/${id}?autoplay=1&rel=0&playsinline=1`;
 
-if(id==="") return url;
-
-return `https://www.youtube.com/embed/${id}?autoplay=1&rel=0`;
-
-}
+    }
 
 /* ===========================
 جلب بيانات المباراة
