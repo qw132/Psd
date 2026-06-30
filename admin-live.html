@@ -560,11 +560,22 @@ doc(db,"liveStreams",id),
 
 eventId:id,
 
+team1:matchData.team1,
+team2:matchData.team2,
+
+logo1:matchData.logo1,
+logo2:matchData.logo2,
+
+group:matchData.group || "",
+stage:matchData.stage || "",
+date:matchData.date || "",
+time:matchData.time || "",
+
 type:$("streamType").value,
-
 url:url,
+background:background,
 
-background:background
+enabled:true
 
 },
 
@@ -575,7 +586,7 @@ merge:true
 }
 
 );
-
+  
 alert("تم حفظ البث");
 
 loadLives();
