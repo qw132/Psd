@@ -832,10 +832,9 @@ collection,
 onSnapshot,
 doc,
 getDoc,
-doc,
-getDoc,
 query,
-where
+where,
+getDocs
 }
 from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
@@ -1618,18 +1617,6 @@ channelsPage.style.display = "block";
 
   }
   
-liveBtn.onclick = ()=>{
-
-liveBtn.classList.add("active");
-
-channelsBtn.classList.remove("active");
-
-matchesPage.style.display = "block";
-
-channelsPage.style.display = "none";
-
-};
-
 function renderLiveCards(){
 
 const liveCards = document.getElementById("liveCards");
@@ -1646,7 +1633,7 @@ return;
 
 liveStreams.forEach(stream=>{
 
-if(stream.enabled !== true) return;
+if(stream.enabled !== true) continue;
 
 const match = matchesData.find(
 m => String(m.eventId) === String(stream.eventId)
@@ -1658,7 +1645,7 @@ const apiMatch = apiMatches.find(
 
 const status = getMatchStatus(apiMatch?.status);
   
-if(!match) return;
+if(!match) continue;
 
 liveCards.innerHTML += `
 
@@ -1666,7 +1653,7 @@ liveCards.innerHTML += `
 
 onclick="window.location.href='live.html?id=${stream.eventId}'"
 style="
-background-image:url('${stream.imageUrl}');
+background-image:url('${stream.background || "file_00000000d0f871f4b728f73dff260688_1 (1).png"}');
 background-size:cover;
 background-position:center;
 background-repeat:no-repeat;
@@ -1703,6 +1690,7 @@ ${status.text}
 <div style="width:35%;text-align:center;">
 <div style="font-size:16px;font-weight:800;">
 ${match.team2}
+</div>
 </div>
 </div>
 
