@@ -1082,15 +1082,13 @@ return statusA - statusB;
 
 /* الأقرب وقتاً */
 
-const dateA =
-new Date(
-`${a.date} ${a.time}`
-);
+function parseDate(date, time) {
+    const [day, month, year] = date.split("/");
+    return new Date(`${year}-${month}-${day}T${time}`);
+}
 
-const dateB =
-new Date(
-`${b.date} ${b.time}`
-);
+const dateA = parseDate(a.date, a.time);
+const dateB = parseDate(b.date, b.time);
 
 return dateA - dateB;
 
