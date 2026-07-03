@@ -866,7 +866,7 @@ getFirestore(app);
 let matchesData = [];
 
 let apiMatches = [];
-let currentTime = null;
+let currentTime = new Date;
 
 let searchText = "";
 
@@ -1096,20 +1096,6 @@ function sortMatches() {
 
 /* جلب المباريات */
 
-async function loadApiMatches(){
-
-try{
-
-const response =
-await fetch(
-"/api/matches"
-);
-
-const data =
-await response.json();
-
-apiMatches =
-data.matches || [];
 
 /* ترتيب */
 
@@ -1167,7 +1153,6 @@ renderMatches();
   
 /* أول تحميل */
 
-let currentTime = new Date();
 
 async function loadApiMatches() {
 
@@ -1195,22 +1180,6 @@ async function loadApiMatches() {
 
 }
   
-  async function loadCurrentTime() {
-
-    try {
-
-        const response = await fetch("https://gateway.timeapi.world/timezone/Africa/Cairo");
-        const data = await response.json();
-
-        currentTime = new Date(data.datetime);
-
-    } catch (e) {
-
-        currentTime = new Date();
-
-    }
-
-}
 
 /* تحديث مستمر */
 
