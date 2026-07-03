@@ -1072,16 +1072,15 @@ function sortMatches() {
         // ترتيب المباريات التي لم تبدأ حسب أقرب موعد
         if (statusA === 2) {
 
-            const [dayA, monthA, yearA] = a.date.split("/");
-            const [hourA, minuteA] = a.time.split(":");
+            const matchA = new Date(
+    a.date.split("/").reverse().join("-") + "T" + a.time + ":00"
+);
 
-            const [dayB, monthB, yearB] = b.date.split("/");
-            const [hourB, minuteB] = b.time.split(":");
+const matchB = new Date(
+    b.date.split("/").reverse().join("-") + "T" + b.time + ":00"
+);
 
-            const matchA = new Date(yearA, monthA - 1, dayA, hourA, minuteA);
-            const matchB = new Date(yearB, monthB - 1, dayB, hourB, minuteB);
-
-            return matchA.getTime() - matchB.getTime();
+return matchA - matchB;
 
         }
 
@@ -1093,16 +1092,6 @@ function sortMatches() {
   
   /* ترتيب المباريات */
 
-function parseDate(date, time){
-
-    const [day, month, year] = date.split("/");
-
-    return new Date(`${year}-${month}-${day}T${time}:00`);
-
-}
-
-
-  
 /* جلب المباريات */
 
 async function loadApiMatches(){
