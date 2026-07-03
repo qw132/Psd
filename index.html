@@ -1046,53 +1046,49 @@ team2.includes(searchText)
   
   /* ترتيب المباريات */
 
+function parseDate(date, time){
+
+    const [day, month, year] = date.split("/");
+
+    return new Date(`${year}-${month}-${day}T${time}:00`);
+
+}
+
 function sortMatches(){
 
-matchesData.sort((a,b)=>{
+    const now = new Date();
 
-const apiA =
-apiMatches.find(
-m =>
-String(m.id) ===
-String(a.eventId)
-);
+    matchesData.sort((a,b)=>{
 
-const apiB =
-apiMatches.find(
-m =>
-String(m.id) ===
-String(b.eventId)
-);
+        const apiA = apiMatches.find(
+            m => String(m.id) === String(a.eventId)
+        );
 
-const statusA =
-getMatchStatus(
-apiA?.status
-).order;
+        const apiB = apiMatches.find(
+            m => String(m.id) === String(b.eventId)
+        );
 
-const statusB =
-getMatchStatus(
-apiB?.status
-).order;
+        const statusA = getMatchStatus(apiA?.status).order;
+        const statusB = getMatchStatus(apiB?.status).order;
 
-if(statusA !== statusB){
+        // الجارية ثم القادمة ثم المنتهية
+        if(statusA !== statusB){
+            return statusA - statusB;
+        }
 
-return statusA - statusB;
+        // ترتيب المباريات التي لم تبدأ حسب أقرب موعد من الوقت الحالي
+        if(statusA === 2){
 
-}
+            const timeA = parseDate(a.date, a.time);
+            const timeB = parseDate(b.date, b.time);
 
-/* الأقرب وقتاً */
+            return (timeA - now) - (timeB - now);
 
-function parseDate(date, time) {
-    const [day, month, year] = date.split("/");
-    return new Date(`${year}-${month}-${day}T${time}`);
-}
+        }
 
-const dateA = parseDate(a.date, a.time);
-const dateB = parseDate(b.date, b.time);
+        return 0;
 
-return dateA - dateB;
-
-});
+    });
 
 }
 
