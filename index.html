@@ -1063,20 +1063,24 @@ function sortMatches() {
         }
 
         // داخل نفس الحالة رتب حسب التاريخ والوقت الحقيقي
-        const getDate = (match) => {
-            const [day, month, year] = match.date.split("/");
-            const [hour, minute] = match.time.split(":");
+        function getMatchTimestamp(match) {
 
-            return new Date(
-                Number(year),
-                Number(month) - 1,
-                Number(day),
-                Number(hour),
-                Number(minute)
-            );
-        };
+    const [day, month, year] = (match.date || "").split("/");
+    const [hour, minute] = (match.time || "00:00").split(":");
 
-        return getDate(a) - getDate(b);
+    if (!day || !month || !year) return Number.MAX_SAFE_INTEGER;
+
+    return new Date(
+        Number(year),
+        Number(month) - 1,
+        Number(day),
+        Number(hour),
+        Number(minute),
+        0
+    ).getTime();
+}
+
+        return getMatchTimestamp(a) - getMatchTimestamp(b);
 
     });
 
