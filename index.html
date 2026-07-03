@@ -1043,22 +1043,12 @@ team2.includes(searchText)
 );
 
   }
-  
-  /* ترتيب المباريات */
 
-function parseDate(date, time){
-
-    const [day, month, year] = date.split("/");
-
-    return new Date(`${year}-${month}-${day}T${time}:00`);
-
-}
-
-function sortMatches(){
+function sortMatches() {
 
     const now = new Date();
 
-    matchesData.sort((a,b)=>{
+    matchesData.sort((a, b) => {
 
         const apiA = apiMatches.find(
             m => String(m.id) === String(a.eventId)
@@ -1071,18 +1061,27 @@ function sortMatches(){
         const statusA = getMatchStatus(apiA?.status).order;
         const statusB = getMatchStatus(apiB?.status).order;
 
-        // الجارية ثم القادمة ثم المنتهية
-        if(statusA !== statusB){
+        // الأولوية:
+        // 1 = جارية
+        // 2 = لم تبدأ
+        // 3 = انتهت
+        if (statusA !== statusB) {
             return statusA - statusB;
         }
 
-        // ترتيب المباريات التي لم تبدأ حسب أقرب موعد من الوقت الحالي
-        if(statusA === 2){
+        // ترتيب المباريات التي لم تبدأ حسب أقرب موعد
+        if (statusA === 2) {
 
-            const timeA = parseDate(a.date, a.time);
-            const timeB = parseDate(b.date, b.time);
+            const [dayA, monthA, yearA] = a.date.split("/");
+            const [hourA, minuteA] = a.time.split(":");
 
-            return (timeA - now) - (timeB - now);
+            const [dayB, monthB, yearB] = b.date.split("/");
+            const [hourB, minuteB] = b.time.split(":");
+
+            const matchA = new Date(yearA, monthA - 1, dayA, hourA, minuteA);
+            const matchB = new Date(yearB, monthB - 1, dayB, hourB, minuteB);
+
+            return matchA.getTime() - matchB.getTime();
 
         }
 
@@ -1090,8 +1089,20 @@ function sortMatches(){
 
     });
 
+  }
+  
+  /* ترتيب المباريات */
+
+function parseDate(date, time){
+
+    const [day, month, year] = date.split("/");
+
+    return new Date(`${year}-${month}-${day}T${time}:00`);
+
 }
 
+
+  
 /* جلب المباريات */
 
 async function loadApiMatches(){
