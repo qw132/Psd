@@ -866,8 +866,11 @@ getFirestore(app);
 let matchesData = [];
 
 let apiMatches = [];
+let currentTime = null;
 
 let searchText = "";
+
+let cairoNow = new Date();
 
 
 /* البحث */
@@ -1055,32 +1058,35 @@ function sortMatches() {
         const orderB = getMatchStatus(apiB?.status).order;
 
         // الأولوية:
-        // 1 = جارية
-        // 2 = لم تبدأ
-        // 3 = انتهت
+        // جارية -> لم تبدأ -> انتهت
         if (orderA !== orderB) {
             return orderA - orderB;
         }
 
-        // داخل نفس الحالة رتب حسب التاريخ والوقت الحقيقي
-        function getMatchTimestamp(match) {
+        // لو المباريات لم تبدأ
+        if (orderA === 2) {
 
-    const [day, month, year] = (match.date || "").split("/");
-    const [hour, minute] = (match.time || "00:00").split(":");
+            function diff(match) {
 
-    if (!day || !month || !year) return Number.MAX_SAFE_INTEGER;
+                const [day, month, year] = match.date.split("/");
+                const [hour, minute] = match.time.split(":");
 
-    return new Date(
-        Number(year),
-        Number(month) - 1,
-        Number(day),
-        Number(hour),
-        Number(minute),
-        0
-    ).getTime();
-}
+                let matchDate = new Date(
+                    Number(year),
+                    Number(month) - 1,
+                    Number(day),
+                    Number(hour),
+                    Number(minute),
+                    0
+                );
 
-        return getMatchTimestamp(a) - getMatchTimestamp(b);
+                return matchDate.getTime() - currentTime.getTime();
+            }
+
+            return diff(a) - diff(b);
+        }
+
+        return 0;
 
     });
 
@@ -1161,7 +1167,50 @@ renderMatches();
   
 /* أول تحميل */
 
-loadApiMatches();
+let currentTime = new Date();
+
+async function loadApiMatches() {
+
+    try {
+
+        // جلب الوقت الحقيقي من القاهرة
+        const timeRes = await fetch("https://gateway.timeapi.world/timezone/Africa/Cairo");
+        const timeData = await timeRes.json();
+        currentTime = new Date(timeData.datetime);
+
+        // جلب المباريات
+        const response = await fetch("/api/matches");
+        const data = await response.json();
+
+        apiMatches = data.matches || [];
+
+        sortMatches();
+        renderMatches();
+
+    } catch (error) {
+
+        console.log("API ERROR", error);
+
+    }
+
+}
+  
+  async function loadCurrentTime() {
+
+    try {
+
+        const response = await fetch("https://gateway.timeapi.world/timezone/Africa/Cairo");
+        const data = await response.json();
+
+        currentTime = new Date(data.datetime);
+
+    } catch (e) {
+
+        currentTime = new Date();
+
+    }
+
+}
 
 /* تحديث مستمر */
 
