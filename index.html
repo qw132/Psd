@@ -1135,10 +1135,10 @@ async function loadApiMatches() {
     try {
 
         // جلب الوقت الحقيقي من القاهرة
-        const timeRes = await fetch("https://gateway.timeapi.world/timezone/Africa/Cairo");
+        const timeRes = await fetch("/api/time");
         const timeData = await timeRes.json();
         currentTime = new Date(timeData.datetime);
-
+      
         // جلب المباريات
         const response = await fetch("/api/matches");
         const data = await response.json();
