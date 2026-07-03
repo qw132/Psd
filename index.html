@@ -1045,59 +1045,43 @@ team2.includes(searchText)
   }
 
 function sortMatches() {
-
-    const now = new Date();
+function sortMatches() {
 
     matchesData.sort((a, b) => {
 
-        const apiA = apiMatches.find(
-            m => String(m.id) === String(a.eventId)
-        );
+        const apiA = apiMatches.find(m => String(m.id) === String(a.eventId));
+        const apiB = apiMatches.find(m => String(m.id) === String(b.eventId));
 
-        const apiB = apiMatches.find(
-            m => String(m.id) === String(b.eventId)
-        );
-
-        const statusA = getMatchStatus(apiA?.status).order;
-        const statusB = getMatchStatus(apiB?.status).order;
+        const orderA = getMatchStatus(apiA?.status).order;
+        const orderB = getMatchStatus(apiB?.status).order;
 
         // الأولوية:
         // 1 = جارية
         // 2 = لم تبدأ
         // 3 = انتهت
-        if (statusA !== statusB) {
-            return statusA - statusB;
+        if (orderA !== orderB) {
+            return orderA - orderB;
         }
 
-        // ترتيب المباريات التي لم تبدأ حسب أقرب موعد
-        if (statusA === 2) {
+        // داخل نفس الحالة رتب حسب التاريخ والوقت الحقيقي
+        const getDate = (match) => {
+            const [day, month, year] = match.date.split("/");
+            const [hour, minute] = match.time.split(":");
 
-const now = new Date();
+            return new Date(
+                Number(year),
+                Number(month) - 1,
+                Number(day),
+                Number(hour),
+                Number(minute)
+            );
+        };
 
-function minutesUntil(match) {
-
-    const [day, month, year] = match.date.split("/");
-    const [hour, minute] = match.time.split(":");
-
-    let date = new Date(year, month - 1, day, hour, minute);
-
-    // لو وقت المباراة فات، اعتبرها بعد منتصف الليل (اليوم التالي)
-    if (date < now) {
-        date.setDate(date.getDate() + 1);
-    }
-
-    return date - now;
-}
-
-return minutesUntil(a) - minutesUntil(b);
-
-        }
-
-        return 0;
+        return getDate(a) - getDate(b);
 
     });
 
-  }
+}
   
   /* ترتيب المباريات */
 
