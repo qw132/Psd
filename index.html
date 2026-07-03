@@ -1072,15 +1072,24 @@ function sortMatches() {
         // ترتيب المباريات التي لم تبدأ حسب أقرب موعد
         if (statusA === 2) {
 
-            const matchA = new Date(
-    a.date.split("/").reverse().join("-") + "T" + a.time + ":00"
-);
+const now = new Date();
 
-const matchB = new Date(
-    b.date.split("/").reverse().join("-") + "T" + b.time + ":00"
-);
+function minutesUntil(match) {
 
-return matchA - matchB;
+    const [day, month, year] = match.date.split("/");
+    const [hour, minute] = match.time.split(":");
+
+    let date = new Date(year, month - 1, day, hour, minute);
+
+    // لو وقت المباراة فات، اعتبرها بعد منتصف الليل (اليوم التالي)
+    if (date < now) {
+        date.setDate(date.getDate() + 1);
+    }
+
+    return date - now;
+}
+
+return minutesUntil(a) - minutesUntil(b);
 
         }
 
